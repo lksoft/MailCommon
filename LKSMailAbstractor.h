@@ -6,10 +6,6 @@
 //  Copyright (c) 2013 Little Known Software. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#define	PREFIXED_NAME(_prefix, _funcname)	_prefix##_funcname
 
-@interface LKSMailAbstractor : NSObject
-
-@end
-
-Class LKSClassForMailObject(NSString *aClassName);
+Class PREFIXED_FUNCTION_NAME(ClassForMailObject)(NSString *aClassName);
