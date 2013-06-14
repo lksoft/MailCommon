@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>10.7</key>
+		<string>MailAccount</string>
+		<key>10.8</key>
+		<string>MailAccount</string>
+		<key>10.9</key>
+		<string>MFMailAccount</string>
+	</dict>
+	<dict>
+		<key>10.7</key>
+		<string>Message</string>
+		<key>10.8</key>
+		<string>Message</string>
+		<key>10.9</key>
+		<string>MCMessage</string>
+	</dict>
+</array>
+</plist>

@@ -8,9 +8,9 @@
 
 #import "LKSMailAbstractor.h"
 
-NSInteger osMinorVersion(void);
+NSInteger lks_osMinorVersion(void);
 
-@interface PREFIXED_FUNCTION_NAME(MailAbstractor) : NSObject {
+@interface LKS_PREFIXED_NAME(MailAbstractor) : NSObject {
 	NSDictionary	*_mappings;
 }
 
@@ -18,11 +18,11 @@ NSInteger osMinorVersion(void);
 
 + (NSString *)actualClassNameForClassName:(NSString *)aClassName;
 + (Class)actualClassForClassName:(NSString *)aClassName;
-+ (PREFIXED_FUNCTION_NAME(MailAbstractor)*)sharedInstance;
++ (LKS_PREFIXED_NAME(MailAbstractor)*)sharedInstance;
 
 @end
 
-@implementation PREFIXED_FUNCTION_NAME(MailAbstractor)
+@implementation LKS_PREFIXED_NAME(MailAbstractor)
 
 @synthesize mappings = _mappings;
 
@@ -30,10 +30,9 @@ NSInteger osMinorVersion(void);
 	self = [super init];
 	if (self) {
 		//	This array could be a plist file that we read in
-		NSArray	*translationArray = @[
-			@{@"10.7": @"MailAccount", @"10.8": @"MailAccount", @"10.9": @"MFMailAccount"},
-			@{@"10.7": @"Message", @"10.8": @"Message", @"10.9": @"MCMessage"},
-		];
+		NSString	*resourcePlistPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"MailVersionClassMappings" ofType:@"plist"];
+		NSArray		*translationArray = [NSArray arrayWithContentsOfFile:resourcePlistPath];
+		NSAssert(translationArray != nil, @"The MailVersionClassMappings file was not found for class '%@'", [self class]);
 		[self buildCompleteMappingsFromArray:translationArray];
 	}
 	return self;
@@ -60,14 +59,14 @@ NSInteger osMinorVersion(void);
 	}
 	
 	//	Try to find a mapping, if none, return original
-	PREFIXED_FUNCTION_NAME(MailAbstractor)	*abstractor = [PREFIXED_FUNCTION_NAME(MailAbstractor) sharedInstance];
+	LKS_PREFIXED_NAME(MailAbstractor)	*abstractor = [LKS_PREFIXED_NAME(MailAbstractor) sharedInstance];
 	NSDictionary	*mappingDict = [abstractor.mappings objectForKey:aClassName];
 	if (mappingDict == nil) {
 		return aClassName;
 	}
 
 	//	Try to get the mapping for this OS version and use that as the return value
-	NSString	*osName = [NSString stringWithFormat:@"10.%d", osMinorVersion()];
+	NSString	*osName = [NSString stringWithFormat:@"10.%d", lks_osMinorVersion()];
 	nameFound = [mappingDict valueForKey:osName];
 	
 	return nameFound;
@@ -78,8 +77,8 @@ NSInteger osMinorVersion(void);
 }
 
 
-+ (PREFIXED_FUNCTION_NAME(MailAbstractor)*)sharedInstance {
-	static	PREFIXED_FUNCTION_NAME(MailAbstractor)	*myAbstractor = nil;
++ (LKS_PREFIXED_NAME(MailAbstractor)*)sharedInstance {
+	static	LKS_PREFIXED_NAME(MailAbstractor)	*myAbstractor = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		myAbstractor = [[[self class] alloc] init];
@@ -89,11 +88,7 @@ NSInteger osMinorVersion(void);
 
 @end
 
-Class PREFIXED_FUNCTION_NAME(ClassForMailObject)(NSString *aClassName) {
-	return [PREFIXED_FUNCTION_NAME(MailAbstractor) actualClassForClassName:aClassName];
-}
-
-NSInteger osMinorVersion(void) {
+NSInteger lks_osMinorVersion(void) {
 	// use a static because we only really need to get the version once.
 	static NSInteger minVersion = 0;  // 0 == notSet
 	if (minVersion == 0) {
@@ -104,5 +99,53 @@ NSInteger osMinorVersion(void) {
 		}
 	}
 	return minVersion;
+}
+
+
+
+Class LKS_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
+	
+    static NSMutableDictionary	*classNameLookup = nil;
+    static NSRecursiveLock		*threadlock = nil;
+    if (!threadlock) {
+        threadlock = [[NSRecursiveLock alloc] init];
+        classNameLookup = [[NSMutableDictionary alloc] init];
+    }
+    
+    Class resultClass =nil;
+    [threadlock lock];
+    resultClass = [classNameLookup objectForKey:aClassName];
+    [threadlock unlock];
+    if (resultClass){
+        return resultClass;
+    }
+    else{
+        resultClass = NSClassFromString(aClassName);
+        if (!resultClass){
+            resultClass = NSClassFromString([@"MF" stringByAppendingString:aClassName]);
+        }
+        if (!resultClass){
+            resultClass = NSClassFromString([@"MC" stringByAppendingString:aClassName]);
+        }
+        if (!resultClass){
+			resultClass = [LKS_PREFIXED_NAME(MailAbstractor) actualClassForClassName:aClassName];
+		}
+		if (!resultClass) {
+            NSLog(@"could not find a class for %@",aClassName);
+            return nil;
+        }
+        else {
+			[threadlock lock];
+            [classNameLookup setObject:resultClass forKey:aClassName];
+			[threadlock unlock];
+        }
+		// NSLog(@"found class %@ -->%@",className,resultClass);
+        return resultClass;
+        
+    }
+    return nil;
+	
+	
+	
 }
 

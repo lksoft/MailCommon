@@ -6,6 +6,6 @@
 //  Copyright (c) 2013 Little Known Software. All rights reserved.
 //
 
-#define	PREFIXED_NAME(_prefix, _funcname)	_prefix##_funcname
+#define	_LKS_PREFIXED_NAME(_prefix, _funcname)	_prefix##_funcname
 
-Class PREFIXED_FUNCTION_NAME(ClassForMailObject)(NSString *aClassName);
+Class LKS_PREFIXED_NAME(ClassFromString)(NSString *aClassName);
