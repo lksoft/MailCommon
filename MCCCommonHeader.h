@@ -6,6 +6,4 @@
 //  Copyright (c) 2013 Little Known Software. All rights reserved.
 //
 
-#include "MCCCommonHeader.h"
-
-Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName);
+#define	_MCC_PREFIXED_NAME(_prefix, _funcname)	_prefix##_funcname
