@@ -1,16 +1,16 @@
 //
-//  LKSMailAbstractor.m
-//  Tealeaves
+// MCC MailAbstractor.m
+//  MailCommonCode
 //
 //  Created by Scott Little on 14/6/13.
 //  Copyright (c) 2013 Little Known Software. All rights reserved.
 //
 
-#import "LKSMailAbstractor.h"
+#import "MCCMailAbstractor.h"
 
-NSInteger lks_osMinorVersion(void);
+NSInteger mcc_osMinorVersion(void);
 
-@interface LKS_PREFIXED_NAME(MailAbstractor) : NSObject {
+@interface MCC_PREFIXED_NAME(MailAbstractor) : NSObject {
 	NSDictionary	*_mappings;
 }
 
@@ -18,11 +18,11 @@ NSInteger lks_osMinorVersion(void);
 
 + (NSString *)actualClassNameForClassName:(NSString *)aClassName;
 + (Class)actualClassForClassName:(NSString *)aClassName;
-+ (LKS_PREFIXED_NAME(MailAbstractor)*)sharedInstance;
++ (MCC_PREFIXED_NAME(MailAbstractor)*)sharedInstance;
 
 @end
 
-@implementation LKS_PREFIXED_NAME(MailAbstractor)
+@implementation MCC_PREFIXED_NAME(MailAbstractor)
 
 @synthesize mappings = _mappings;
 
@@ -59,14 +59,14 @@ NSInteger lks_osMinorVersion(void);
 	}
 	
 	//	Try to find a mapping, if none, return original
-	LKS_PREFIXED_NAME(MailAbstractor)	*abstractor = [LKS_PREFIXED_NAME(MailAbstractor) sharedInstance];
+	MCC_PREFIXED_NAME(MailAbstractor)	*abstractor = [MCC_PREFIXED_NAME(MailAbstractor) sharedInstance];
 	NSDictionary	*mappingDict = [abstractor.mappings objectForKey:aClassName];
 	if (mappingDict == nil) {
 		return aClassName;
 	}
 
 	//	Try to get the mapping for this OS version and use that as the return value
-	NSString	*osName = [NSString stringWithFormat:@"10.%d", lks_osMinorVersion()];
+	NSString	*osName = [NSString stringWithFormat:@"10.%d", mcc_osMinorVersion()];
 	nameFound = [mappingDict valueForKey:osName];
 	
 	return nameFound;
@@ -77,8 +77,8 @@ NSInteger lks_osMinorVersion(void);
 }
 
 
-+ (LKS_PREFIXED_NAME(MailAbstractor)*)sharedInstance {
-	static	LKS_PREFIXED_NAME(MailAbstractor)	*myAbstractor = nil;
++ (MCC_PREFIXED_NAME(MailAbstractor)*)sharedInstance {
+	static	MCC_PREFIXED_NAME(MailAbstractor)	*myAbstractor = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		myAbstractor = [[[self class] alloc] init];
@@ -88,7 +88,7 @@ NSInteger lks_osMinorVersion(void);
 
 @end
 
-NSInteger lks_osMinorVersion(void) {
+NSInteger mcc_osMinorVersion(void) {
 	// use a static because we only really need to get the version once.
 	static NSInteger minVersion = 0;  // 0 == notSet
 	if (minVersion == 0) {
@@ -103,7 +103,7 @@ NSInteger lks_osMinorVersion(void) {
 
 
 
-Class LKS_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
+Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 	
     static NSMutableDictionary	*classNameLookup = nil;
     static NSRecursiveLock		*threadlock = nil;
@@ -128,7 +128,7 @@ Class LKS_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
             resultClass = NSClassFromString([@"MC" stringByAppendingString:aClassName]);
         }
         if (!resultClass){
-			resultClass = [LKS_PREFIXED_NAME(MailAbstractor) actualClassForClassName:aClassName];
+			resultClass = [MCC_PREFIXED_NAME(MailAbstractor) actualClassForClassName:aClassName];
 		}
 		if (!resultClass) {
             NSLog(@"could not find a class for %@",aClassName);

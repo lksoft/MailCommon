@@ -1,4 +1,4 @@
-# LKSMailCommon
+# MailCommon Code
 
 This is just a good place for me to collect pieces of code or classes that I want to use in more than one Mail plugin. If you find them useful, that is great.
 
@@ -8,11 +8,11 @@ All of this code is meant to be used by more than one Mail plugin, so there is t
 
 There is one thing that you need to do in your project though to ensure that this works. Before every include of the files in this repository, you should define the following define.
 
-	#define	LKS_PREFIXED_NAME(function)	_LKS_PREFIXED_NAME(<prefix>, function)
+	#define	MCC_PREFIXED_NAME(function)	_MCC_PREFIXED_NAME(<prefix>, function)
 
-Where **`<prefix>`** should be replaced with the prefix for your plugin. The best place to do this is at the top of your precompiled header. Then you can call functions, classes and methods defined in header files of this repository using that prefix. For instance the function defined in `LKSMailAbstractor.h` to replace `NSClassFromString`, is defined as `LKS_PREFIXED_NAME(ClassFromString)()`, but if your prefix is `MAO`, then you would just call `MAOClassFromString()`. Makes the rest of your code easier and ensures that you won't collide with others.
+Where **`<prefix>`** should be replaced with the prefix for your plugin. The best place to do this is at the top of your precompiled header. Then you can call functions, classes and methods defined in header files of this repository using that prefix. For instance the function defined in `MCCMailAbstractor.h` to replace `NSClassFromString`, is defined as `MCC_PREFIXED_NAME(ClassFromString)()`, but if your prefix is `MAO`, then you would just call `MAOClassFromString()`. Makes the rest of your code easier and ensures that you won't collide with others.
 
-## LKSMailAbstractor
+## MailAbstractor
 
 This exposes a single function, `<prefix>ClassFromString`, that you can use as a drop in replacement for `NSClassFromString`, that should always give you the relevant `Class` for the name you have passed in. The best practice is to always look for the pre-Mavericks class name and the correct one will be given to you for the system you are running on.
 
