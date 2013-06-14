@@ -66,7 +66,7 @@ NSInteger mcc_osMinorVersion(void);
 	}
 
 	//	Try to get the mapping for this OS version and use that as the return value
-	NSString	*osName = [NSString stringWithFormat:@"10.%d", mcc_osMinorVersion()];
+	NSString	*osName = [NSString stringWithFormat:@"10.%ld", (long)mcc_osMinorVersion()];
 	nameFound = [mappingDict valueForKey:osName];
 	
 	return nameFound;
