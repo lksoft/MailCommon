@@ -8,13 +8,13 @@
 
 #import "MCCMailAbstractor.h"
 
-NSInteger mcc_osMinorVersion(void);
 
 @interface MCC_PREFIXED_NAME(MailAbstractor) : NSObject {
 	NSDictionary	*_mappings;
+	NSInteger		_testVersionOS;
 }
 
-@property	(retain)	NSDictionary	*mappings;
+@property	(strong)	NSDictionary	*mappings;
 
 + (NSString *)actualClassNameForClassName:(NSString *)aClassName;
 + (Class)actualClassForClassName:(NSString *)aClassName;
@@ -34,8 +34,26 @@ NSInteger mcc_osMinorVersion(void);
 		NSArray		*translationArray = [NSArray arrayWithContentsOfFile:resourcePlistPath];
 		NSAssert(translationArray != nil, @"The MailVersionClassMappings file was not found for class '%@'", [self class]);
 		[self buildCompleteMappingsFromArray:translationArray];
+		_testVersionOS = -1;
 	}
 	return self;
+}
+
+- (NSInteger)osMinorVersion {
+	
+	if (_testVersionOS > 0) {
+		return _testVersionOS;
+	}
+	// use a static because we only really need to get the version once.
+	static NSInteger minVersion = 0;  // 0 == notSet
+	if (minVersion == 0) {
+		SInt32 version = 0;
+		OSErr err = Gestalt(gestaltSystemVersionMinor, &version);
+		if (!err) {
+			minVersion = (NSInteger)version;
+		}
+	}
+	return minVersion;
 }
 
 - (void)buildCompleteMappingsFromArray:(NSArray *)translationArray {
@@ -66,7 +84,7 @@ NSInteger mcc_osMinorVersion(void);
 	}
 
 	//	Try to get the mapping for this OS version and use that as the return value
-	NSString	*osName = [NSString stringWithFormat:@"10.%ld", (long)mcc_osMinorVersion()];
+	NSString	*osName = [NSString stringWithFormat:@"10.%ld", (long)[[self sharedInstance] osMinorVersion]];
 	nameFound = [mappingDict valueForKey:osName];
 	
 	return nameFound;
@@ -87,20 +105,6 @@ NSInteger mcc_osMinorVersion(void);
 }
 
 @end
-
-NSInteger mcc_osMinorVersion(void) {
-	// use a static because we only really need to get the version once.
-	static NSInteger minVersion = 0;  // 0 == notSet
-	if (minVersion == 0) {
-		SInt32 version = 0;
-		OSErr err = Gestalt(gestaltSystemVersionMinor, &version);
-		if (!err) {
-			minVersion = (NSInteger)version;
-		}
-	}
-	return minVersion;
-}
-
 
 
 Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {

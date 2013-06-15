@@ -1,0 +1,3 @@
+[submodule "LKConfigs"]
+	path = LKConfigs
+	url = git@github.com:lksoft/LKConfigs.git
