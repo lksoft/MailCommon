@@ -22,7 +22,7 @@
 @end
 
 
-@interface TSTMailAbstractor (MCCTesting)
+@interface MCC_PREFIXED_NAME(MailAbstractor) (MCCTesting)
 
 @property	(assign)	NSInteger		testOSVersion;
 

@@ -8,7 +8,7 @@ All of this code is meant to be used by more than one Mail plugin, so there is t
 
 There is one thing that you need to do in your project though to ensure that this works. Before every include of the files in this repository, you should define the following define.
 
-	#define	MCC_PREFIXED_NAME(function)	_MCC_PREFIXED_NAME(<prefix>, function)
+	#define	MCC_PLUGIN_PREFIX	<prefix>
 
 Where **`<prefix>`** should be replaced with the prefix for your plugin. The best place to do this is at the top of your precompiled header. Then you can call functions, classes and methods defined in header files of this repository using that prefix. For instance the function defined in `MCCMailAbstractor.h` to replace `NSClassFromString`, is defined as `MCC_PREFIXED_NAME(ClassFromString)()`, but if your prefix is `MAO`, then you would just call `MAOClassFromString()`. Makes the rest of your code easier and ensures that you won't collide with others.
 

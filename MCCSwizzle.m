@@ -192,36 +192,35 @@
 }
 
 + (BOOL)addIvarsToClass:(Class)subclass passingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))testBlock withDebugging:(BOOL)debugging {
-	
-	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
 
-	unsigned int ivarCount = 0;
-	Ivar * ivars = class_copyIvarList(self, &ivarCount);
-	
-	SWIZ_LOG(@"%d ivars to add to subclass from provider %@", ivarCount, self);
-
-	unsigned int ci = 0;
-	for (ci = 0 ;ci < ivarCount; ci++) {
-		Ivar anIvar = ivars[ci];
+	@autoreleasepool {
+		unsigned int ivarCount = 0;
+		Ivar * ivars = class_copyIvarList(self, &ivarCount);
 		
-		NSUInteger ivarSize = 0;
-		NSUInteger ivarAlignment = 0;
-		const char * typeEncoding = ivar_getTypeEncoding(anIvar);
-		NSGetSizeAndAlignment(typeEncoding, &ivarSize, &ivarAlignment);
-		const char * ivarName = ivar_getName(anIvar);
-		NSString * ivarStringName = [NSString stringWithUTF8String:ivarName];
-		if ((testBlock == nil) || testBlock(ivarStringName)){
-			BOOL addIVarResult = class_addIvar(subclass, ivarName, ivarSize, ivarAlignment, typeEncoding);
-			if (!addIVarResult){
-				SWIZ_LOG(@"Could not add iVar %s", ivarName);
-				return NO;
+		SWIZ_LOG(@"%d ivars to add to subclass from provider %@", ivarCount, self);
+		
+		unsigned int ci = 0;
+		for (ci = 0 ;ci < ivarCount; ci++) {
+			Ivar anIvar = ivars[ci];
+			
+			NSUInteger ivarSize = 0;
+			NSUInteger ivarAlignment = 0;
+			const char * typeEncoding = ivar_getTypeEncoding(anIvar);
+			NSGetSizeAndAlignment(typeEncoding, &ivarSize, &ivarAlignment);
+			const char * ivarName = ivar_getName(anIvar);
+			NSString * ivarStringName = [NSString stringWithUTF8String:ivarName];
+			if ((testBlock == nil) || testBlock(ivarStringName)){
+				BOOL addIVarResult = class_addIvar(subclass, ivarName, ivarSize, ivarAlignment, typeEncoding);
+				if (!addIVarResult){
+					SWIZ_LOG(@"Could not add iVar %s", ivarName);
+					return NO;
+				}
+				SWIZ_LOG(@"Added iVar %s", ivarName);
 			}
-			SWIZ_LOG(@"Added iVar %s", ivarName);
 		}
+		free(ivars);
 	}
-	free(ivars);
 	
-	[pool drain];
 	return YES;
 }
 

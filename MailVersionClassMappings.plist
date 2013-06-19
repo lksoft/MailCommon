@@ -4,19 +4,35 @@
 <array>
 	<dict>
 		<key>10.7</key>
-		<string>MailAccount</string>
+		<string>MailDelivery</string>
 		<key>10.8</key>
-		<string>MailAccount</string>
+		<string>MailDelivery</string>
 		<key>10.9</key>
-		<string>MFMailAccount</string>
+		<string>MFMailDeliverer</string>
 	</dict>
 	<dict>
 		<key>10.7</key>
-		<string>Message</string>
+		<string>SMTPDelivery</string>
 		<key>10.8</key>
-		<string>Message</string>
+		<string>SMTPDelivery</string>
 		<key>10.9</key>
-		<string>MCMessage</string>
+		<string>MFSMTPDeliverer</string>
+	</dict>
+	<dict>
+		<key>10.7</key>
+		<string>EWSDelivery</string>
+		<key>10.8</key>
+		<string>EWSDelivery</string>
+		<key>10.9</key>
+		<string>MFEWSDeliverer</string>
+	</dict>
+	<dict>
+		<key>10.7</key>
+		<string>MailDocumentEditor</string>
+		<key>10.8</key>
+		<string>MailDocumentEditor</string>
+		<key>10.9</key>
+		<string>DocumentEditor</string>
 	</dict>
 </array>
 </plist>

@@ -8,7 +8,7 @@
 
 #import "MCCMailAbstractor+MCCTesting.h"
 
-@implementation TSTMailAbstractor (MCCTesting)
+@implementation MCC_PREFIXED_NAME(MailAbstractor) (MCCTesting)
 
 @dynamic testOSVersion;
 

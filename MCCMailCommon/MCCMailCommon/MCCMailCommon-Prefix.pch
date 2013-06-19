@@ -4,7 +4,8 @@
 //  The contents of this file are implicitly included at the beginning of every source file.
 //
 
-#define MCC_PREFIXED_NAME(function) _MCC_PREFIXED_NAME(TST, function)
+
+#define MCC_PLUGIN_PREFIX	TST
 
 #ifdef __OBJC__
 	#import <Cocoa/Cocoa.h>
