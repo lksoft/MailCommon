@@ -1,5 +1,5 @@
 //
-// MCC MailAbstractor.m
+// MCCMailAbstractor.m
 //  MailCommonCode
 //
 //  Created by Scott Little on 14/6/13.

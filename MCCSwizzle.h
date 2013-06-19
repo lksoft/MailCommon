@@ -6,6 +6,7 @@
 //  Copyright (c) 2011 Little Known Software. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #include "MCCCommonHeader.h"
 
 typedef enum MCC_PREFIXED_NAME(SwizzleType) {

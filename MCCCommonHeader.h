@@ -10,8 +10,6 @@
 #define _MCC_CONCAT_2(c,d)	c ## d
 #define _MCC_CONCAT(a,b)	_MCC_CONCAT_2(a,b)
 
-//#define MCC_PLUGIN_PREFIX	SJL
-
 #ifdef    MCC_PLUGIN_PREFIX
 #define	MCC_PREFIXED_NAME(function)	_MCC_CONCAT(MCC_PLUGIN_PREFIX,function)
 #else
