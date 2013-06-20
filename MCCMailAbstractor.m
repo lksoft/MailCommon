@@ -135,7 +135,7 @@ Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 			resultClass = [MCC_PREFIXED_NAME(MailAbstractor) actualClassForClassName:aClassName];
 		}
 		if (!resultClass) {
-            NSLog(@"could not find a class for %@",aClassName);
+            NSLog(@"Could not find a class for %@",aClassName);
             return nil;
         }
         else {
