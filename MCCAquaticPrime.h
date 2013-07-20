@@ -28,7 +28,15 @@
 #import <Security/Security.h>
 #include "MCCCommonHeader.h"
 
-@interface MCC_PREFIXED_NAME(AquaticPrime) : NSObject
+@interface MCC_PREFIXED_NAME(AquaticPrime) : NSObject {
+	SecKeyRef	_publicKeyRef;
+	SecKeyRef	_privateKeyRef;
+	NSString	*_aqError;
+	NSString	*_cachedPrivateKey;
+
+	NSString	*_hash;
+	NSArray		*_blacklist;
+}
 
 @property (nonatomic, strong) NSString *hash;
 @property (nonatomic, strong) NSArray *blacklist;

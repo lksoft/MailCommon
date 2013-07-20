@@ -36,6 +36,13 @@
 
 @implementation MCC_PREFIXED_NAME(AquaticPrime)
 
+@synthesize publicKeyRef = _publicKeyRef;
+@synthesize privateKeyRef = _privateKeyRef;
+@synthesize aqError = _aqError;
+@synthesize cachedPrivateKey = _cachedPrivateKey;
+@synthesize hash = _hash;
+@synthesize blacklist = _blacklist;
+
 - (id)init {
     return [self initWithKey:nil privateKey:nil];
 }
@@ -50,8 +57,8 @@
     
     _publicKeyRef = NULL;
     _privateKeyRef = NULL;
-    _aqError = [[NSString alloc] init];
-    _hash = [[NSString alloc] init];
+    self.aqError = [[NSString alloc] init];
+    self.hash = [[NSString alloc] init];
     
     [self setKey:key privateKey:privateKey];
     
@@ -127,7 +134,7 @@
         key = [self pemKeyFromRawHex:key];
     }
 
-    SecItemImportExportKeyParameters params = {0};
+    SecItemImportExportKeyParameters params = {};
     params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
     params.flags = kSecKeyNoAccessControl;
     SecExternalItemType itemType = kSecItemTypePublicKey;
@@ -211,7 +218,7 @@
     
     // Munch through the hex string, taking two characters at a time for each byte
     // to append as the key data
-    NSData *rawKey = [NSData dataWithHexDigitRepresentation:key];
+    NSData *rawKey = [NSData MCC_PREFIXED_NAME(dataWithHexDigitRepresentation):key];
     if (rawKey == nil) {
         // Failed to import the key (bad hex digit?)
         [self setAqError:@"Bad public key"];
@@ -265,7 +272,7 @@
         return nil;
     }
     
-    SecItemImportExportKeyParameters params = {0};
+    SecItemImportExportKeyParameters params = {};
     params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
     
     NSArray *keyUsage = @[ (id)kSecAttrCanVerify ];
@@ -299,7 +306,7 @@
         return nil;
     }
     
-    SecItemImportExportKeyParameters params = {0};
+    SecItemImportExportKeyParameters params = {};
     params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
     
     NSArray *keyUsage = @[ (id)kSecAttrCanSign ];
@@ -476,7 +483,7 @@
     // Create the data from the dictionary
     NSError *err = nil;
     NSData *licenseFile = [NSPropertyListSerialization dataWithPropertyList:licenseDict
-                                                                     format:kCFPropertyListXMLFormat_v1_0
+                                                                     format:NSPropertyListXMLFormat_v1_0
                                                                     options:0
                                                                       error:&err];
     
@@ -546,7 +553,7 @@
     }
     
     NSData *hash = [self computedHashForDictionary:licenseDict];
-    NSString *hashCheck = [hash hexDigitRepresentation];
+    NSString *hashCheck = [hash MCC_PREFIXED_NAME(hexDigitRepresentation)];
     
     // Store the license hash in case we need it later
     [self setHash:hashCheck];
@@ -634,3 +641,4 @@
 }
 
 @end
+
