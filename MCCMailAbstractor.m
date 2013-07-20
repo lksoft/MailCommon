@@ -30,9 +30,16 @@
 	self = [super init];
 	if (self) {
 		//	This array could be a plist file that we read in
-		NSString	*resourcePlistPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"MailVersionClassMappings" ofType:@"plist"];
-		NSArray		*translationArray = [NSArray arrayWithContentsOfFile:resourcePlistPath];
-		NSAssert(translationArray != nil, @"The MailVersionClassMappings file was not found for class '%@'", [self class]);
+		NSFileManager	*manager = [NSFileManager defaultManager];
+		NSString		*resourcePlistPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"MailVersionClassMappings" ofType:@"plist"];
+		NSArray			*translationArray = [NSArray array];
+		if ([manager fileExistsAtPath:resourcePlistPath]) {
+			translationArray = [translationArray arrayByAddingObjectsFromArray:[NSArray arrayWithContentsOfFile:resourcePlistPath]];
+		}
+		resourcePlistPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"PluginClassMappings" ofType:@"plist"];
+		if ([manager fileExistsAtPath:resourcePlistPath]) {
+			translationArray = [translationArray arrayByAddingObjectsFromArray:[NSArray arrayWithContentsOfFile:resourcePlistPath]];
+		}
 		[self buildCompleteMappingsFromArray:translationArray];
 		_testVersionOS = -1;
 	}
@@ -135,7 +142,6 @@ Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 			resultClass = [MCC_PREFIXED_NAME(MailAbstractor) actualClassForClassName:aClassName];
 		}
 		if (!resultClass) {
-            NSLog(@"could not find a class for %@",aClassName);
             return nil;
         }
         else {

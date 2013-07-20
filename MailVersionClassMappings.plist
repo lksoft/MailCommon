@@ -8,7 +8,7 @@
 		<key>10.8</key>
 		<string>MailDelivery</string>
 		<key>10.9</key>
-		<string>MFMailDeliverer</string>
+		<string>MFMessageDeliverer</string>
 	</dict>
 	<dict>
 		<key>10.7</key>
@@ -33,6 +33,22 @@
 		<string>MailDocumentEditor</string>
 		<key>10.9</key>
 		<string>DocumentEditor</string>
+	</dict>
+	<dict>
+		<key>10.7</key>
+		<string>MailboxUid</string>
+		<key>10.8</key>
+		<string>MailboxUid</string>
+		<key>10.9</key>
+		<string>MFMailbox</string>
+	</dict>
+	<dict>
+		<key>10.7</key>
+		<string>MailSorterPreferences</string>
+		<key>10.8</key>
+		<string>RulesPreferences</string>
+		<key>10.9</key>
+		<string>RulesPreferences</string>
 	</dict>
 </array>
 </plist>
