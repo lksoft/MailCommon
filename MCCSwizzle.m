@@ -55,7 +55,7 @@
 		return;
 	}
 	NSString	*targetClassName = [[self className] substringToIndex:underscoreRange.location];
-	NSString	*prefix = [[self className] substringFromIndex:underscoreRange.location + 1];
+	NSString	*prefix = [NSString stringWithFormat:@"%@_", [[self className] substringFromIndex:underscoreRange.location + 1] ];
 	
 	if (!MCC_PREFIXED_NAME(ClassFromString)(targetClassName)) {
 		NSLog(@"Class %@ was not found to swizzle", targetClassName);
