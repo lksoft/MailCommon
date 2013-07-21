@@ -10,3 +10,5 @@
 #include "MCCCommonHeader.h"
 
 Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName);
+
+#define CLS(className) MCC_PREFIXED_NAME(ClassFromString)([NSString stringWithFormat:@"%s",#className])
