@@ -48,6 +48,22 @@
 	return subclass;
 }
 
++ (void)swizzle {
+	NSRange		underscoreRange = [[self className] rangeOfString:@"_"];
+	if (underscoreRange.location == NSNotFound) {
+		NSLog(@"Could not swizzle class %@ - it has no suffix", [self className]);
+		return;
+	}
+	NSString	*targetClassName = [[self className] substringToIndex:underscoreRange.location];
+	NSString	*prefix = [[self className] substringFromIndex:underscoreRange.location + 1];
+	
+	if (!MCC_PREFIXED_NAME(ClassFromString)(targetClassName)) {
+		NSLog(@"Class %@ was not found to swizzle", targetClassName);
+	}
+	
+	[self addAllMethodsToClass:MCC_PREFIXED_NAME(ClassFromString)(targetClassName) usingPrefix:prefix];
+}
+
 + (void)addAllMethodsToClass:(Class)targetClass usingPrefix:(NSString*)prefix {
 	[self addMethodsPassingTest:nil ivarsPassingTest:nil toClass:targetClass usingPrefix:prefix withDebugging:DEFAULT_DEBUGGING];
 }

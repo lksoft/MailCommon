@@ -25,6 +25,7 @@ typedef BOOL(^MCC_PREFIXED_NAME(AddIvarFilterBlock))(NSString *ivarName);
 + (Class)makeSubclassOf:(Class)baseClass usingClassName:(NSString*)subclassName;
 + (Class)makeSubclassOf:(Class)baseClass usingClassName:(NSString*)subclassName addIvarsPassingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))testBlock;
 + (void)addMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock ivarsPassingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))ivarTestBlock toClass:(Class)targetClass usingPrefix:(NSString*)prefix withDebugging:(BOOL)debugging;
++ (void)swizzle;
 + (void)addAllMethodsToClass:(Class)targetClass usingPrefix:(NSString*)prefix;
 
 + (void)printAllIvarsForClass:(Class)aClass;
