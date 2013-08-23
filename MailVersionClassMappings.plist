@@ -50,5 +50,13 @@
 		<key>10.9</key>
 		<string>RulesPreferences</string>
 	</dict>
+	<dict>
+		<key>10.7</key>
+		<string>SmartMailboxUid</string>
+		<key>10.8</key>
+		<string>SmartMailboxUid</string>
+		<key>10.9</key>
+		<string>MFSmartMailbox</string>
+	</dict>
 </array>
 </plist>
