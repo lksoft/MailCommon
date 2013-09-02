@@ -145,6 +145,9 @@
 	while (methods && countDecrementer--){
         SEL			providerMethodSelector = method_getName(methods[countDecrementer]);
 		NSString	*providerMethodName = NSStringFromSelector(providerMethodSelector);
+		//	Always skip the load selector to avoid deadlocks
+		if ([providerMethodName isEqualToString:@"load"]) { continue; }
+		
 		NSString	*categoryMethodName = providerMethodName;
 		BOOL		justAddMethod = NO;
 		
@@ -167,8 +170,6 @@
 		//	Just add the method if that is appropriate
         Method		oldMethod = class_getInstanceMethod(targetClass, providerMethodSelector);
 		if (isClassMethod) {
-			//	Never ever do anything with +load
-			if ([providerMethodName isEqualToString:@"load"]){ continue;}
 			oldMethod = class_getClassMethod(targetClass, providerMethodSelector);
 		}
         if (justAddMethod || (oldMethod == NULL)) {

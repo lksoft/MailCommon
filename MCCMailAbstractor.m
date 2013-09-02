@@ -116,46 +116,49 @@
 
 Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 	
-    static NSMutableDictionary	*classNameLookup = nil;
-    static NSRecursiveLock		*threadlock = nil;
-    if (!threadlock) {
-        threadlock = [[NSRecursiveLock alloc] init];
-        classNameLookup = [[NSMutableDictionary alloc] init];
-    }
-    
-    Class resultClass =nil;
-    [threadlock lock];
-    resultClass = [classNameLookup objectForKey:aClassName];
-    [threadlock unlock];
-    if (resultClass){
-        return resultClass;
-    }
-    else{
-        resultClass = NSClassFromString(aClassName);
-        if (!resultClass){
-            resultClass = NSClassFromString([@"MF" stringByAppendingString:aClassName]);
-        }
-        if (!resultClass){
-            resultClass = NSClassFromString([@"MC" stringByAppendingString:aClassName]);
-        }
-        if (!resultClass){
+	static NSMutableDictionary	*classNameLookup = nil;
+	static dispatch_queue_t		classNameDictAccessQueue = nil;
+	
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSString	*queueName = [NSString stringWithFormat:@"com.mailPlugins.dictAccessQueue.%@", NSStringFromClass([MCC_PREFIXED_NAME(MailAbstractor) class])];
+		classNameDictAccessQueue = dispatch_queue_create([queueName UTF8String], NULL);
+	});
+	
+	
+	Class __block resultClass =nil;
+	
+	dispatch_sync(classNameDictAccessQueue, ^{
+		resultClass = [classNameLookup objectForKey:aClassName];
+	});
+	
+	if (resultClass){
+		return resultClass;
+	}
+	else{
+		resultClass = NSClassFromString(aClassName);
+		if (!resultClass){
+			resultClass = NSClassFromString([@"MF" stringByAppendingString:aClassName]);
+		}
+		if (!resultClass){
+			resultClass = NSClassFromString([@"MC" stringByAppendingString:aClassName]);
+		}
+		if (!resultClass){
 			resultClass = [MCC_PREFIXED_NAME(MailAbstractor) actualClassForClassName:aClassName];
 		}
 		if (!resultClass) {
-            return nil;
-        }
-        else {
-			[threadlock lock];
-            [classNameLookup setObject:resultClass forKey:aClassName];
-			[threadlock unlock];
-        }
+			return nil;
+		}
+		else {
+			dispatch_async(classNameDictAccessQueue, ^{
+				[classNameLookup setObject:resultClass forKey:aClassName];
+			});
+		}
 		// NSLog(@"found class %@ -->%@",className,resultClass);
-        return resultClass;
-        
-    }
-    return nil;
-	
-	
+		return resultClass;
+		
+	}
+	return nil;
 	
 }
 
