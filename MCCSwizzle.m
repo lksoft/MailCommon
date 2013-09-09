@@ -295,5 +295,41 @@
 	}
 }
 
++ (NSString *)memoryLocationOfMethodNamed:(NSString *)methodName forClassNamed:(NSString *)className {
+	BOOL	isClassMethod = NO;
+	
+	if (IsEmpty(methodName)) {
+		return @"No Method";
+	}
+	
+	if (IsEmpty(className)) {
+		return @"No Class";
+	}
+	
+	if ([[methodName substringToIndex:1] isEqualToString:@"+"]) {
+		isClassMethod = YES;
+		methodName = [methodName substringFromIndex:1];
+	}
+	else if ([[methodName substringToIndex:1] isEqualToString:@"-"]) {
+		methodName = [methodName substringFromIndex:1];
+	}
+	
+	if (!DBGClassFromString(className)) {
+		return [NSString stringWithFormat:@"Class %@ was not found.", className];
+	}
+	
+	if (!NSSelectorFromString(methodName)) {
+		return [NSString stringWithFormat:@"Selector %@ was not found.", methodName];
+	}
+	
+	if (isClassMethod) {
+		return [NSString stringWithFormat:@"%p", method_getImplementation(class_getClassMethod(DBGClassFromString(className), NSSelectorFromString(methodName)))];
+	}
+	else {
+		return [NSString stringWithFormat:@"%p", class_getMethodImplementation(DBGClassFromString(className), NSSelectorFromString(methodName))];
+	}
+	
+}
+
 
 @end

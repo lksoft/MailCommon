@@ -31,5 +31,8 @@ typedef BOOL(^MCC_PREFIXED_NAME(AddIvarFilterBlock))(NSString *ivarName);
 + (void)printAllIvarsForClass:(Class)aClass;
 + (void)printAllMethodsForClass:(Class)aClass;
 + (void)printAllMethodsInHierarchyOfClass:(Class)aClass;
+
++ (NSString *)memoryLocationOfMethodNamed:(NSString *)methodName forClassNamed:(NSString *)className;
+
 @end
 
