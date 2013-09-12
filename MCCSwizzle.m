@@ -314,7 +314,7 @@
 		methodName = [methodName substringFromIndex:1];
 	}
 	
-	if (!DBGClassFromString(className)) {
+	if (!MCC_PREFIXED_NAME(ClassFromString)(className)) {
 		return [NSString stringWithFormat:@"Class %@ was not found.", className];
 	}
 	
@@ -323,10 +323,10 @@
 	}
 	
 	if (isClassMethod) {
-		return [NSString stringWithFormat:@"%p", method_getImplementation(class_getClassMethod(DBGClassFromString(className), NSSelectorFromString(methodName)))];
+		return [NSString stringWithFormat:@"%p", method_getImplementation(class_getClassMethod(MCC_PREFIXED_NAME(ClassFromString)(className), NSSelectorFromString(methodName)))];
 	}
 	else {
-		return [NSString stringWithFormat:@"%p", class_getMethodImplementation(DBGClassFromString(className), NSSelectorFromString(methodName))];
+		return [NSString stringWithFormat:@"%p", class_getMethodImplementation(MCC_PREFIXED_NAME(ClassFromString)(className), NSSelectorFromString(methodName))];
 	}
 	
 }
