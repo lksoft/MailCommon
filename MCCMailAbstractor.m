@@ -54,12 +54,21 @@
 	// use a static because we only really need to get the version once.
 	static NSInteger minVersion = 0;  // 0 == notSet
 	if (minVersion == 0) {
-		SInt32 version = 0;
-		OSErr err = Gestalt(gestaltSystemVersionMinor, &version);
-		if (!err) {
-			minVersion = (NSInteger)version;
+		/*
+		 
+		 Using this method after reading this SO post:
+		 http://stackoverflow.com/questions/11072804/mac-os-x-10-8-replacement-for-gestalt-for-testing-os-version-at-runtime
+		 
+		 */
+		NSDictionary	* sv = [NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"];
+		NSString		*versionString = [sv objectForKey:@"ProductVersion"];
+		NSArray			*versionParts = [versionString componentsSeparatedByString:@"."];
+		if ([versionParts count] > 1) {
+			minVersion = [[versionParts objectAtIndex:1] integerValue];
 		}
 	}
+	
+	
 	return minVersion;
 }
 
