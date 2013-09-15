@@ -12,22 +12,33 @@
 #import "MCCSwizzle.h"
 #import "MCCMailAbstractor.h"
 #import <objc/objc-runtime.h>
+typedef struct objc_super * super_pointer;
+
 
 #if __has_feature(objc_arc)
 #define RETAIN(x) (x)
 #define RELEASE(x)
 #define AUTORELEASE(x) (x)
+#define DEALLOC(x) (x)
 #else
 #define RETAIN(x) ([(x) retain])
 #define RELEASE(x) ([(x) release])
 #define AUTORELEASE(x) ([(x) autorelease])
+#define DEALLOC(x) ([(x) dealloc])
+#endif
+
+#ifndef MCC_CLASSNAME_SUFFIX_SEPARATOR
+#define MCC_CLASSNAME_SUFFIX_SEPARATOR	@"_"
+#endif
+
+#ifndef MCC_CLASSNAME_PREFIX_APPENDOR
+#define MCC_CLASSNAME_PREFIX_APPENDOR	@"_"
 #endif
 
 
 @interface MCC_PREFIXED_NAME(Swizzle) ()
 + (BOOL)addMethodName:(NSString *)methodName toClass:(Class)targetClass fromProviderClass:(Class)providerClass methodName:(NSString*)providerMethodName isClassMethod:(BOOL)isClassMethod;
 + (void)processMethods:(Method *)methods count:(NSInteger)countDecrementer passingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock toClass:(Class)targetClass usingPrefix:(NSString*)prefix withDebugging:(BOOL)debugging isClassMethod:(BOOL)isClassMethod;
-+ (BOOL)addIvarsToClass:(Class)subclass passingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))testBlock withDebugging:(BOOL)debugging;
 @end
 
 #ifdef DEBUG
@@ -40,40 +51,45 @@
 
 #pragma mark - Main Entry Points
 
-+ (Class)makeSubclassOf:(Class)baseClass usingClassName:(NSString*)subclassName {
-	return [self makeSubclassOf:baseClass usingClassName:subclassName addIvarsPassingTest:nil];
-}
++ (Class)makeSubclassOf:(Class)baseClass {
 
-+ (Class)makeSubclassOf:(Class)baseClass usingClassName:(NSString*)subclassName addIvarsPassingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))testBlock {
-	
+	NSRange		separatorRange = [[self className] rangeOfString:MCC_CLASSNAME_SUFFIX_SEPARATOR];
+	if (separatorRange.location == NSNotFound) {
+		NSLog(@"Could not create subclass for %@ - it has no suffix", [self className]);
+		return nil;
+	}
+	NSString	*subclassName = [[self className] substringToIndex:separatorRange.location];
+
 	Class subclass = objc_allocateClassPair(baseClass, [subclassName UTF8String], 0);
 	if (!subclass) return nil;
 	
-	//	Add the ivars and register subclass
-	if (![self addIvarsToClass:subclass passingTest:testBlock withDebugging:DEFAULT_DEBUGGING]) {
-		return nil;
-	}
+	//	Register the subclass
 	objc_registerClassPair(subclass);
 	
-	//	Then add all methods, since this is a subclass
 	[self addMethodsPassingTest:^MCC_PREFIXED_NAME(SwizzleType)(NSString *methodName) {
 		return MCC_PREFIXED_NAME(SwizzleTypeAdd);
-	} ivarsPassingTest:nil toClass:subclass usingPrefix:@"" withDebugging:DEFAULT_DEBUGGING];
+	} toClass:subclass usingPrefix:@"" withDebugging:DEFAULT_DEBUGGING];
 	
 	[self swizzlePropertiesToClass:subclass];
 	
+	// add a forwardingInvocationMethod to catch 'super' calls
+	Method forwardingMethod = class_getInstanceMethod(CLS(MCC_PREFIXED_NAME(Swizzle)),@selector(MCC_PREFIXED_NAME(_MCCSwizzle_callRuntimeSuperWithInvocation):));
+	class_addMethod(subclass, @selector(forwardInvocation:), method_getImplementation(forwardingMethod), method_getTypeEncoding(forwardingMethod));
+	
 	return subclass;
+
 }
 
 + (void)swizzle {
-	NSRange		underscoreRange = [[self className] rangeOfString:@"_"];
-	if (underscoreRange.location == NSNotFound) {
+	
+	NSRange		separatorRange = [[self className] rangeOfString:MCC_CLASSNAME_SUFFIX_SEPARATOR];
+	if (separatorRange.location == NSNotFound) {
 		NSLog(@"Could not swizzle class %@ - it has no suffix", [self className]);
 		return;
 	}
-	NSString	*targetClassName = [[self className] substringToIndex:underscoreRange.location];
-	NSString	*prefix = [NSString stringWithFormat:@"%@_", [[self className] substringFromIndex:underscoreRange.location + 1] ];
-	
+	NSString	*targetClassName = [[self className] substringToIndex:separatorRange.location];
+	NSString	*prefix = [NSString stringWithFormat:@"%@%@", [[self className] substringFromIndex:separatorRange.location + [MCC_CLASSNAME_SUFFIX_SEPARATOR length]], MCC_CLASSNAME_PREFIX_APPENDOR];
+
 	Class	targetClass = MCC_PREFIXED_NAME(ClassFromString)(targetClassName);
 	if (!targetClass) {
 		NSLog(@"Class %@ was not found to swizzle", targetClassName);
@@ -85,18 +101,13 @@
 }
 
 + (void)addAllMethodsToClass:(Class)targetClass usingPrefix:(NSString*)prefix {
-	[self addMethodsPassingTest:nil ivarsPassingTest:nil toClass:targetClass usingPrefix:prefix withDebugging:DEFAULT_DEBUGGING];
+	[self addMethodsPassingTest:nil toClass:targetClass usingPrefix:prefix withDebugging:DEFAULT_DEBUGGING];
 }
 
-+ (void)addMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock ivarsPassingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))ivarTestBlock toClass:(Class)targetClass usingPrefix:(NSString*)prefix withDebugging:(BOOL)debugging {
-    
++ (void)addMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock toClass:(Class)targetClass usingPrefix:(NSString*)prefix withDebugging:(BOOL)debugging {
+
 	unsigned int	methodCount = 0;
 	Method			*methods = nil;
-	
-	//	Add ivars IF and Only IF there is a test
-	if (ivarTestBlock != nil) {
-		[self addIvarsToClass:targetClass passingTest:ivarTestBlock withDebugging:debugging];
-	}
 	
 	// Extend instance Methods
 	methods = class_copyMethodList(self, &methodCount);
@@ -112,6 +123,77 @@
 	methods = NULL;
 	
 }
+
+#pragma mark - Super Calling Helpers
+
+- (void)MCC_PREFIXED_NAME(_MCCSwizzle_callRuntimeSuperWithInvocation):(NSInvocation *)anInvocation {
+	
+#ifdef MCC_USE_EXPERIMENTAL_SUPER_OVERRIDE
+    Class mySuper = class_getSuperclass([self class]);
+    SEL mySel = [anInvocation selector];
+    
+    if ([mySuper instancesRespondToSelector:[anInvocation selector]] &&
+        [[mySuper instanceMethodSignatureForSelector:mySel] isEqualTo: [anInvocation methodSignature]]){
+        
+        NSMethodSignature * signature = [anInvocation methodSignature];
+        NSUInteger argCount = [signature numberOfArguments];
+        
+        // declare a buffer for the arguments
+        uint64_t * argList = malloc([signature frameLength]); // a buffer for the arguments
+        uint64_t * curArgPointer = argList; //
+        uint64_t * arg = calloc(12,sizeof(uint64_t));
+		
+        for (NSUInteger argIndex = 0;argIndex<argCount;argIndex++){
+            // get the type and size of the argment at the index
+            const char *argType = [signature getArgumentTypeAtIndex:argIndex];
+            NSUInteger typeSize;
+            NSGetSizeAndAlignment(argType, &typeSize, NULL);
+            
+            // add the argument to the buffer
+            [anInvocation getArgument:curArgPointer atIndex:argIndex];
+			
+            // store the pointer to the argument in the buffer of argumentPointers
+            arg[argIndex]=*curArgPointer;
+            
+            
+            // advance the curArgPointer by the size of the argment just entered
+            curArgPointer+=typeSize;
+		}
+        
+        void *returnValue=0;
+        super_pointer  superPointer = &(struct objc_super){self, mySuper};
+        returnValue =  objc_msgSendSuper(superPointer, mySel ,arg[2],arg[3],arg[4],arg[5],arg[6],arg[7],arg[8],arg[9],arg[10],arg[11]);
+        [anInvocation setReturnValue:&returnValue];
+        free(argList);
+        free(arg);
+	}
+#else
+	NSAssert(NO, @"You called super on a method for a swizzled SUBCLASS (%@), which will most likely not do what you expect!!!", [self class]);
+#endif
+	
+}
+
+- (void)dealloc{
+    // including this allows the runtime subclass to call
+    // [super dealloc]
+    // and have the dealloc message get passed to it runtime super
+    //
+    // Because runtime use of [super dealloc] will call the compiletime super (ie -[MAOSwizzle dealloc])
+    // this method will be invoked.  all we need to do is send the message to the runtime super.
+    //
+    Class runtimeSuper = class_getSuperclass([self class]);
+    if (runtimeSuper){
+        super_pointer  sp = &(struct objc_super){self, runtimeSuper};
+        objc_msgSendSuper(sp,  _cmd);
+        return;
+    }
+#if __has_feature(objc_arc)
+#else
+    [super dealloc];  // kept in to avoid warning
+#endif
+}
+
+
 
 
 #pragma mark - Actual Swizzling Methods
@@ -226,39 +308,6 @@
 			method_setImplementation(newMethod, oldIMP);
         }
 	}
-}
-
-+ (BOOL)addIvarsToClass:(Class)subclass passingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))testBlock withDebugging:(BOOL)debugging {
-
-	@autoreleasepool {
-		unsigned int ivarCount = 0;
-		Ivar * ivars = class_copyIvarList(self, &ivarCount);
-		
-		SWIZ_LOG(@"%d ivars to add to subclass from provider %@", ivarCount, self);
-		
-		unsigned int ci = 0;
-		for (ci = 0 ;ci < ivarCount; ci++) {
-			Ivar anIvar = ivars[ci];
-			
-			NSUInteger ivarSize = 0;
-			NSUInteger ivarAlignment = 0;
-			const char * typeEncoding = ivar_getTypeEncoding(anIvar);
-			NSGetSizeAndAlignment(typeEncoding, &ivarSize, &ivarAlignment);
-			const char * ivarName = ivar_getName(anIvar);
-			NSString * ivarStringName = [NSString stringWithUTF8String:ivarName];
-			if ((testBlock == nil) || testBlock(ivarStringName)){
-				BOOL addIVarResult = class_addIvar(subclass, ivarName, ivarSize, ivarAlignment, typeEncoding);
-				if (!addIVarResult){
-					SWIZ_LOG(@"Could not add iVar %s", ivarName);
-					return NO;
-				}
-				SWIZ_LOG(@"Added iVar %s", ivarName);
-			}
-		}
-		free(ivars);
-	}
-	
-	return YES;
 }
 
 #undef SWIZ_LOG

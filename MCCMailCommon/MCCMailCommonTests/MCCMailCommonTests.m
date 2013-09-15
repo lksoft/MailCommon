@@ -38,7 +38,7 @@
 
 - (void)testSwizzledObject {
 	TSTObject	*anObject = [[TSTObject alloc] init];
-
+	
 	XCTAssert([[anObject foo] isEqualToString:@"A New Foo"]);
 	XCTAssert([[anObject valueForKey:@"addedProp"] isEqualToString:@"One More PropValue"]);
 	XCTAssert([anObject.addedProp isEqualToString:@"One More PropValue"]);
@@ -71,3 +71,5 @@
 }
 
 @end
+
+

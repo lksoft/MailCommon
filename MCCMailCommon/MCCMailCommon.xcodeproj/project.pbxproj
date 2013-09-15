@@ -21,11 +21,16 @@
 		D23CF6B0176C891700301165 /* MCCSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = D23CF6A9176C88C600301165 /* MCCSwizzle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D23CF6B1176C892300301165 /* MailVersionClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D23CF6A5176C88C600301165 /* MailVersionClassMappings.plist */; };
 		D26674C417E5D591004B4869 /* TSTObject+MCCSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674C317E5D591004B4869 /* TSTObject+MCCSwizzle.m */; };
-		D26674C517E5D5C4004B4869 /* MCCMailAbstractor.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6A8176C88C600301165 /* MCCMailAbstractor.m */; };
-		D26674C617E5D5C4004B4869 /* MCCSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6AA176C88C600301165 /* MCCSwizzle.m */; };
 		D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674C817E5D6A8004B4869 /* TSTObject.m */; };
 		D26674CD17E5E031004B4869 /* NSObject+DLIntrospection.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674CC17E5E031004B4869 /* NSObject+DLIntrospection.m */; };
 		D26674D017E5F882004B4869 /* MyObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674CF17E5F882004B4869 /* MyObject.m */; };
+		D26674E217E663C9004B4869 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF68E176C855800301165 /* XCTest.framework */; };
+		D26674E817E663C9004B4869 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D26674E617E663C9004B4869 /* InfoPlist.strings */; };
+		D26674EA17E663C9004B4869 /* MCCSeparatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674E917E663C9004B4869 /* MCCSeparatorTests.m */; };
+		D26674EF17E663D9004B4869 /* MCCSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6AA176C88C600301165 /* MCCSwizzle.m */; };
+		D26674F017E663DC004B4869 /* MCCMailAbstractor.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6A8176C88C600301165 /* MCCMailAbstractor.m */; };
+		D26674F217E66445004B4869 /* AnotherObject_TST.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674D517E65635004B4869 /* AnotherObject_TST.m */; };
+		D26674F317E66445004B4869 /* AnotherObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674D217E65369004B4869 /* AnotherObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +52,7 @@
 		D23CF681176C855800301165 /* MCCMailCommon-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MCCMailCommon-Info.plist"; sourceTree = "<group>"; };
 		D23CF683176C855800301165 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D23CF685176C855800301165 /* MCCMailCommon-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MCCMailCommon-Prefix.pch"; sourceTree = "<group>"; };
-		D23CF68D176C855800301165 /* MCCMailCommonTests.xctest */ = {isa = PBXFileReference; explicitFileType = folder; includeInIndex = 0; path = MCCMailCommonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D23CF68D176C855800301165 /* MCCMailCommonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MCCMailCommonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D23CF68E176C855800301165 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D23CF696176C855800301165 /* MCCMailCommonTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MCCMailCommonTests-Info.plist"; sourceTree = "<group>"; };
 		D23CF698176C855800301165 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -67,6 +72,14 @@
 		D26674CC17E5E031004B4869 /* NSObject+DLIntrospection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+DLIntrospection.m"; path = "DLIntrospection/DLIntrospection/NSObject+DLIntrospection.m"; sourceTree = SOURCE_ROOT; };
 		D26674CE17E5F882004B4869 /* MyObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyObject.h; sourceTree = "<group>"; };
 		D26674CF17E5F882004B4869 /* MyObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyObject.m; sourceTree = "<group>"; };
+		D26674D117E65369004B4869 /* AnotherObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnotherObject.h; path = ../MCCMailCommonTests/AnotherObject.h; sourceTree = "<group>"; };
+		D26674D217E65369004B4869 /* AnotherObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnotherObject.m; path = ../MCCMailCommonTests/AnotherObject.m; sourceTree = "<group>"; };
+		D26674D417E65635004B4869 /* AnotherObject_TST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnotherObject_TST.h; path = ../MCCMailCommonTests/AnotherObject_TST.h; sourceTree = "<group>"; };
+		D26674D517E65635004B4869 /* AnotherObject_TST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnotherObject_TST.m; path = ../MCCMailCommonTests/AnotherObject_TST.m; sourceTree = "<group>"; };
+		D26674E117E663C9004B4869 /* MCCSeparatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MCCSeparatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D26674E517E663C9004B4869 /* MCCSeparatorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MCCSeparatorTests-Info.plist"; sourceTree = "<group>"; };
+		D26674E717E663C9004B4869 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D26674E917E663C9004B4869 /* MCCSeparatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCCSeparatorTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +101,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D26674DE17E663C9004B4869 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D26674E217E663C9004B4869 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -96,6 +117,7 @@
 			children = (
 				D23CF67F176C855800301165 /* MCCMailCommon */,
 				D23CF694176C855800301165 /* MCCMailCommonTests */,
+				D26674E317E663C9004B4869 /* MCCSeparatorTests */,
 				D23CF678176C855800301165 /* Frameworks */,
 				D23CF677176C855800301165 /* Products */,
 			);
@@ -106,6 +128,7 @@
 			children = (
 				D23CF676176C855800301165 /* MCCMailCommon.framework */,
 				D23CF68D176C855800301165 /* MCCMailCommonTests.xctest */,
+				D26674E117E663C9004B4869 /* MCCSeparatorTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -197,6 +220,36 @@
 			name = TestObjects;
 			sourceTree = "<group>";
 		};
+		D26674E317E663C9004B4869 /* MCCSeparatorTests */ = {
+			isa = PBXGroup;
+			children = (
+				D26674E917E663C9004B4869 /* MCCSeparatorTests.m */,
+				D26674F117E66433004B4869 /* Test Objects */,
+				D26674E417E663C9004B4869 /* Supporting Files */,
+			);
+			path = MCCSeparatorTests;
+			sourceTree = "<group>";
+		};
+		D26674E417E663C9004B4869 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D26674E517E663C9004B4869 /* MCCSeparatorTests-Info.plist */,
+				D26674E617E663C9004B4869 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D26674F117E66433004B4869 /* Test Objects */ = {
+			isa = PBXGroup;
+			children = (
+				D26674D417E65635004B4869 /* AnotherObject_TST.h */,
+				D26674D517E65635004B4869 /* AnotherObject_TST.m */,
+				D26674D117E65369004B4869 /* AnotherObject.h */,
+				D26674D217E65369004B4869 /* AnotherObject.m */,
+			);
+			name = "Test Objects";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -249,6 +302,23 @@
 			productReference = D23CF68D176C855800301165 /* MCCMailCommonTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D26674E017E663C9004B4869 /* MCCSeparatorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D26674EC17E663CA004B4869 /* Build configuration list for PBXNativeTarget "MCCSeparatorTests" */;
+			buildPhases = (
+				D26674DD17E663C9004B4869 /* Sources */,
+				D26674DE17E663C9004B4869 /* Frameworks */,
+				D26674DF17E663C9004B4869 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MCCSeparatorTests;
+			productName = MCCSeparatorTests;
+			productReference = D26674E117E663C9004B4869 /* MCCSeparatorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -260,6 +330,9 @@
 				ORGANIZATIONNAME = "Little Known Software, Inc.";
 				TargetAttributes = {
 					D23CF68C176C855800301165 = {
+						TestTargetID = D23CF675176C855800301165;
+					};
+					D26674E017E663C9004B4869 = {
 						TestTargetID = D23CF675176C855800301165;
 					};
 				};
@@ -278,6 +351,7 @@
 			targets = (
 				D23CF675176C855800301165 /* MCCMailCommon */,
 				D23CF68C176C855800301165 /* MCCMailCommonTests */,
+				D26674E017E663C9004B4869 /* MCCSeparatorTests */,
 			);
 		};
 /* End PBXProject section */
@@ -300,6 +374,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D26674DF17E663C9004B4869 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D26674E817E663C9004B4869 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -317,12 +399,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				D26674C417E5D591004B4869 /* TSTObject+MCCSwizzle.m in Sources */,
-				D26674C517E5D5C4004B4869 /* MCCMailAbstractor.m in Sources */,
 				D26674D017E5F882004B4869 /* MyObject.m in Sources */,
-				D26674C617E5D5C4004B4869 /* MCCSwizzle.m in Sources */,
 				D26674CD17E5E031004B4869 /* NSObject+DLIntrospection.m in Sources */,
 				D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */,
 				D23CF69B176C855800301165 /* MCCMailCommonTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D26674DD17E663C9004B4869 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D26674F217E66445004B4869 /* AnotherObject_TST.m in Sources */,
+				D26674EA17E663C9004B4869 /* MCCSeparatorTests.m in Sources */,
+				D26674EF17E663D9004B4869 /* MCCSwizzle.m in Sources */,
+				D26674F317E66445004B4869 /* AnotherObject.m in Sources */,
+				D26674F017E663DC004B4869 /* MCCMailAbstractor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +441,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				D23CF698176C855800301165 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D26674E617E663C9004B4869 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D26674E717E663C9004B4869 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -471,10 +571,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MCCMailCommon/MCCMailCommon-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				INFOPLIST_FILE = "MCCMailCommonTests/MCCMailCommonTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -494,6 +591,47 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MCCMailCommon/MCCMailCommon-Prefix.pch";
 				INFOPLIST_FILE = "MCCMailCommonTests/MCCMailCommonTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		D26674ED17E663CA004B4869 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommon.framework/Versions/A/MCCMailCommon";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCMailCommon/MCCMailCommon-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"MCC_CLASSNAME_SUFFIX_SEPARATOR=@\\\"__\\\"",
+					"MCC_CLASSNAME_PREFIX_APPENDOR=@\\\"\\\"",
+				);
+				INFOPLIST_FILE = "MCCSeparatorTests/MCCSeparatorTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		D26674EE17E663CA004B4869 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommon.framework/Versions/A/MCCMailCommon";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCMailCommon/MCCMailCommon-Prefix.pch";
+				INFOPLIST_FILE = "MCCSeparatorTests/MCCSeparatorTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -529,6 +667,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D26674EC17E663CA004B4869 /* Build configuration list for PBXNativeTarget "MCCSeparatorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D26674ED17E663CA004B4869 /* Debug */,
+				D26674EE17E663CA004B4869 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

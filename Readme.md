@@ -30,19 +30,24 @@ To do either class swizzling or subclassing, just create a new object that subcl
 
 #### `+(void)swizzle` {#swizzle}
 
-This method is the most common one to use and basically uses all of the others below to do its work. It will add all of the methods defined to the class and then try to swizzle those that need swizzling (i.e. if the method already exists in the parent class. It will take the target class from the name of calling class before an underscore in the name. For instance if your class is `Message_SIS`, it will use `Message` as the target to swizzle. And, of course, it will pass that through `MCC_PREFIXED_NAME(ClassFromString)()` to ensure that the right class is targeted for the running OS. The part after the underscore (in our example `SIS`) will be used as the prefix for all swizzling. So inside of your methods, when you want to call the super, you call `[self SISoriginalMethodName]`.
+This method is the most common one to use and basically uses all of the others below to do its work. It will add all of the methods defined in the provider class to the swizzling class and then try to swizzle those that need swizzling (i.e. if the method already exists in the parent class. It will take the target class from the name of calling class before the defined separator (which is a single underscore [`_`] by default) in the name. For instance if your class is `Message_SIS`, it will use `Message` as the target to swizzle. And, of course, it will pass that through `MCC_PREFIXED_NAME(ClassFromString)()` to ensure that the right class is targeted for the running OS. The part after the separator (in our example `SIS`) will be used as the prefix for all swizzling. So inside of your methods, when you want to call the super, you call `[self SIS_originalMethodName]`. Note in that example the added underscore [`_`] after the prefix, which is also a default. Both the separator and prefix appendor (I know, that probably isn't a word, but I didn't want it to be _prefix suffix_) can be overridden on the project level. I wanted to try to override on the file level, but couldn't do it reasonably. Anyway, if you define the following in the `GCC_PREPROCESSOR_DEFINITIONS` build setting in the project, they will be used. **Please note that the quotes in the string literal need to be escaped.**
+
+	MCC_CLASSNAME_SUFFIX_SEPARATOR=@\"__\"
+	MCC_CLASSNAME_PREFIX_APPENDOR=@\"\"
+	
+In the example provided here, the defaults of the separator as `@"_"` and the appendor as `@""` are overridden to use two underscores `@"__"` as the separator with no appendor at all `@""`.
 
 The `+swizzle` method will swizzle class & instance methods, obviously, and even provide implementations for properties defined, assuming that the accessors aren't already there. This last one is very cool stuff sent to me by Scott Morrison of [Indev Software](http://indev.ca).
 
 **_Please Note_**
 
-For the property swizzling to not break everything though, you need to add each property as `@dynamic propName;` inside your implementation unless you provide both methods. If you don't **ALL** of the properties of the class that _you are swizzling_ can have undefined results!
+For the property swizzling to not break everything though, you need to add each property as `@dynamic propName;` inside your implementation unless you provide both methods. If you don't, **ALL** of the properties of the class that _you are swizzling_ can have undefined results! This is definitely an issue when building with Xcode 5 and may not be noticed in 4, but using `@dynamic` is a good idea, since you **are** providing the implementations after compile time.
 
 #### `+(void)addAllMethodsToClass:(Class)targetClass usingPrefix:(NSString *)prefix` {#addAllMethods}
 
-This method does almost the same thing as `+swizzle`, except that it lets you control what the actual class and prefix used are independently of the provider class name, in case you need that. It does **NOT** add implementations for properties though, since the method name does not imply that. You can call the property swizzling method afterwards if needed, see [below](#propertySwizzle)
+This method does almost the same thing as `+swizzle`, except that it lets you control what the actual class and prefix used are independently of the provider class name, in case you need that. It does **NOT** add implementations for properties though, since the method name does not imply that. You can call the property swizzling method afterwards if needed, see [below](#swizzleProperties)
 
-#### `+(void)addMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock ivarsPassingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))ivarTestBlock toClass:(Class)targetClass usingPrefix:(NSString*)prefix withDebugging:(BOOL)debugging`
+#### `+(void)addMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock toClass:(Class)targetClass usingPrefix:(NSString*)prefix withDebugging:(BOOL)debugging` {#addMethodsPassingTest}
 
 This verbose method gives even more control as to what gets swizzled and how. This is useful for supporting the different OS versions, as you can simply provide a block to tell the swizzler which methods to do for which OS. The two block types are defined as follows:
 
@@ -53,7 +58,6 @@ This verbose method gives even more control as to what gets swizzled and how. Th
 	} MCC_PREFIXED_NAME(SwizzleType);
 
 	typedef MCC_PREFIXED_NAME(SwizzleType)(^MCC_PREFIXED_NAME(SwizzleFilterBlock))(NSString *methodName);
-	typedef BOOL(^MCC_PREFIXED_NAME(AddIvarFilterBlock))(NSString *ivarName);
 
 You simply give a block that tests a name and returns a swizzle type. The easiest way to describe this is with an example. In the following example, I am swizzling `MessageViewer` and adding some methods and swizzling one (`_setUpWindowContents`). In addition, I have a test to see if the `MessageViewingPane` class exists and if it does I swizzle one method and if not I swizzle a different one. Then in my test block I simply use the lists I made to decide if something should be swizzled and how.
 
@@ -83,14 +87,23 @@ You simply give a block that tests a name and returns a swizzle type. The easies
 			return SISSwizzleTypeNormal;
 		}
 		return SISSwizzleTypeNone;
-	} ivarsPassingTest:nil toClass:SISClassFromString(@"MessageViewer") usingPrefix:MySwizzlePrefix withDebugging:YES];
+	} toClass:SISClassFromString(@"MessageViewer") usingPrefix:MySwizzlePrefix withDebugging:YES];
 
-The `ivarsPassingTest:` part functions the same way, just with iVar names. If the block is nil then no iVars will be added to the class, which is different than the `methodsPassingTest:` part, which will swizzle methods that are found in the target class and add all of the others.
+#### `+(Class)makeSubclassOf:(Class)baseClass` {#makeSubclassOf}
 
-#### `+(Class)makeSubclassOf:(Class)baseClass usingClassName:(NSString *)subclassName` & </br>`+(Class)makeSubclassOf:(Class)baseClass usingClassName:(NSString*)subclassName addIvarsPassingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))testBlock`
+This method is used to make a provider an actual subclass of another class. The name of the class to be added is the same as with `+swizzle`, so if your provider class name is `CoolClass_CCP` and assuming the default separator, then the subclass created would be named `CoolClass`. This will also add implementations for all defined properties automatically.
 
-These two methods are used to make a provider an actual subclass of another class, using the name that you provide. The second variation will add any iVars to the subclass that is created. Note that the behavior of these two is different than `+swizzle` in that if the ivar block is nil then **all** iVars will be added automatically. These will also add implementations for all defined properties automatically.
+This method will also setup a `forwardInvocation:` method for the subclass created that with assert if you call `[super someMethodName]` inside the subclass directly. The reason for this is that you almost never really want that. The `super` of your subclass is always `MCC_PREFIXED_NAME(Swizzle)` and not the baseClass that you wanted to subclass. The exception to this is `dealloc` for which there is an implementation that **will** call the correct dealloc for you.
 
-#### `+(void)swizzlePropertiesToClass:(Class)targetClass`
+This `forwardInvocation:` however gives us the opportunity to do something experimental and potentially cool, but **it has not been tried in production code yet**! If you add a `GCC_PREPROCESSOR_DEFINITIONS` build setting for `MCC_USE_EXPERIMENTAL_SUPER_OVERRIDE` (it just needs to be defined, no specific value is required), then the `forwardInvocation:` will actually allow you to then use `[super someMethodName]` just as you would expect. Which makes for nice pretty code. **_HOWEVER_**, be forewarned that this is **EXPERIMENTAL** and certainly has not been optimized for any can of method calls that will be happening a lot. It could be great for classes that do not have a lot of instances and just have a couple of methods that call the super. Scott Morrison of [Indev Software](http://indev.ca) also provided this experimental piece of code.
 
-This method is called by the `+makeSubclassOf` & `+swizzle` methods and you can call it independently as well. It finds all properties defined for the caller (the provider) and will create implementations for those methods in the `targetClass`, unless the implementations already exist, then it will leave those alone.
+In any case, you should probably use the macros `SUPER(…)` or `SUPER_SELECTOR(SEL, …)` in most cases to call to super from a subclass.
+
+#### `+(void)swizzlePropertiesToClass:(Class)targetClass` {#swizzleProperties}
+
+This method is called by the `+makeSubclassOf:` & `+swizzle` methods and you can call it independently as well. It finds all properties defined for the caller (the provider) and will create implementations for those methods in the `targetClass`, unless the implementations already exist, then it will leave those alone.
+
+**_Please Note_**
+
+For the property swizzling to not break everything though, you need to add each property as `@dynamic propName;` inside your implementation unless you provide both methods. If you don't, **ALL** of the properties of the class that _you are swizzling_ can have undefined results! This is definitely an issue when building with Xcode 5 and may not be noticed in 4, but using `@dynamic` is a good idea, since you **are** providing the implementations after compile time.
+

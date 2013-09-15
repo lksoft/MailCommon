@@ -16,18 +16,15 @@ typedef enum MCC_PREFIXED_NAME(SwizzleType) {
 } MCC_PREFIXED_NAME(SwizzleType);
 
 typedef MCC_PREFIXED_NAME(SwizzleType)(^MCC_PREFIXED_NAME(SwizzleFilterBlock))(NSString *methodName);
-typedef BOOL(^MCC_PREFIXED_NAME(AddIvarFilterBlock))(NSString *ivarName);
 
 
 // rename class to avoid conflicts
-@interface MCC_PREFIXED_NAME(Swizzle) : NSObject {
-}
-+ (Class)makeSubclassOf:(Class)baseClass usingClassName:(NSString*)subclassName;
-+ (Class)makeSubclassOf:(Class)baseClass usingClassName:(NSString*)subclassName addIvarsPassingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))testBlock;
+@interface MCC_PREFIXED_NAME(Swizzle) : NSObject
 
 + (void)swizzle;
-+ (void)addMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock ivarsPassingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))ivarTestBlock toClass:(Class)targetClass usingPrefix:(NSString*)prefix withDebugging:(BOOL)debugging;
++ (Class)makeSubclassOf:(Class)baseClass;
 + (void)addAllMethodsToClass:(Class)targetClass usingPrefix:(NSString*)prefix;
++ (void)addMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock toClass:(Class)targetClass usingPrefix:(NSString*)prefix withDebugging:(BOOL)debugging;
 
 @end
 
@@ -35,5 +32,9 @@ typedef BOOL(^MCC_PREFIXED_NAME(AddIvarFilterBlock))(NSString *ivarName);
 + (void)swizzlePropertiesToClass:(Class)targetClass;
 @end
 
-//	Simple way to test most objects for emptyness
-static inline BOOL IsEmpty(id thing) { return thing == nil || ([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) || ([thing respondsToSelector:@selector(count)] && [(NSArray *)thing count] == 0); }
+////	Simple way to test most objects for emptyness
+//static inline BOOL IsEmpty(id thing) { return thing == nil || ([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) || ([thing respondsToSelector:@selector(count)] && [(NSArray *)thing count] == 0); }
+
+
+#define SUPER_SELECTOR(selName,...)  objc_msgSendSuper(&(struct objc_super){self, class_getSuperclass([self class])},  @selector(selName) , ##__VA_ARGS__)
+#define SUPER(...)  objc_msgSendSuper(&(struct objc_super){self, class_getSuperclass([self class])},_cmd, ##__VA_ARGS__)

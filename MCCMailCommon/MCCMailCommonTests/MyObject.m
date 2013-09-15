@@ -17,7 +17,7 @@
 @implementation MyObject_TST
 
 + (void)load {
-	[self makeSubclassOf:TSTClassFromString(@"TSTObject") usingClassName:@"MyObject"];
+	[self makeSubclassOf:TSTClassFromString(@"TSTObject")];
 }
 
 #define myself	((MyObject *)self)
