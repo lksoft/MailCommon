@@ -20,7 +20,12 @@
 		D23CF6AF176C891300301165 /* MCCMailAbstractor.h in Headers */ = {isa = PBXBuildFile; fileRef = D23CF6A7176C88C600301165 /* MCCMailAbstractor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D23CF6B0176C891700301165 /* MCCSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = D23CF6A9176C88C600301165 /* MCCSwizzle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D23CF6B1176C892300301165 /* MailVersionClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D23CF6A5176C88C600301165 /* MailVersionClassMappings.plist */; };
-		D2BE9BB3176C8DA10077F4C0 /* MCCMailAbstractor+MCCTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = D2BE9BB2176C8DA10077F4C0 /* MCCMailAbstractor+MCCTesting.m */; };
+		D26674C417E5D591004B4869 /* TSTObject+MCCSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674C317E5D591004B4869 /* TSTObject+MCCSwizzle.m */; };
+		D26674C517E5D5C4004B4869 /* MCCMailAbstractor.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6A8176C88C600301165 /* MCCMailAbstractor.m */; };
+		D26674C617E5D5C4004B4869 /* MCCSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6AA176C88C600301165 /* MCCSwizzle.m */; };
+		D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674C817E5D6A8004B4869 /* TSTObject.m */; };
+		D26674CD17E5E031004B4869 /* NSObject+DLIntrospection.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674CC17E5E031004B4869 /* NSObject+DLIntrospection.m */; };
+		D26674D017E5F882004B4869 /* MyObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674CF17E5F882004B4869 /* MyObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,8 +59,14 @@
 		D23CF6A8176C88C600301165 /* MCCMailAbstractor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCCMailAbstractor.m; path = ../../MCCMailAbstractor.m; sourceTree = "<group>"; };
 		D23CF6A9176C88C600301165 /* MCCSwizzle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCCSwizzle.h; path = ../../MCCSwizzle.h; sourceTree = "<group>"; };
 		D23CF6AA176C88C600301165 /* MCCSwizzle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCCSwizzle.m; path = ../../MCCSwizzle.m; sourceTree = "<group>"; };
-		D2BE9BB1176C8DA10077F4C0 /* MCCMailAbstractor+MCCTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MCCMailAbstractor+MCCTesting.h"; sourceTree = "<group>"; };
-		D2BE9BB2176C8DA10077F4C0 /* MCCMailAbstractor+MCCTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MCCMailAbstractor+MCCTesting.m"; sourceTree = "<group>"; };
+		D26674C217E5D591004B4869 /* TSTObject+MCCSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TSTObject+MCCSwizzle.h"; sourceTree = "<group>"; };
+		D26674C317E5D591004B4869 /* TSTObject+MCCSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TSTObject+MCCSwizzle.m"; sourceTree = "<group>"; };
+		D26674C717E5D6A8004B4869 /* TSTObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTObject.h; sourceTree = "<group>"; };
+		D26674C817E5D6A8004B4869 /* TSTObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSTObject.m; sourceTree = "<group>"; };
+		D26674CB17E5E031004B4869 /* NSObject+DLIntrospection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+DLIntrospection.h"; path = "DLIntrospection/DLIntrospection/NSObject+DLIntrospection.h"; sourceTree = SOURCE_ROOT; };
+		D26674CC17E5E031004B4869 /* NSObject+DLIntrospection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+DLIntrospection.m"; path = "DLIntrospection/DLIntrospection/NSObject+DLIntrospection.m"; sourceTree = SOURCE_ROOT; };
+		D26674CE17E5F882004B4869 /* MyObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyObject.h; sourceTree = "<group>"; };
+		D26674CF17E5F882004B4869 /* MyObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,9 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				D23CF69A176C855800301165 /* MCCMailCommonTests.m */,
+				D26674CA17E5E010004B4869 /* TestObjects */,
 				D23CF695176C855800301165 /* Supporting Files */,
-				D2BE9BB1176C8DA10077F4C0 /* MCCMailAbstractor+MCCTesting.h */,
-				D2BE9BB2176C8DA10077F4C0 /* MCCMailAbstractor+MCCTesting.m */,
 			);
 			path = MCCMailCommonTests;
 			sourceTree = "<group>";
@@ -157,6 +167,8 @@
 		D23CF695176C855800301165 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D26674CB17E5E031004B4869 /* NSObject+DLIntrospection.h */,
+				D26674CC17E5E031004B4869 /* NSObject+DLIntrospection.m */,
 				D23CF696176C855800301165 /* MCCMailCommonTests-Info.plist */,
 				D23CF697176C855800301165 /* InfoPlist.strings */,
 			);
@@ -170,6 +182,19 @@
 				D23CF682176C855800301165 /* InfoPlist.strings */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		D26674CA17E5E010004B4869 /* TestObjects */ = {
+			isa = PBXGroup;
+			children = (
+				D26674C217E5D591004B4869 /* TSTObject+MCCSwizzle.h */,
+				D26674C317E5D591004B4869 /* TSTObject+MCCSwizzle.m */,
+				D26674CE17E5F882004B4869 /* MyObject.h */,
+				D26674CF17E5F882004B4869 /* MyObject.m */,
+				D26674C717E5D6A8004B4869 /* TSTObject.h */,
+				D26674C817E5D6A8004B4869 /* TSTObject.m */,
+			);
+			name = TestObjects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,8 +316,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D26674C417E5D591004B4869 /* TSTObject+MCCSwizzle.m in Sources */,
+				D26674C517E5D5C4004B4869 /* MCCMailAbstractor.m in Sources */,
+				D26674D017E5F882004B4869 /* MyObject.m in Sources */,
+				D26674C617E5D5C4004B4869 /* MCCSwizzle.m in Sources */,
+				D26674CD17E5E031004B4869 /* NSObject+DLIntrospection.m in Sources */,
+				D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */,
 				D23CF69B176C855800301165 /* MCCMailCommonTests.m in Sources */,
-				D2BE9BB3176C8DA10077F4C0 /* MCCMailAbstractor+MCCTesting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

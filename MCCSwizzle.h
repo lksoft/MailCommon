@@ -24,16 +24,15 @@ typedef BOOL(^MCC_PREFIXED_NAME(AddIvarFilterBlock))(NSString *ivarName);
 }
 + (Class)makeSubclassOf:(Class)baseClass usingClassName:(NSString*)subclassName;
 + (Class)makeSubclassOf:(Class)baseClass usingClassName:(NSString*)subclassName addIvarsPassingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))testBlock;
-+ (void)addMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock ivarsPassingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))ivarTestBlock toClass:(Class)targetClass usingPrefix:(NSString*)prefix withDebugging:(BOOL)debugging;
+
 + (void)swizzle;
++ (void)addMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock ivarsPassingTest:(MCC_PREFIXED_NAME(AddIvarFilterBlock))ivarTestBlock toClass:(Class)targetClass usingPrefix:(NSString*)prefix withDebugging:(BOOL)debugging;
 + (void)addAllMethodsToClass:(Class)targetClass usingPrefix:(NSString*)prefix;
 
-+ (void)printAllIvarsForClass:(Class)aClass;
-+ (void)printAllMethodsForClass:(Class)aClass;
-+ (void)printAllMethodsInHierarchyOfClass:(Class)aClass;
+@end
 
-+ (NSString *)memoryLocationOfMethodNamed:(NSString *)methodName forClassNamed:(NSString *)className;
-
+@interface MCC_PREFIXED_NAME(Swizzle) (Properties)
++ (void)swizzlePropertiesToClass:(Class)targetClass;
 @end
 
 //	Simple way to test most objects for emptyness
