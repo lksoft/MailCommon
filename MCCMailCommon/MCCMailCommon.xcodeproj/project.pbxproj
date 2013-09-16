@@ -20,6 +20,28 @@
 		D23CF6AF176C891300301165 /* MCCMailAbstractor.h in Headers */ = {isa = PBXBuildFile; fileRef = D23CF6A7176C88C600301165 /* MCCMailAbstractor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D23CF6B0176C891700301165 /* MCCSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = D23CF6A9176C88C600301165 /* MCCSwizzle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D23CF6B1176C892300301165 /* MailVersionClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D23CF6A5176C88C600301165 /* MailVersionClassMappings.plist */; };
+		D2421E7717E715F0006427A6 /* MyObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674CF17E5F882004B4869 /* MyObject.m */; };
+		D2421E7817E715F0006427A6 /* TSTObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674C817E5D6A8004B4869 /* TSTObject.m */; };
+		D2421E7B17E71A22006427A6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF679176C855800301165 /* Cocoa.framework */; };
+		D2421E8117E71AEF006427A6 /* MCCSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6AA176C88C600301165 /* MCCSwizzle.m */; };
+		D2421E8217E71AEF006427A6 /* MCCMailAbstractor.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6A8176C88C600301165 /* MCCMailAbstractor.m */; };
+		D2421E8417E71AEF006427A6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF679176C855800301165 /* Cocoa.framework */; };
+		D2421E8617E71AEF006427A6 /* MCCCommonHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = D23CF6A6176C88C600301165 /* MCCCommonHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2421E8717E71AEF006427A6 /* MCCMailAbstractor.h in Headers */ = {isa = PBXBuildFile; fileRef = D23CF6A7176C88C600301165 /* MCCMailAbstractor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2421E8817E71AEF006427A6 /* MCCSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = D23CF6A9176C88C600301165 /* MCCSwizzle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2421E8A17E71AEF006427A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D23CF682176C855800301165 /* InfoPlist.strings */; };
+		D2421E8B17E71AEF006427A6 /* MailVersionClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D23CF6A5176C88C600301165 /* MailVersionClassMappings.plist */; };
+		D2421E9117E71B85006427A6 /* MCCMailCommonSuper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2421E8F17E71AEF006427A6 /* MCCMailCommonSuper.framework */; };
+		D2421E9617E71EC2006427A6 /* MCCSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6AA176C88C600301165 /* MCCSwizzle.m */; };
+		D2421E9717E71EC2006427A6 /* MCCMailAbstractor.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6A8176C88C600301165 /* MCCMailAbstractor.m */; };
+		D2421E9917E71EC2006427A6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF679176C855800301165 /* Cocoa.framework */; };
+		D2421E9B17E71EC2006427A6 /* MCCCommonHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = D23CF6A6176C88C600301165 /* MCCCommonHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2421E9C17E71EC2006427A6 /* MCCMailAbstractor.h in Headers */ = {isa = PBXBuildFile; fileRef = D23CF6A7176C88C600301165 /* MCCMailAbstractor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2421E9D17E71EC2006427A6 /* MCCSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = D23CF6A9176C88C600301165 /* MCCSwizzle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2421E9F17E71EC2006427A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D23CF682176C855800301165 /* InfoPlist.strings */; };
+		D2421EA017E71EC2006427A6 /* MailVersionClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D23CF6A5176C88C600301165 /* MailVersionClassMappings.plist */; };
+		D2421EA617E71F90006427A6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF679176C855800301165 /* Cocoa.framework */; };
+		D2421EA717E71F95006427A6 /* MCCMailCommonSeparators.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2421EA417E71EC2006427A6 /* MCCMailCommonSeparators.framework */; };
 		D26674C417E5D591004B4869 /* TSTObject+MCCSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674C317E5D591004B4869 /* TSTObject+MCCSwizzle.m */; };
 		D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674C817E5D6A8004B4869 /* TSTObject.m */; };
 		D26674CD17E5E031004B4869 /* NSObject+DLIntrospection.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674CC17E5E031004B4869 /* NSObject+DLIntrospection.m */; };
@@ -27,10 +49,11 @@
 		D26674E217E663C9004B4869 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF68E176C855800301165 /* XCTest.framework */; };
 		D26674E817E663C9004B4869 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D26674E617E663C9004B4869 /* InfoPlist.strings */; };
 		D26674EA17E663C9004B4869 /* MCCSeparatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674E917E663C9004B4869 /* MCCSeparatorTests.m */; };
-		D26674EF17E663D9004B4869 /* MCCSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6AA176C88C600301165 /* MCCSwizzle.m */; };
-		D26674F017E663DC004B4869 /* MCCMailAbstractor.m in Sources */ = {isa = PBXBuildFile; fileRef = D23CF6A8176C88C600301165 /* MCCMailAbstractor.m */; };
 		D26674F217E66445004B4869 /* AnotherObject_TST.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674D517E65635004B4869 /* AnotherObject_TST.m */; };
 		D26674F317E66445004B4869 /* AnotherObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674D217E65369004B4869 /* AnotherObject.m */; };
+		D26674FA17E71406004B4869 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF68E176C855800301165 /* XCTest.framework */; };
+		D266750017E71406004B4869 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D26674FE17E71406004B4869 /* InfoPlist.strings */; };
+		D266750217E71406004B4869 /* MCCSuperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D266750117E71406004B4869 /* MCCSuperTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +63,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = D23CF675176C855800301165;
 			remoteInfo = MCCMailCommon;
+		};
+		D2421E9217E71C2E006427A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D23CF66D176C855800301165 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2421E7F17E71AEF006427A6;
+			remoteInfo = MCCMailCommonSuper;
+		};
+		D2421EA817E71F9B006427A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D23CF66D176C855800301165 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2421E9417E71EC2006427A6;
+			remoteInfo = MCCMailCommonSeparators;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -64,6 +101,8 @@
 		D23CF6A8176C88C600301165 /* MCCMailAbstractor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCCMailAbstractor.m; path = ../../MCCMailAbstractor.m; sourceTree = "<group>"; };
 		D23CF6A9176C88C600301165 /* MCCSwizzle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCCSwizzle.h; path = ../../MCCSwizzle.h; sourceTree = "<group>"; };
 		D23CF6AA176C88C600301165 /* MCCSwizzle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCCSwizzle.m; path = ../../MCCSwizzle.m; sourceTree = "<group>"; };
+		D2421E8F17E71AEF006427A6 /* MCCMailCommonSuper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCCMailCommonSuper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2421EA417E71EC2006427A6 /* MCCMailCommonSeparators.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCCMailCommonSeparators.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D26674C217E5D591004B4869 /* TSTObject+MCCSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TSTObject+MCCSwizzle.h"; sourceTree = "<group>"; };
 		D26674C317E5D591004B4869 /* TSTObject+MCCSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TSTObject+MCCSwizzle.m"; sourceTree = "<group>"; };
 		D26674C717E5D6A8004B4869 /* TSTObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTObject.h; sourceTree = "<group>"; };
@@ -80,6 +119,10 @@
 		D26674E517E663C9004B4869 /* MCCSeparatorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MCCSeparatorTests-Info.plist"; sourceTree = "<group>"; };
 		D26674E717E663C9004B4869 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D26674E917E663C9004B4869 /* MCCSeparatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCCSeparatorTests.m; sourceTree = "<group>"; };
+		D26674F917E71406004B4869 /* MCCSuperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MCCSuperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D26674FD17E71406004B4869 /* MCCSuperTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MCCSuperTests-Info.plist"; sourceTree = "<group>"; };
+		D26674FF17E71406004B4869 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D266750117E71406004B4869 /* MCCSuperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCCSuperTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,11 +144,39 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2421E8317E71AEF006427A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2421E8417E71AEF006427A6 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2421E9817E71EC2006427A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2421E9917E71EC2006427A6 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D26674DE17E663C9004B4869 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2421EA717E71F95006427A6 /* MCCMailCommonSeparators.framework in Frameworks */,
+				D2421EA617E71F90006427A6 /* Cocoa.framework in Frameworks */,
 				D26674E217E663C9004B4869 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D26674F617E71406004B4869 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2421E9117E71B85006427A6 /* MCCMailCommonSuper.framework in Frameworks */,
+				D2421E7B17E71A22006427A6 /* Cocoa.framework in Frameworks */,
+				D26674FA17E71406004B4869 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +188,7 @@
 			children = (
 				D23CF67F176C855800301165 /* MCCMailCommon */,
 				D23CF694176C855800301165 /* MCCMailCommonTests */,
+				D26674FB17E71406004B4869 /* MCCSuperTests */,
 				D26674E317E663C9004B4869 /* MCCSeparatorTests */,
 				D23CF678176C855800301165 /* Frameworks */,
 				D23CF677176C855800301165 /* Products */,
@@ -129,6 +201,9 @@
 				D23CF676176C855800301165 /* MCCMailCommon.framework */,
 				D23CF68D176C855800301165 /* MCCMailCommonTests.xctest */,
 				D26674E117E663C9004B4869 /* MCCSeparatorTests.xctest */,
+				D26674F917E71406004B4869 /* MCCSuperTests.xctest */,
+				D2421E8F17E71AEF006427A6 /* MCCMailCommonSuper.framework */,
+				D2421EA417E71EC2006427A6 /* MCCMailCommonSeparators.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -250,6 +325,24 @@
 			name = "Test Objects";
 			sourceTree = "<group>";
 		};
+		D26674FB17E71406004B4869 /* MCCSuperTests */ = {
+			isa = PBXGroup;
+			children = (
+				D266750117E71406004B4869 /* MCCSuperTests.m */,
+				D26674FC17E71406004B4869 /* Supporting Files */,
+			);
+			path = MCCSuperTests;
+			sourceTree = "<group>";
+		};
+		D26674FC17E71406004B4869 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D26674FD17E71406004B4869 /* MCCSuperTests-Info.plist */,
+				D26674FE17E71406004B4869 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -260,6 +353,26 @@
 				D23CF6AE176C890E00301165 /* MCCCommonHeader.h in Headers */,
 				D23CF6AF176C891300301165 /* MCCMailAbstractor.h in Headers */,
 				D23CF6B0176C891700301165 /* MCCSwizzle.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2421E8517E71AEF006427A6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2421E8617E71AEF006427A6 /* MCCCommonHeader.h in Headers */,
+				D2421E8717E71AEF006427A6 /* MCCMailAbstractor.h in Headers */,
+				D2421E8817E71AEF006427A6 /* MCCSwizzle.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2421E9A17E71EC2006427A6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2421E9B17E71EC2006427A6 /* MCCCommonHeader.h in Headers */,
+				D2421E9C17E71EC2006427A6 /* MCCMailAbstractor.h in Headers */,
+				D2421E9D17E71EC2006427A6 /* MCCSwizzle.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +415,42 @@
 			productReference = D23CF68D176C855800301165 /* MCCMailCommonTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D2421E7F17E71AEF006427A6 /* MCCMailCommonSuper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2421E8C17E71AEF006427A6 /* Build configuration list for PBXNativeTarget "MCCMailCommonSuper" */;
+			buildPhases = (
+				D2421E8017E71AEF006427A6 /* Sources */,
+				D2421E8317E71AEF006427A6 /* Frameworks */,
+				D2421E8517E71AEF006427A6 /* Headers */,
+				D2421E8917E71AEF006427A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MCCMailCommonSuper;
+			productName = MCCMailCommon;
+			productReference = D2421E8F17E71AEF006427A6 /* MCCMailCommonSuper.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D2421E9417E71EC2006427A6 /* MCCMailCommonSeparators */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2421EA117E71EC2006427A6 /* Build configuration list for PBXNativeTarget "MCCMailCommonSeparators" */;
+			buildPhases = (
+				D2421E9517E71EC2006427A6 /* Sources */,
+				D2421E9817E71EC2006427A6 /* Frameworks */,
+				D2421E9A17E71EC2006427A6 /* Headers */,
+				D2421E9E17E71EC2006427A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MCCMailCommonSeparators;
+			productName = MCCMailCommon;
+			productReference = D2421EA417E71EC2006427A6 /* MCCMailCommonSeparators.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		D26674E017E663C9004B4869 /* MCCSeparatorTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D26674EC17E663CA004B4869 /* Build configuration list for PBXNativeTarget "MCCSeparatorTests" */;
@@ -313,10 +462,29 @@
 			buildRules = (
 			);
 			dependencies = (
+				D2421EA917E71F9B006427A6 /* PBXTargetDependency */,
 			);
 			name = MCCSeparatorTests;
 			productName = MCCSeparatorTests;
 			productReference = D26674E117E663C9004B4869 /* MCCSeparatorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D26674F817E71406004B4869 /* MCCSuperTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D266750417E71407004B4869 /* Build configuration list for PBXNativeTarget "MCCSuperTests" */;
+			buildPhases = (
+				D26674F517E71406004B4869 /* Sources */,
+				D26674F617E71406004B4869 /* Frameworks */,
+				D26674F717E71406004B4869 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D2421E9317E71C2E006427A6 /* PBXTargetDependency */,
+			);
+			name = MCCSuperTests;
+			productName = MCCSuperTests;
+			productReference = D26674F917E71406004B4869 /* MCCSuperTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -335,6 +503,9 @@
 					D26674E017E663C9004B4869 = {
 						TestTargetID = D23CF675176C855800301165;
 					};
+					D26674F817E71406004B4869 = {
+						TestTargetID = D23CF675176C855800301165;
+					};
 				};
 			};
 			buildConfigurationList = D23CF670176C855800301165 /* Build configuration list for PBXProject "MCCMailCommon" */;
@@ -351,7 +522,10 @@
 			targets = (
 				D23CF675176C855800301165 /* MCCMailCommon */,
 				D23CF68C176C855800301165 /* MCCMailCommonTests */,
+				D2421E9417E71EC2006427A6 /* MCCMailCommonSeparators */,
 				D26674E017E663C9004B4869 /* MCCSeparatorTests */,
+				D2421E7F17E71AEF006427A6 /* MCCMailCommonSuper */,
+				D26674F817E71406004B4869 /* MCCSuperTests */,
 			);
 		};
 /* End PBXProject section */
@@ -374,11 +548,37 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2421E8917E71AEF006427A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2421E8A17E71AEF006427A6 /* InfoPlist.strings in Resources */,
+				D2421E8B17E71AEF006427A6 /* MailVersionClassMappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2421E9E17E71EC2006427A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2421E9F17E71EC2006427A6 /* InfoPlist.strings in Resources */,
+				D2421EA017E71EC2006427A6 /* MailVersionClassMappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D26674DF17E663C9004B4869 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				D26674E817E663C9004B4869 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D26674F717E71406004B4869 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D266750017E71406004B4869 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,15 +606,41 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2421E8017E71AEF006427A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2421E8117E71AEF006427A6 /* MCCSwizzle.m in Sources */,
+				D2421E8217E71AEF006427A6 /* MCCMailAbstractor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2421E9517E71EC2006427A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2421E9617E71EC2006427A6 /* MCCSwizzle.m in Sources */,
+				D2421E9717E71EC2006427A6 /* MCCMailAbstractor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D26674DD17E663C9004B4869 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				D26674F217E66445004B4869 /* AnotherObject_TST.m in Sources */,
 				D26674EA17E663C9004B4869 /* MCCSeparatorTests.m in Sources */,
-				D26674EF17E663D9004B4869 /* MCCSwizzle.m in Sources */,
 				D26674F317E66445004B4869 /* AnotherObject.m in Sources */,
-				D26674F017E663DC004B4869 /* MCCMailAbstractor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D26674F517E71406004B4869 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2421E7717E715F0006427A6 /* MyObject.m in Sources */,
+				D266750217E71406004B4869 /* MCCSuperTests.m in Sources */,
+				D2421E7817E715F0006427A6 /* TSTObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +651,16 @@
 			isa = PBXTargetDependency;
 			target = D23CF675176C855800301165 /* MCCMailCommon */;
 			targetProxy = D23CF691176C855800301165 /* PBXContainerItemProxy */;
+		};
+		D2421E9317E71C2E006427A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2421E7F17E71AEF006427A6 /* MCCMailCommonSuper */;
+			targetProxy = D2421E9217E71C2E006427A6 /* PBXContainerItemProxy */;
+		};
+		D2421EA917E71F9B006427A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2421E9417E71EC2006427A6 /* MCCMailCommonSeparators */;
+			targetProxy = D2421EA817E71F9B006427A6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -449,6 +685,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				D26674E717E663C9004B4869 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D26674FE17E71406004B4869 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D26674FF17E71406004B4869 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -597,10 +841,79 @@
 			};
 			name = Release;
 		};
+		D2421E8D17E71AEF006427A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCMailCommon/MCCMailCommon-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					MCC_USE_EXPERIMENTAL_SUPER_OVERRIDE,
+				);
+				INFOPLIST_FILE = "MCCMailCommon/MCCMailCommon-Info.plist";
+				PRODUCT_NAME = MCCMailCommonSuper;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		D2421E8E17E71AEF006427A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCMailCommon/MCCMailCommon-Prefix.pch";
+				INFOPLIST_FILE = "MCCMailCommon/MCCMailCommon-Info.plist";
+				PRODUCT_NAME = MCCMailCommonSuper;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		D2421EA217E71EC2006427A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCMailCommon/MCCMailCommon-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"MCC_CLASSNAME_SUFFIX_SEPARATOR=@\\\"__\\\"",
+					"MCC_CLASSNAME_PREFIX_APPENDOR=@\\\"\\\"",
+				);
+				INFOPLIST_FILE = "MCCMailCommon/MCCMailCommon-Info.plist";
+				PRODUCT_NAME = MCCMailCommonSeparators;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		D2421EA317E71EC2006427A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCMailCommon/MCCMailCommon-Prefix.pch";
+				INFOPLIST_FILE = "MCCMailCommon/MCCMailCommon-Info.plist";
+				PRODUCT_NAME = MCCMailCommonSeparators;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
 		D26674ED17E663CA004B4869 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommon.framework/Versions/A/MCCMailCommon";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommonSeparators.framework/Versions/A/MCCMailCommonSeparators";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -623,7 +936,7 @@
 		D26674EE17E663CA004B4869 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommon.framework/Versions/A/MCCMailCommon";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommonSeparators.framework/Versions/A/MCCMailCommonSeparators";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -631,6 +944,46 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MCCMailCommon/MCCMailCommon-Prefix.pch";
 				INFOPLIST_FILE = "MCCSeparatorTests/MCCSeparatorTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		D266750517E71407004B4869 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommonSuper.framework/Versions/A/MCCMailCommonSuper";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCMailCommon/MCCMailCommon-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					MCC_USE_EXPERIMENTAL_SUPER_OVERRIDE,
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "MCCSuperTests/MCCSuperTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		D266750617E71407004B4869 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommonSuper.framework/Versions/A/MCCMailCommonSuper";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCMailCommon/MCCMailCommon-Prefix.pch";
+				INFOPLIST_FILE = "MCCSuperTests/MCCSuperTests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -668,6 +1021,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		D2421E8C17E71AEF006427A6 /* Build configuration list for PBXNativeTarget "MCCMailCommonSuper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2421E8D17E71AEF006427A6 /* Debug */,
+				D2421E8E17E71AEF006427A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D2421EA117E71EC2006427A6 /* Build configuration list for PBXNativeTarget "MCCMailCommonSeparators" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2421EA217E71EC2006427A6 /* Debug */,
+				D2421EA317E71EC2006427A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D26674EC17E663CA004B4869 /* Build configuration list for PBXNativeTarget "MCCSeparatorTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -675,6 +1046,16 @@
 				D26674EE17E663CA004B4869 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D266750417E71407004B4869 /* Build configuration list for PBXNativeTarget "MCCSuperTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D266750517E71407004B4869 /* Debug */,
+				D266750617E71407004B4869 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

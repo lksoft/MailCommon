@@ -12,3 +12,4 @@
 Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName);
 
 #define CLS(className) MCC_PREFIXED_NAME(ClassFromString)([NSString stringWithFormat:@"%s",#className])
+#define PREFIXED_CLS(className)	MCC_PREFIXED_NAME(ClassFromString)([NSString stringWithFormat:@"%@",MCC_NSSTRING(MCC_PLUGIN_PREFIX, className)])

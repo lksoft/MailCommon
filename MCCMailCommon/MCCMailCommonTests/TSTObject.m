@@ -30,4 +30,8 @@
 	return @"Original Additive";
 }
 
+- (NSString *)methodWithSuper {
+	return @"A Value";
+}
+
 @end

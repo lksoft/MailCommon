@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <objc/message.h>
 #include "MCCCommonHeader.h"
 
 typedef enum MCC_PREFIXED_NAME(SwizzleType) {
@@ -32,9 +33,6 @@ typedef MCC_PREFIXED_NAME(SwizzleType)(^MCC_PREFIXED_NAME(SwizzleFilterBlock))(N
 + (void)swizzlePropertiesToClass:(Class)targetClass;
 @end
 
-////	Simple way to test most objects for emptyness
-//static inline BOOL IsEmpty(id thing) { return thing == nil || ([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) || ([thing respondsToSelector:@selector(count)] && [(NSArray *)thing count] == 0); }
-
-
+//	Macros to call the super of a method normally
 #define SUPER_SELECTOR(selName,...)  objc_msgSendSuper(&(struct objc_super){self, class_getSuperclass([self class])},  @selector(selName) , ##__VA_ARGS__)
 #define SUPER(...)  objc_msgSendSuper(&(struct objc_super){self, class_getSuperclass([self class])},_cmd, ##__VA_ARGS__)

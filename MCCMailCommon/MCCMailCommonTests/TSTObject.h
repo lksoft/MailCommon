@@ -13,4 +13,5 @@
 - (NSString *)foo;
 - (NSString *)bar;
 - (NSString *)additive;
+- (NSString *)methodWithSuper;
 @end

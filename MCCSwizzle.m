@@ -72,8 +72,12 @@ typedef struct objc_super * super_pointer;
 	
 	[self swizzlePropertiesToClass:subclass];
 	
+	if (NO) {
+		
+	}
+	
 	// add a forwardingInvocationMethod to catch 'super' calls
-	Method forwardingMethod = class_getInstanceMethod(CLS(MCC_PREFIXED_NAME(Swizzle)),@selector(MCC_PREFIXED_NAME(_MCCSwizzle_callRuntimeSuperWithInvocation):));
+	Method forwardingMethod = class_getInstanceMethod(PREFIXED_CLS(Swizzle),@selector(MCC_PREFIXED_NAME(_MCCSwizzle_callRuntimeSuperWithInvocation):));
 	class_addMethod(subclass, @selector(forwardInvocation:), method_getImplementation(forwardingMethod), method_getTypeEncoding(forwardingMethod));
 	
 	return subclass;
@@ -162,7 +166,7 @@ typedef struct objc_super * super_pointer;
         
         void *returnValue=0;
         super_pointer  superPointer = &(struct objc_super){self, mySuper};
-        returnValue =  objc_msgSendSuper(superPointer, mySel ,arg[2],arg[3],arg[4],arg[5],arg[6],arg[7],arg[8],arg[9],arg[10],arg[11]);
+        returnValue =  (__bridge void *)(objc_msgSendSuper(superPointer, mySel ,arg[2],arg[3],arg[4],arg[5],arg[6],arg[7],arg[8],arg[9],arg[10],arg[11]));
         [anInvocation setReturnValue:&returnValue];
         free(argList);
         free(arg);

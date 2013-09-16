@@ -2,12 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>A1D0D8B3-2669-4740-8028-2A6535C90B16</string>
+	<string>07DFFD41-BCE4-40A3-BBFD-D5E012F61294</string>
 	<key>IDESourceControlProjectName</key>
 	<string>MCCMailCommon</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>39C2620C-2978-449D-B20F-489100027F46</key>
+		<string>https://github.com/lksoft/DLIntrospection.git</string>
 		<key>974CEAAF-1531-432E-BEBC-D1FBED20B4AB</key>
 		<string>ssh://github.com/lksoft/MailCommon.git</string>
 		<key>F1F033B0-5AD5-4E29-B6C5-DE540BDA2475</key>
@@ -17,6 +21,8 @@
 	<string>MCCMailCommon/MCCMailCommon.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>39C2620C-2978-449D-B20F-489100027F46</key>
+		<string>../../DLIntrospection</string>
 		<key>974CEAAF-1531-432E-BEBC-D1FBED20B4AB</key>
 		<string>../../..</string>
 		<key>F1F033B0-5AD5-4E29-B6C5-DE540BDA2475</key>
@@ -34,9 +40,9 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>974CEAAF-1531-432E-BEBC-D1FBED20B4AB</string>
+			<string>39C2620C-2978-449D-B20F-489100027F46</string>
 			<key>IDESourceControlWCCName</key>
-			<string>MailCommon</string>
+			<string>DLIntrospection</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
@@ -45,6 +51,14 @@
 			<string>F1F033B0-5AD5-4E29-B6C5-DE540BDA2475</string>
 			<key>IDESourceControlWCCName</key>
 			<string>LKConfigs</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>974CEAAF-1531-432E-BEBC-D1FBED20B4AB</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MailCommon</string>
 		</dict>
 	</array>
 </dict>

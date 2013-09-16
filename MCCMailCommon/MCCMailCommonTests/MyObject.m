@@ -14,13 +14,29 @@
 
 @end
 
+@interface TSTSwizzle (SuperDupping)
+- (NSString *)additive;
+- (NSString *)methodWithSuper;
+@end
+
 @implementation MyObject_TST
 
 + (void)load {
-	[self makeSubclassOf:TSTClassFromString(@"TSTObject")];
+	[self makeSubclassOf:CLS(TSTObject)];
 }
 
 #define myself	((MyObject *)self)
+
+- (NSString *)additive {
+	NSString	*original = [super additive];
+	return [NSString stringWithFormat:@"%@ - %@", original, @"Whoop-dee-do"];
+}
+
+
+- (NSString *)methodWithSuper {
+	NSString	*original = SUPER();
+	return [NSString stringWithFormat:@"%@ - %@", original, @"Whoop-dee-do"];
+}
 
 #undef myself
 
