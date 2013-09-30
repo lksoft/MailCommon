@@ -534,6 +534,33 @@ typedef struct objc_super * super_pointer;
             break;
         }
             
+        case '^': {  //dispatch object
+            if (!hasGetter){
+                id (*getter)(id, SEL) = (void*)imp_implementationWithBlock(^(id _self){
+                    id result =  objc_getAssociatedObject(_self,propertyNameKey);
+                    return result;
+                });
+                class_addMethod(targetClass,NSSelectorFromString(getterName),(IMP)getter,"^@:");
+            }
+            else{
+				// NSLog(@"-[%@ %@] exists",targetClass,getterName);
+            }
+            if (setterName){
+                if (!hasSetter){
+                    void (*setter)(id, SEL, id) = (void*)imp_implementationWithBlock(^(id _self,id value){
+                        [_self willChangeValueForKey: propertyName];
+                        objc_setAssociatedObject(_self, propertyNameKey, value, retainPolicy);
+                        [_self didChangeValueForKey: propertyName];
+                    });
+                    class_addMethod(targetClass,NSSelectorFromString(setterName),(IMP)setter,"v@:^");
+                }
+                else{
+                    //NSLog(@"-[%@ %@] exists",targetClass,setterName);
+                }
+            }
+            break;
+        }
+            
         case 'B': { // bool
             if (!hasGetter){
 				bool (*getter)(id, SEL) = (void*)imp_implementationWithBlock(^(id _self){
