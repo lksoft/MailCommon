@@ -9,6 +9,20 @@
 #import "MCCWebScriptWindowController.h"
 #import "MCCWebScriptPageController.h"
 
+#if __has_feature(objc_arc)
+#define RETAIN(x) (x)
+#define RELEASE(x)
+#define AUTORELEASE(x) (x)
+#define DEALLOC(x) (x)
+#else
+#define RETAIN(x) ([(x) retain])
+#define RELEASE(x) ([(x) release])
+#define AUTORELEASE(x) ([(x) autorelease])
+#define DEALLOC(x) ([(x) dealloc])
+#endif
+
+
+
 @interface MCC_PREFIXED_NAME(WebScriptWindowController) ()
 
 @property	(assign)	IBOutlet	WebView		*webView;
@@ -62,7 +76,7 @@
 			NSLog(@"ERROR Class %@ does not inherit from %@!", controllerClassName, [MCC_PREFIXED_NAME(WebScriptPageController) class]);
 			
 		}
-        [controllerObject release];
+        RELEASE(controllerObject);
 	}
 	else{
 		NSLog(@"ERROR cannot find Class %@!",controllerClassName);
@@ -76,17 +90,16 @@
 	NSBundle	*thisBundle = [NSBundle bundleForClass:[self class]];
     NSString	*contentPath = [thisBundle resourcePath];
     
-	for (NSString * aLocalization in [thisBundle preferredLocalizations]) {
-		NSString * newPath =[contentPath stringByAppendingFormat:@"/%@.lproj/%@.%@",aLocalization,fileName,type];
-		if ( [[NSFileManager defaultManager] fileExistsAtPath:newPath]){
-			self.filePath = [newPath retain];
+	for (NSString *aLocalization in [thisBundle preferredLocalizations]) {
+		NSString	*newPath = [contentPath stringByAppendingFormat:@"/%@.lproj/%@.%@",aLocalization,fileName,type];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
+			self.filePath = newPath;
 			break;
 		}
 	}
 	
 	if (!self.filePath){
-		self.filePath = [[contentPath stringByAppendingFormat:@"/en.lproj/%@.%@",fileName,type] retain];
-		
+		self.filePath = [contentPath stringByAppendingFormat:@"/en.lproj/%@.%@",fileName,type];
 	}
 	
 	NSString * html = [NSString stringWithContentsOfFile:self.filePath encoding:NSUTF8StringEncoding error:nil];
