@@ -102,6 +102,12 @@
 		self.filePath = [contentPath stringByAppendingFormat:@"/en.lproj/%@.%@",fileName,type];
 	}
 	
+    if (self.filePath) {
+        [self.webView setMainFrameURL:self.filePath];
+        self.pageController = nil;
+		
+	}
+	
 	NSString * html = [NSString stringWithContentsOfFile:self.filePath encoding:NSUTF8StringEncoding error:nil];
 	
 	NSArray	*lines = [html componentsSeparatedByString:@"\n"];
@@ -139,13 +145,6 @@
 	}
 	
 	NSLog(@"Window size is:%@", NSStringFromSize([self.window frame].size));
-	
-	
-    if (self.filePath){
-        [self.webView setMainFrameURL:self.filePath];
-        self.pageController = nil;
-		
-	}
 }
 
 - (void)closeWindow {
@@ -155,10 +154,11 @@
 
 - (void)showEmbeddedPage:(NSString *)pageName {
 	NSString	*extension = @"html";
-	if ([pageName pathExtension] != nil) {
+	if ([[pageName pathExtension] length] > 0) {
 		extension = [pageName pathExtension];
 	}
 	[self loadFile:[pageName stringByDeletingPathExtension] ofType:extension];
+	[self showWindow:nil];
 }
 
 
@@ -182,9 +182,9 @@
 
 - (void)log:(id)logString {
 	if (logString && [logString isKindOfClass:NSClassFromString(@"DOMNodeList")]){
-		NSMutableArray* list = [NSMutableArray arrayWithCapacity:[(DOMNodeList*)logString length]];
-		for (int i = 0; i<[(DOMNodeList*)logString length]; i++){
-			[list addObject:[logString item:i]];
+		NSMutableArray	*list = [NSMutableArray arrayWithCapacity:[(DOMNodeList*)logString length]];
+		for (NSInteger i = 0; i<[(DOMNodeList*)logString length]; i++){
+			[list addObject:[logString item:(int)i]];
 		}
 		NSLog(@"Javascript Log: %@", list);
 	}
