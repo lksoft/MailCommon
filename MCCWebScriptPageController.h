@@ -14,14 +14,25 @@
 
 @property	(retain)	WebView	*webView;
 
-- (NSString*)contentsOfPageElementID:(NSString*)pageObjectID;
-- (void)setContentsOfPageElementID:(NSString*)pageObjectID toString:(NSString*)string;
+- (NSString*)contentOfElementId:(NSString*)pageObjectID;
+- (void)setContentOfElementId:(NSString*)pageObjectID toString:(NSString*)string;
 
-- (NSString*)htmlOfPageElementID:(NSString*)pageObjectID;
-- (void)setHtmlOfPageElementID:(NSString*)pageObjectID toString:(NSString*)string;
-- (void)setHtmlOfPageElementID:(NSString*)pageObjectID toNode:(DOMHTMLElement*)element;
+- (NSString*)imagePathOnElementId:(NSString*)pageObjectID;
+- (void)setImagePath:(NSString*)path onElementId:(NSString*)pageObjectID;
+
+- (NSString*)htmlOfElementId:(NSString*)pageObjectID;
+- (void)setHtmlOfElementId:(NSString*)pageObjectID toString:(NSString*)string;
+- (void)setHtmlOfElementId:(NSString*)pageObjectID toNode:(DOMHTMLElement*)element;
+
+- (void)setDisabled:(BOOL)enabled onElementId:(NSString *)pageObjectID;
+- (BOOL)disabledOnElementId:(NSString *)pageObjectID;
+
+- (void)setHidden:(BOOL)hidden onElementId:(NSString *)pageObjectID;
+- (BOOL)hiddenOnElementId:(NSString *)pageObjectID;
+
+- (void)setAttributeValue:(NSString *)attrValue forName:(NSString *)attrName onElementId:(NSString *)pageObjectID;
+- (BOOL)attributeValueForName:(NSString *)attrName onElementId:(NSString *)pageObjectID;
 
 @end
-
 
 

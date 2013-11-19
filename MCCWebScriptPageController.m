@@ -29,7 +29,7 @@
  *  Naming Convention
  *
  *     OBJC Functions with 0  parameters will have JS names identical to obj-c names
- *          eg -(void)buyOneline                pageController.buyOnline();
+ *          eg -(void)buyOnline                pageController.buyOnline();
  *
  *     OBJC Functions with 1  parameters will drop the final : in the JS function name
  *          eg -(void)setAValue:                pageController.setAValue(1);
@@ -75,28 +75,65 @@
 
 #pragma mark - Getting/Setting Page Content
 
-- (NSString*)contentsOfPageElementID:(NSString*)pageObjectID {
+- (NSString*)contentOfElementId:(NSString*)pageObjectID {
     WebScriptObject	*scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
 		id result = [scriptObject valueForKey:pageObjectID];
-        if (result  && [result isKindOfClass:[DOMHTMLElement class]]){
-            return [result innerText];
-        }
+		if (result) {
+			if ([result respondsToSelector:@selector(value)]) {
+				return [result performSelector:@selector(value)];
+			}
+			else if ([result isKindOfClass:[DOMHTMLElement class]]){
+				return [result innerText];
+			}
+		}
     }
     return nil;
     
 }
-- (void)setContentsOfPageElementID:(NSString*)pageObjectID toString:(NSString*)string {
+
+- (void)setContentOfElementId:(NSString*)pageObjectID toString:(NSString*)string {
     WebScriptObject* scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
 		id result = [scriptObject valueForKey:pageObjectID];
-        if (result  && [result isKindOfClass:[DOMHTMLElement class]]){
-            [result setInnerText:string];
-        }
+		if (result) {
+			if ([result respondsToSelector:@selector(value)]) {
+				[result performSelector:@selector(setValue:) withObject:string];
+			}
+			else if ([result isKindOfClass:[DOMHTMLElement class]]){
+				[result setInnerText:string];
+			}
+		}
     }
 }
 
-- (NSString*)htmlOfPageElementID:(NSString*)pageObjectID {
+- (NSString*)imagePathOnElementId:(NSString*)pageObjectID {
+    WebScriptObject	*scriptObject = [self.webView windowScriptObject];
+    if (scriptObject) {
+		id result = [scriptObject valueForKey:pageObjectID];
+		if (result) {
+			if ([result respondsToSelector:@selector(src)]) {
+				return [result performSelector:@selector(src)];
+			}
+		}
+    }
+    return nil;
+    
+}
+
+- (void)setImagePath:(NSString*)path onElementId:(NSString*)pageObjectID {
+    WebScriptObject* scriptObject = [self.webView windowScriptObject];
+    if (scriptObject) {
+		id result = [scriptObject valueForKey:pageObjectID];
+		if (result) {
+			if ([result respondsToSelector:@selector(src)]) {
+				[result performSelector:@selector(setSrc:) withObject:path];
+			}
+		}
+    }
+}
+
+- (NSString*)htmlOfElementId:(NSString*)pageObjectID {
     WebScriptObject	*scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
 		id result = [scriptObject valueForKey:pageObjectID];
@@ -108,7 +145,7 @@
     
 }
 
-- (void)setHtmlOfPageElementID:(NSString*)pageObjectID toString:(NSString*)string {
+- (void)setHtmlOfElementId:(NSString*)pageObjectID toString:(NSString*)string {
     WebScriptObject* scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
 		id result = [scriptObject valueForKey:pageObjectID];
@@ -118,7 +155,7 @@
     }
 }
 
-- (void)setHtmlOfPageElementID:(NSString*)pageObjectID toNode:(DOMHTMLElement*)element {
+- (void)setHtmlOfElementId:(NSString*)pageObjectID toNode:(DOMHTMLElement*)element {
     WebScriptObject* scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
 		id result = [scriptObject valueForKey:pageObjectID];
@@ -129,6 +166,48 @@
 }
 
 
+#pragma mark - Attributes
+
+- (void)setAttributeValue:(NSString *)attrValue forName:(NSString *)attrName onElementId:(NSString *)pageObjectID {
+    WebScriptObject* scriptObject = [self.webView windowScriptObject];
+    if (scriptObject) {
+		id result = [scriptObject valueForKey:pageObjectID];
+		if (result && [result isKindOfClass:[DOMHTMLElement class]]) {
+			NSString	*setDisabledScript = [NSString stringWithFormat:@"document.getElementById('%@').%@ = %@", pageObjectID, attrName, attrValue];
+			[scriptObject evaluateWebScript:setDisabledScript];
+		}
+    }
+}
+
+- (BOOL)attributeValueForName:(NSString *)attrName onElementId:(NSString *)pageObjectID {
+    WebScriptObject* scriptObject = [self.webView windowScriptObject];
+    if (scriptObject) {
+		id result = [scriptObject valueForKey:pageObjectID];
+		if (result && [result isKindOfClass:[DOMHTMLElement class]]) {
+			NSString	*setDisabledScript = [NSString stringWithFormat:@"document.getElementById('%@').%@", pageObjectID, attrName];
+			id disabledValue = [scriptObject evaluateWebScript:setDisabledScript];
+			return [disabledValue boolValue];
+		}
+    }
+	return NO;
+}
+
+
+- (void)setDisabled:(BOOL)disabled onElementId:(NSString *)pageObjectID {
+	[self setAttributeValue:(disabled?@"true":@"false") forName:@"disabled" onElementId:pageObjectID];
+}
+
+- (BOOL)disabledOnElementId:(NSString *)pageObjectID {
+	return [self attributeValueForName:@"disabled" onElementId:pageObjectID];
+}
+
+- (void)setHidden:(BOOL)hidden onElementId:(NSString *)pageObjectID {
+	[self setAttributeValue:(hidden?@"true":@"false") forName:@"hidden" onElementId:pageObjectID];
+}
+
+- (BOOL)hiddenOnElementId:(NSString *)pageObjectID {
+	return [self attributeValueForName:@"hidden" onElementId:pageObjectID];
+}
 
 
 
