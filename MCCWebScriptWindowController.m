@@ -158,6 +158,9 @@
 		extension = [pageName pathExtension];
 	}
 	[self loadFile:[pageName stringByDeletingPathExtension] ofType:extension];
+	if (![[self window] isVisible]) {
+		[[self window] center];
+	}
 	[self showWindow:nil];
 }
 
@@ -165,6 +168,9 @@
 #pragma mark - Added JS Methods
 
 - (void)showWindowAndLoadURL:(NSURL*)url {
+	if (![[self window] isVisible]) {
+		[[self window] center];
+	}
 	[[self window] makeKeyAndOrderFront:self];
 	[[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:url]];
 }
@@ -207,7 +213,6 @@
 - (void)webView:(WebView *)sender didClearWindowObject:(WebScriptObject *)windowScriptObject forFrame:(WebFrame *)frame {
     [windowScriptObject setValue:self forKey:@"windowController"];
     [windowScriptObject setValue:self forKey:@"console"];
-	
 }
 
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)sel {
@@ -218,6 +223,12 @@
         return NO;
     }
     if (sel == @selector(openURL:)){
+        return NO;
+    }
+    if (sel == @selector(closeWindow)){
+        return NO;
+    }
+    if (sel == @selector(showEmbeddedPage:)){
         return NO;
     }
     return YES;
@@ -233,6 +244,12 @@
     }
     if (sel == @selector(openURL:)){
         return @"openURL";
+    }
+    if (sel == @selector(closeWindow)){
+        return @"closeWindow";
+    }
+    if (sel == @selector(showEmbeddedPage:)){
+        return @"showEmbeddedPage";
     }
     else {
 		return nil;

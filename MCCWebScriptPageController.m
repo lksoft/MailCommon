@@ -61,10 +61,7 @@
 
 + (NSString *)webScriptNameForSelector:(SEL)sel {
     NSString *selectorString = NSStringFromSelector(sel);
-    if ([selectorString hasSuffix:@":"]){
-        selectorString = [selectorString substringToIndex:[selectorString length]-1];
-    }
-    NSString *result= [selectorString stringByReplacingOccurrencesOfString:@":" withString:@"_"];
+    NSString *result= [selectorString stringByReplacingOccurrencesOfString:@":" withString:@""];
     return result;
 }
 
