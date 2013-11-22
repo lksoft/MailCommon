@@ -216,7 +216,7 @@
 }
 
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)sel {
-    if (sel == @selector(setPageControllerClassName:)){
+    if (sel == @selector(setPageControllerClassName:)) {
         return NO;
     }
     if (sel == @selector(log:)){
@@ -236,7 +236,7 @@
 
 + (NSString *)webScriptNameForSelector:(SEL)sel {
 	
-    if (sel == @selector(setPageControllerClassName:)){
+    if (sel == @selector(setPageControllerClassName:)) {
         return @"setPageControllerClassName";
     }
     if (sel == @selector(log:)){
@@ -251,9 +251,7 @@
     if (sel == @selector(showEmbeddedPage:)){
         return @"showEmbeddedPage";
     }
-    else {
-		return nil;
-	}
+	return nil;
 }
 
 + (BOOL)isKeyExcludedFromWebScript:(const char *)property {

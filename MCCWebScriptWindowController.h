@@ -10,9 +10,10 @@
 #import <WebKit/WebKit.h>
 #include "MCCCommonHeader.h"
 
+@class MCC_PREFIXED_NAME(WebScriptPageController);
 @interface MCC_PREFIXED_NAME(WebScriptWindowController) : NSWindowController
 
-@property (retain) id pageController;
+@property (retain) MCC_PREFIXED_NAME(WebScriptPageController) *pageController;
 
 - (void)showWindowAndLoadURL:(NSURL*)url;
 - (void)openURL:(NSString*)urlString;
