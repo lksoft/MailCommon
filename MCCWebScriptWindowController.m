@@ -38,11 +38,23 @@
 	self = [super init];
 	if (self){
         NSBundle *myBundle = [NSBundle bundleForClass:[self class]];
-        if ( ![myBundle loadNibNamed:[self nibName] owner:self topLevelObjects:nil]){
-			NSLog( @"Warning: Failed to load nib" );
-        }
+		if ([myBundle respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
+			if (![myBundle loadNibNamed:[self nibName] owner:self topLevelObjects:nil]) {
+				NSLog( @"Warning: Failed to load nib" );
+			}
+		}
+		else {
+			if (![NSBundle loadNibNamed:[self nibName] owner:self]) {
+				NSLog( @"Warning: Failed to load nib" );
+			}
+		}
 	}
 	return self;
+}
+
+- (void)dealloc {
+	self.filePath = nil;
+	[super dealloc];
 }
 
 - (void)awakeFromNib {
