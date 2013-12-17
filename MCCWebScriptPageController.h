@@ -9,10 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
 #include "MCCCommonHeader.h"
+#import "MCCWebScriptWindowController.h"
 
 @interface MCC_PREFIXED_NAME(WebScriptPageController) : NSObject
 
 @property	(retain)	WebView	*webView;
+@property (readonly) MCC_PREFIXED_NAME(WebScriptWindowController)* windowController;
+@property (readonly) NSWindow * window;
+
 
 - (NSString*)contentOfElementId:(NSString*)pageObjectID;
 - (void)setContentOfElementId:(NSString*)pageObjectID toString:(NSString*)string;
@@ -32,7 +36,7 @@
 
 - (void)setAttributeValue:(NSString *)attrValue forName:(NSString *)attrName onElementId:(NSString *)pageObjectID;
 - (BOOL)attributeValueForName:(NSString *)attrName onElementId:(NSString *)pageObjectID;
-
+-(void)initPage;
 @end
 
 

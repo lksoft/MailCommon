@@ -75,7 +75,7 @@
 - (NSString*)contentOfElementId:(NSString*)pageObjectID {
     WebScriptObject	*scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
-		id result = [scriptObject valueForKey:pageObjectID];
+		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')",pageObjectID]];
 		if (result) {
 			if ([result respondsToSelector:@selector(value)]) {
 				return [result performSelector:@selector(value)];
@@ -89,10 +89,25 @@
     
 }
 
+-(NSWindow*)window{
+    return self.webView.window;
+}
+-(id)windowController{
+     WebScriptObject* scriptObject = [self.webView windowScriptObject];
+    if (scriptObject) {
+        return [scriptObject valueForKey:@"windowController"];
+    }
+    return nil;
+}
+
+-(id)valueForUndefinedKey:(NSString *)key{
+    NSLog (@"Key: %@ not found -- returning nil",key);
+    return nil;
+}
 - (void)setContentOfElementId:(NSString*)pageObjectID toString:(NSString*)string {
     WebScriptObject* scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
-		id result = [scriptObject valueForKey:pageObjectID];
+		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')",pageObjectID]];
 		if (result) {
 			if ([result respondsToSelector:@selector(value)]) {
 				[result performSelector:@selector(setValue:) withObject:string];
@@ -107,7 +122,7 @@
 - (NSString*)imagePathOnElementId:(NSString*)pageObjectID {
     WebScriptObject	*scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
-		id result = [scriptObject valueForKey:pageObjectID];
+		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')",pageObjectID]];
 		if (result) {
 			if ([result respondsToSelector:@selector(src)]) {
 				return [result performSelector:@selector(src)];
@@ -121,7 +136,7 @@
 - (void)setImagePath:(NSString*)path onElementId:(NSString*)pageObjectID {
     WebScriptObject* scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
-		id result = [scriptObject valueForKey:pageObjectID];
+		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')",pageObjectID]];
 		if (result) {
 			if ([result respondsToSelector:@selector(src)]) {
 				[result performSelector:@selector(setSrc:) withObject:path];
@@ -133,7 +148,7 @@
 - (NSString*)htmlOfElementId:(NSString*)pageObjectID {
     WebScriptObject	*scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
-		id result = [scriptObject valueForKey:pageObjectID];
+		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')",pageObjectID]];
         if (result  && [result isKindOfClass:[DOMHTMLElement class]]){
             return [result innerHTML];
         }
@@ -145,7 +160,8 @@
 - (void)setHtmlOfElementId:(NSString*)pageObjectID toString:(NSString*)string {
     WebScriptObject* scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
-		id result = [scriptObject valueForKey:pageObjectID];
+		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')",pageObjectID]];
+        
         if (result  && [result isKindOfClass:[DOMHTMLElement class]]){
             [result setInnerHTML:string];
         }
@@ -155,7 +171,7 @@
 - (void)setHtmlOfElementId:(NSString*)pageObjectID toNode:(DOMHTMLElement*)element {
     WebScriptObject* scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
-		id result = [scriptObject valueForKey:pageObjectID];
+		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')",pageObjectID]];
         if (result  && [result isKindOfClass:[DOMHTMLElement class]]){
             [result setInnerHTML:[element outerHTML]];
         }
@@ -168,7 +184,7 @@
 - (void)setAttributeValue:(NSString *)attrValue forName:(NSString *)attrName onElementId:(NSString *)pageObjectID {
     WebScriptObject* scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
-		id result = [scriptObject valueForKey:pageObjectID];
+		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')",pageObjectID]];
 		if (result && [result isKindOfClass:[DOMHTMLElement class]]) {
 			NSString	*setDisabledScript = [NSString stringWithFormat:@"document.getElementById('%@').%@ = %@", pageObjectID, attrName, attrValue];
 			[scriptObject evaluateWebScript:setDisabledScript];
@@ -179,7 +195,7 @@
 - (BOOL)attributeValueForName:(NSString *)attrName onElementId:(NSString *)pageObjectID {
     WebScriptObject* scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
-		id result = [scriptObject valueForKey:pageObjectID];
+		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')",pageObjectID]];
 		if (result && [result isKindOfClass:[DOMHTMLElement class]]) {
 			NSString	*setDisabledScript = [NSString stringWithFormat:@"document.getElementById('%@').%@", pageObjectID, attrName];
 			id disabledValue = [scriptObject evaluateWebScript:setDisabledScript];
@@ -207,6 +223,8 @@
 }
 
 
-
+-(void)initPage{
+    
+}
 
 @end

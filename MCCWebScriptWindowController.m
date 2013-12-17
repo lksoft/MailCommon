@@ -58,6 +58,7 @@
 }
 
 - (void)awakeFromNib {
+    [[self window] center];
 	[self.webView setUIDelegate:self];
 	[self.webView setResourceLoadDelegate:self];
 	[self.webView setFrameLoadDelegate:self];
@@ -83,6 +84,7 @@
 		if (controllerObject && [controllerObject isKindOfClass:[MCC_PREFIXED_NAME(WebScriptPageController) class]]){
 			self.pageController = controllerObject;
 			controllerObject.webView = self.webView;
+            [controllerObject initPage];
 		}
 		else{
 			NSLog(@"ERROR Class %@ does not inherit from %@!", controllerClassName, [MCC_PREFIXED_NAME(WebScriptPageController) class]);
@@ -94,6 +96,12 @@
 		NSLog(@"ERROR cannot find Class %@!",controllerClassName);
 		
 	}
+}
+
+- (void)webView:(WebView *)sender didReceiveTitle:(NSString *)title forFrame:(WebFrame *)frame{
+    if (sender.mainFrame == frame){
+        [self.window setTitle:title];
+    }
 }
 
 - (void)loadFile:(NSString*)fileName ofType:(NSString*)type {
@@ -114,11 +122,7 @@
 		self.filePath = [contentPath stringByAppendingFormat:@"/en.lproj/%@.%@",fileName,type];
 	}
 	
-    if (self.filePath) {
-        [self.webView setMainFrameURL:self.filePath];
-        self.pageController = nil;
-		
-	}
+    
 	
 	NSString * html = [NSString stringWithContentsOfFile:self.filePath encoding:NSUTF8StringEncoding error:nil];
 	
@@ -148,15 +152,19 @@
 					winFrame.size.height = 655;
 				}
 				[window setFrame:winFrame display:YES animate:YES];
-				NSLog(@"Setting Window size to:%@", NSStringFromSize(winFrame.size));
+				//NSLog(@"Setting Window size to:%@", NSStringFromSize(winFrame.size));
 			}
 		}
 		else if ([aLine rangeOfString:@"</head>"].location != NSNotFound) {
 			break;
 		}
 	}
-	
-	NSLog(@"Window size is:%@", NSStringFromSize([self.window frame].size));
+	if (self.filePath) {
+        [self.webView setMainFrameURL:self.filePath];
+        self.pageController = nil;
+		
+	}
+	//NSLog(@"Window size is:%@", NSStringFromSize([self.window frame].size));
 }
 
 - (void)closeWindow {
@@ -170,10 +178,6 @@
 		extension = [pageName pathExtension];
 	}
 	[self loadFile:[pageName stringByDeletingPathExtension] ofType:extension];
-	if (![[self window] isVisible]) {
-		[[self window] center];
-	}
-	[self showWindow:nil];
 }
 
 
@@ -217,6 +221,7 @@
 	
 	[self.webView setHidden:NO];
 	if (![[self window] isVisible]) {
+        [[self window] center];
 		[[self window] makeKeyAndOrderFront:self];
 	}
 	
