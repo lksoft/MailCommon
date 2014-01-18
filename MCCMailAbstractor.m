@@ -85,6 +85,13 @@
 }
 
 + (NSString *)actualClassNameForClassName:(NSString *)aClassName {
+	
+	static NSString *osName =  nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		osName = [NSString stringWithFormat:@"10.%ld", (long)[[self sharedInstance] osMinorVersion]];
+	});
+	
 	NSString	*nameFound = nil;
 	
 	//	If the class exists, just use that
@@ -100,7 +107,6 @@
 	}
 
 	//	Try to get the mapping for this OS version and use that as the return value
-	NSString	*osName = [NSString stringWithFormat:@"10.%ld", (long)[[self sharedInstance] osMinorVersion]];
 	nameFound = [mappingDict valueForKey:osName];
 	
 	return nameFound;
@@ -132,6 +138,7 @@ Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 	dispatch_once(&onceToken, ^{
 		NSString	*queueName = [NSString stringWithFormat:@"com.mailPlugins.dictAccessQueue.%@", NSStringFromClass([MCC_PREFIXED_NAME(MailAbstractor) class])];
 		classNameDictAccessQueue = dispatch_queue_create([queueName UTF8String], NULL);
+		classNameLookup = [[NSMutableDictionary alloc] init];
 	});
 	
 	
