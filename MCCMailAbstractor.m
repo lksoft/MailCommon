@@ -89,7 +89,7 @@
 	static NSString *osName =  nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		osName = [NSString stringWithFormat:@"10.%ld", (long)[[self sharedInstance] osMinorVersion]];
+		osName = [[NSString alloc] initWithFormat:@"10.%ld", (long)[[self sharedInstance] osMinorVersion]];
 	});
 	
 	NSString	*nameFound = nil;
