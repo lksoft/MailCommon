@@ -97,6 +97,7 @@ typedef struct objc_super * super_pointer;
 	Class	targetClass = MCC_PREFIXED_NAME(ClassFromString)(targetClassName);
 	if (!targetClass) {
 		NSLog(@"Class %@ was not found to swizzle", targetClassName);
+		return;
 	}
 	
 	[self addAllMethodsToClass:targetClass usingPrefix:prefix];
