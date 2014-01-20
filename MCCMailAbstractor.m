@@ -8,12 +8,18 @@
 
 #import "MCCMailAbstractor.h"
 
-@interface MCC_PREFIXED_NAME(MailAbstractor) : NSObject
+@interface MCC_PREFIXED_NAME(MailAbstractor) : NSObject {
+	NSDictionary	*_mappings;
+	NSInteger		_testVersionOS;
+}
 @property	(strong)	NSDictionary	*mappings;
 @property	(assign)	NSInteger		testVersionOS;
 @end
 
 @implementation MCC_PREFIXED_NAME(MailAbstractor)
+
+@synthesize mappings = _mappings;
+@synthesize testVersionOS = _testVersionOS;
 
 - (id)init {
 	self = [super init];
@@ -52,7 +58,7 @@
 	NSMutableDictionary	*trimmedMappings = [NSMutableDictionary dictionary];
 	for (NSString *mappingKey in [newMappings allKeys]) {
 		//	Get the mapping for this OS version
-		NSString	*mappedClassName = newMappings[mappingKey][osName];
+		NSString	*mappedClassName = [[newMappings objectForKey:mappingKey] objectForKey:osName];
 		if (![mappingKey isEqualToString:mappedClassName]) {
 			trimmedMappings[mappingKey] = mappedClassName;
 		}
@@ -134,7 +140,7 @@ Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 				
 				if (!resultClass){
 					MCC_PREFIXED_NAME(MailAbstractor)	*abstractor = [MCC_PREFIXED_NAME(MailAbstractor) sharedInstance];
-					NSString	*nameFound = abstractor.mappings[aClassName];
+					NSString	*nameFound = [abstractor.mappings objectForKey:aClassName];
 					if (nameFound) {
 						resultClass = NSClassFromString(nameFound);
 					}
