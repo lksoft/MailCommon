@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>10.7</key>
+		<string>NSObject</string>
+		<key>10.8</key>
+		<string>MLObject</string>
+		<key>10.9</key>
+		<string>MavsObject</string>
+	</dict>
+	<dict>
+		<key>10.7</key>
+		<string>LionObject</string>
+		<key>10.8</key>
+		<string>NSObject</string>
+		<key>10.9</key>
+		<string>NSObject</string>
+	</dict>
+</array>
+</plist>

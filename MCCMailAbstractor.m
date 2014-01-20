@@ -8,48 +8,66 @@
 
 #import "MCCMailAbstractor.h"
 
-
-@interface MCC_PREFIXED_NAME(MailAbstractor) : NSObject {
-	NSDictionary	*_mappings;
-	NSInteger		_testVersionOS;
-}
-
+@interface MCC_PREFIXED_NAME(MailAbstractor) : NSObject
 @property	(strong)	NSDictionary	*mappings;
-
-+ (NSString *)actualClassNameForClassName:(NSString *)aClassName;
-+ (Class)actualClassForClassName:(NSString *)aClassName;
-+ (MCC_PREFIXED_NAME(MailAbstractor)*)sharedInstance;
-
+@property	(assign)	NSInteger		testVersionOS;
 @end
 
 @implementation MCC_PREFIXED_NAME(MailAbstractor)
 
-@synthesize mappings = _mappings;
-
 - (id)init {
 	self = [super init];
 	if (self) {
-		//	This array could be a plist file that we read in
-		NSFileManager	*manager = [NSFileManager defaultManager];
-		NSString		*resourcePlistPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"MailVersionClassMappings" ofType:@"plist"];
-		NSArray			*translationArray = [NSArray array];
-		if ([manager fileExistsAtPath:resourcePlistPath]) {
-			translationArray = [translationArray arrayByAddingObjectsFromArray:[NSArray arrayWithContentsOfFile:resourcePlistPath]];
-		}
-		resourcePlistPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"PluginClassMappings" ofType:@"plist"];
-		if ([manager fileExistsAtPath:resourcePlistPath]) {
-			translationArray = [translationArray arrayByAddingObjectsFromArray:[NSArray arrayWithContentsOfFile:resourcePlistPath]];
-		}
-		[self buildCompleteMappingsFromArray:translationArray];
-		_testVersionOS = -1;
+		self.testVersionOS = -1;
+		[self rebuildCurrentMappings];
 	}
 	return self;
 }
 
+- (void)rebuildCurrentMappings {
+
+	//	This array could be a plist file that we read in
+	NSFileManager	*manager = [NSFileManager defaultManager];
+	NSString		*resourcePlistPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"MailVersionClassMappings" ofType:@"plist"];
+	NSArray			*translationArray = [NSArray array];
+	if ([manager fileExistsAtPath:resourcePlistPath]) {
+		translationArray = [translationArray arrayByAddingObjectsFromArray:[NSArray arrayWithContentsOfFile:resourcePlistPath]];
+	}
+	resourcePlistPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"PluginClassMappings" ofType:@"plist"];
+	if ([manager fileExistsAtPath:resourcePlistPath]) {
+		translationArray = [translationArray arrayByAddingObjectsFromArray:[NSArray arrayWithContentsOfFile:resourcePlistPath]];
+	}
+
+	NSMutableDictionary	*newMappings = [NSMutableDictionary dictionary];
+	
+	//	Extract all possible mappings
+	for (NSDictionary *aDict in translationArray) {
+		for (NSString *className in [aDict allValues]) {
+			[newMappings setObject:aDict forKey:className];
+		}
+	}
+
+	//	Trim them down to ones that are relevant on this OS version
+	NSString	*osName = [[NSString alloc] initWithFormat:@"10.%ld", [self osMinorVersion]];
+	NSMutableDictionary	*trimmedMappings = [NSMutableDictionary dictionary];
+	for (NSString *mappingKey in [newMappings allKeys]) {
+		//	Get the mapping for this OS version
+		NSString	*mappedClassName = newMappings[mappingKey][osName];
+		if (![mappingKey isEqualToString:mappedClassName]) {
+			trimmedMappings[mappingKey] = mappedClassName;
+		}
+	}
+	
+	self.mappings = [NSDictionary dictionaryWithDictionary:trimmedMappings];
+}
+
+//	Method is used only once and could be included in-line, HOWEVER, having it here allows for testing the abstractor by setting the
+//		testVersionOS value via KVO (i.e. [[MailAbstractor sharedInstance] setValue:@(7) forKey:@"testVersionOS"])
+//	Though be sure to call -[rebuildCurrentMappings] after setthing the version
 - (NSInteger)osMinorVersion {
 	
-	if (_testVersionOS > 0) {
-		return _testVersionOS;
+	if (self.testVersionOS > 0) {
+		return self.testVersionOS;
 	}
 	// use a static because we only really need to get the version once.
 	static NSInteger minVersion = 0;  // 0 == notSet
@@ -60,7 +78,7 @@
 		 http://stackoverflow.com/questions/11072804/mac-os-x-10-8-replacement-for-gestalt-for-testing-os-version-at-runtime
 		 
 		 */
-		NSDictionary	* sv = [NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"];
+		NSDictionary	*sv = [NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"];
 		NSString		*versionString = [sv objectForKey:@"ProductVersion"];
 		NSArray			*versionParts = [versionString componentsSeparatedByString:@"."];
 		if ([versionParts count] > 1) {
@@ -71,51 +89,6 @@
 	
 	return minVersion;
 }
-
-- (void)buildCompleteMappingsFromArray:(NSArray *)translationArray {
-	NSMutableDictionary	*newMappings = [NSMutableDictionary dictionary];
-	
-	for (NSDictionary *aDict in translationArray) {
-		for (NSString *className in [aDict allValues]) {
-			[newMappings setObject:aDict forKey:className];
-		}
-	}
-	
-	self.mappings = [NSDictionary dictionaryWithDictionary:newMappings];
-}
-
-+ (NSString *)actualClassNameForClassName:(NSString *)aClassName {
-	
-	static NSString *osName =  nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		osName = [[NSString alloc] initWithFormat:@"10.%ld", (long)[[self sharedInstance] osMinorVersion]];
-	});
-	
-	NSString	*nameFound = nil;
-	
-	//	If the class exists, just use that
-	if (NSClassFromString(aClassName)) {
-		return aClassName;
-	}
-	
-	//	Try to find a mapping, if none, return original
-	MCC_PREFIXED_NAME(MailAbstractor)	*abstractor = [MCC_PREFIXED_NAME(MailAbstractor) sharedInstance];
-	NSDictionary	*mappingDict = [abstractor.mappings objectForKey:aClassName];
-	if (mappingDict == nil) {
-		return aClassName;
-	}
-
-	//	Try to get the mapping for this OS version and use that as the return value
-	nameFound = [mappingDict valueForKey:osName];
-	
-	return nameFound;
-}
-
-+ (Class)actualClassForClassName:(NSString *)aClassName {
-	return NSClassFromString([self actualClassNameForClassName:aClassName]);
-}
-
 
 + (MCC_PREFIXED_NAME(MailAbstractor)*)sharedInstance {
 	static	MCC_PREFIXED_NAME(MailAbstractor)	*myAbstractor = nil;
@@ -155,26 +128,31 @@ Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 		resultClass = NSClassFromString(aClassName);
 		if (!resultClass){
 			resultClass = NSClassFromString([@"MF" stringByAppendingString:aClassName]);
+			
+			if (!resultClass){
+				resultClass = NSClassFromString([@"MC" stringByAppendingString:aClassName]);
+				
+				if (!resultClass){
+					MCC_PREFIXED_NAME(MailAbstractor)	*abstractor = [MCC_PREFIXED_NAME(MailAbstractor) sharedInstance];
+					NSString	*nameFound = abstractor.mappings[aClassName];
+					if (nameFound) {
+						resultClass = NSClassFromString(nameFound);
+					}
+				}
+			}
 		}
-		if (!resultClass){
-			resultClass = NSClassFromString([@"MC" stringByAppendingString:aClassName]);
-		}
-		if (!resultClass){
-			resultClass = [MCC_PREFIXED_NAME(MailAbstractor) actualClassForClassName:aClassName];
-		}
-		if (!resultClass) {
-			return nil;
-		}
-		else {
+		if (resultClass) {
+			//	Stupid hack to ensure that the +initialize has been called on the class
+			//		to avoid a deadlock seen occaisionally (at least on Mountain Lion)
+			[resultClass class];
 			dispatch_async(classNameDictAccessQueue, ^{
 				[classNameLookup setObject:resultClass forKey:aClassName];
 			});
 		}
 		// NSLog(@"found class %@ -->%@",className,resultClass);
-		return resultClass;
 		
 	}
-	return nil;
+	return resultClass;
 	
 }
 

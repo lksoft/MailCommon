@@ -54,6 +54,8 @@
 		D26674FA17E71406004B4869 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF68E176C855800301165 /* XCTest.framework */; };
 		D266750017E71406004B4869 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D26674FE17E71406004B4869 /* InfoPlist.strings */; };
 		D266750217E71406004B4869 /* MCCSuperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D266750117E71406004B4869 /* MCCSuperTests.m */; };
+		D2E2E960188C90D9000F1E76 /* MCCClassAbstractorLionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */; };
+		D2E2E963188C9C9D000F1E76 /* PluginClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +125,8 @@
 		D26674FD17E71406004B4869 /* MCCSuperTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MCCSuperTests-Info.plist"; sourceTree = "<group>"; };
 		D26674FF17E71406004B4869 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D266750117E71406004B4869 /* MCCSuperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCCSuperTests.m; sourceTree = "<group>"; };
+		D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCClassAbstractorLionTests.m; sourceTree = "<group>"; };
+		D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PluginClassMappings.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				D23CF69A176C855800301165 /* MCCMailCommonTests.m */,
+				D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */,
 				D26674CA17E5E010004B4869 /* TestObjects */,
 				D23CF695176C855800301165 /* Supporting Files */,
 			);
@@ -265,6 +270,7 @@
 		D23CF695176C855800301165 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */,
 				D26674CB17E5E031004B4869 /* NSObject+DLIntrospection.h */,
 				D26674CC17E5E031004B4869 /* NSObject+DLIntrospection.m */,
 				D23CF696176C855800301165 /* MCCMailCommonTests-Info.plist */,
@@ -535,6 +541,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2E2E963188C9C9D000F1E76 /* PluginClassMappings.plist in Resources */,
 				D23CF684176C855800301165 /* InfoPlist.strings in Resources */,
 				D23CF6B1176C892300301165 /* MailVersionClassMappings.plist in Resources */,
 			);
@@ -599,6 +606,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D26674C417E5D591004B4869 /* TSTObject+MCCSwizzle.m in Sources */,
+				D2E2E960188C90D9000F1E76 /* MCCClassAbstractorLionTests.m in Sources */,
 				D26674D017E5F882004B4869 /* MyObject.m in Sources */,
 				D26674CD17E5E031004B4869 /* NSObject+DLIntrospection.m in Sources */,
 				D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */,
