@@ -123,9 +123,14 @@ Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 	
 	Class __block resultClass =nil;
 	
-	dispatch_sync(classNameDictAccessQueue, ^{
+	if (dispatch_get_current_queue() == classNameDictAccessQueue) {
 		resultClass = [classNameLookup objectForKey:aClassName];
-	});
+	}
+	else {
+		dispatch_sync(classNameDictAccessQueue, ^{
+			resultClass = [classNameLookup objectForKey:aClassName];
+		});
+	}
 	
 	if (resultClass){
 		return resultClass;
