@@ -64,7 +64,7 @@
 		<key>10.8</key>
 		<string>_OutgoingMessageBody</string>
 		<key>10.9</key>
-		<string>_MFOutgoingMessageBody</string>
+		<string>_MCOutgoingMessageBody</string>
 	</dict>
 </array>
 </plist>
