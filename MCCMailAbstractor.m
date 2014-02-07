@@ -116,34 +116,30 @@ Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		NSString	*queueName = [NSString stringWithFormat:@"com.mailPlugins.dictAccessQueue.%@", NSStringFromClass([MCC_PREFIXED_NAME(MailAbstractor) class])];
-		classNameDictAccessQueue = dispatch_queue_create([queueName UTF8String], NULL);
+		classNameDictAccessQueue = dispatch_queue_create([queueName UTF8String], DISPATCH_QUEUE_CONCURRENT);
 		classNameLookup = [[NSMutableDictionary alloc] init];
 	});
 	
-	
-	Class __block resultClass =nil;
-	
-	if (dispatch_get_current_queue() == classNameDictAccessQueue) {
+	//	Using a concurrent queue with a barrier for the reads will avoid any contention, it does
+	//		mean that we might get a miss or two on the first time to find a class, but that is not a big deal
+	//	Comes from https://mikeash.com/pyblog/friday-qa-2011-10-14-whats-new-in-gcd.html
+	Class __block resultClass = nil;
+	dispatch_sync(classNameDictAccessQueue, ^{
 		resultClass = [classNameLookup objectForKey:aClassName];
-	}
-	else {
-		dispatch_sync(classNameDictAccessQueue, ^{
-			resultClass = [classNameLookup objectForKey:aClassName];
-		});
-	}
+	});
 	
 	if (resultClass){
 		return resultClass;
 	}
 	else{
 		resultClass = NSClassFromString(aClassName);
-		if (!resultClass){
+		if (!resultClass) {
 			resultClass = NSClassFromString([@"MF" stringByAppendingString:aClassName]);
 			
-			if (!resultClass){
+			if (!resultClass) {
 				resultClass = NSClassFromString([@"MC" stringByAppendingString:aClassName]);
 				
-				if (!resultClass){
+				if (!resultClass) {
 					MCC_PREFIXED_NAME(MailAbstractor)	*abstractor = [MCC_PREFIXED_NAME(MailAbstractor) sharedInstance];
 					NSString	*nameFound = [abstractor.mappings objectForKey:aClassName];
 					if (nameFound) {
@@ -156,7 +152,7 @@ Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 			//	Stupid hack to ensure that the +initialize has been called on the class
 			//		to avoid a deadlock seen occaisionally (at least on Mountain Lion)
 			[resultClass class];
-			dispatch_async(classNameDictAccessQueue, ^{
+			dispatch_barrier_async(classNameDictAccessQueue, ^{
 				[classNameLookup setObject:resultClass forKey:aClassName];
 			});
 		}
