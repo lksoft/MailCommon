@@ -58,5 +58,13 @@
 		<key>10.9</key>
 		<string>MFSmartMailbox</string>
 	</dict>
+	<dict>
+		<key>10.7</key>
+		<string>_OutgoingMessageBody</string>
+		<key>10.8</key>
+		<string>_OutgoingMessageBody</string>
+		<key>10.9</key>
+		<string>_MFOutgoingMessageBody</string>
+	</dict>
 </array>
 </plist>
