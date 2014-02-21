@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  MCCMailCommon
+
+  Created by Scott Little on 21/2/14.
+  Copyright (c) 2014 Little Known Software, Inc. All rights reserved.
+*/
+
+"TEST1" = "This is a simple test string";
+"TEST_FORMAT" = "This string has a replaceable ‘%@’";
+"TEST_FORMAT_2_PARAMS_A" = "You can say %1$@’s %2$@";
+"TEST_FORMAT_2_PARAMS_B" = "But, I prefer to say the %2$@ of %1$@";

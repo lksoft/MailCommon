@@ -54,6 +54,23 @@
 		D26674FA17E71406004B4869 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF68E176C855800301165 /* XCTest.framework */; };
 		D266750017E71406004B4869 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D26674FE17E71406004B4869 /* InfoPlist.strings */; };
 		D266750217E71406004B4869 /* MCCSuperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D266750117E71406004B4869 /* MCCSuperTests.m */; };
+		D2703C7518B765A30002D1A8 /* MCCUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = D2703C7318B765A30002D1A8 /* MCCUtilities.h */; };
+		D2703C7618B765A30002D1A8 /* MCCUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703C7418B765A30002D1A8 /* MCCUtilities.m */; };
+		D2703C7918B776360002D1A8 /* MCCUtilities.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2703C7B18B776360002D1A8 /* MCCUtilities.strings */; };
+		D2703C7C18B779EA0002D1A8 /* MCCUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703C7418B765A30002D1A8 /* MCCUtilities.m */; };
+		D2703C7E18B77A150002D1A8 /* MCCUtilitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703C7D18B77A150002D1A8 /* MCCUtilitiesTests.m */; };
+		D2703C8118B77C220002D1A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2703C7F18B77C220002D1A8 /* Localizable.strings */; };
+		D2703C8218B77C440002D1A8 /* MCCUtilities.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2703C7B18B776360002D1A8 /* MCCUtilities.strings */; };
+		D2703C8818B785EA0002D1A8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF679176C855800301165 /* Cocoa.framework */; };
+		D2703C8E18B785EA0002D1A8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2703C8C18B785EA0002D1A8 /* InfoPlist.strings */; };
+		D2703C9018B785EA0002D1A8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703C8F18B785EA0002D1A8 /* main.m */; };
+		D2703C9418B785EA0002D1A8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D2703C9218B785EA0002D1A8 /* Credits.rtf */; };
+		D2703C9718B785EA0002D1A8 /* SNTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703C9618B785EA0002D1A8 /* SNTAppDelegate.m */; };
+		D2703C9A18B785EA0002D1A8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D2703C9818B785EA0002D1A8 /* MainMenu.xib */; };
+		D2703C9C18B785EA0002D1A8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2703C9B18B785EA0002D1A8 /* Images.xcassets */; };
+		D2703CB418B7860C0002D1A8 /* MCCUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703C7418B765A30002D1A8 /* MCCUtilities.m */; };
+		D2703CB518B7866A0002D1A8 /* MCCUtilities.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2703C7B18B776360002D1A8 /* MCCUtilities.strings */; };
+		D2703CB718B788BB0002D1A8 /* Mail_Large.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2703CB618B788BB0002D1A8 /* Mail_Large.tiff */; };
 		D2E2E960188C90D9000F1E76 /* MCCClassAbstractorLionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */; };
 		D2E2E963188C9C9D000F1E76 /* PluginClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */; };
 /* End PBXBuildFile section */
@@ -125,6 +142,32 @@
 		D26674FD17E71406004B4869 /* MCCSuperTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MCCSuperTests-Info.plist"; sourceTree = "<group>"; };
 		D26674FF17E71406004B4869 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D266750117E71406004B4869 /* MCCSuperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCCSuperTests.m; sourceTree = "<group>"; };
+		D2703C7318B765A30002D1A8 /* MCCUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCUtilities.h; path = ../../MCCUtilities.h; sourceTree = "<group>"; };
+		D2703C7418B765A30002D1A8 /* MCCUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCUtilities.m; path = ../../MCCUtilities.m; sourceTree = "<group>"; };
+		D2703C7A18B776360002D1A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/MCCUtilities.strings; sourceTree = "<group>"; };
+		D2703C7D18B77A150002D1A8 /* MCCUtilitiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCUtilitiesTests.m; sourceTree = "<group>"; };
+		D2703C8018B77C220002D1A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D2703C8718B785EA0002D1A8 /* SnitchTester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnitchTester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2703C8B18B785EA0002D1A8 /* SnitchTester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SnitchTester-Info.plist"; sourceTree = "<group>"; };
+		D2703C8D18B785EA0002D1A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D2703C8F18B785EA0002D1A8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D2703C9118B785EA0002D1A8 /* SnitchTester-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SnitchTester-Prefix.pch"; sourceTree = "<group>"; };
+		D2703C9318B785EA0002D1A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D2703C9518B785EA0002D1A8 /* SNTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SNTAppDelegate.h; sourceTree = "<group>"; };
+		D2703C9618B785EA0002D1A8 /* SNTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SNTAppDelegate.m; sourceTree = "<group>"; };
+		D2703C9918B785EA0002D1A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		D2703C9B18B785EA0002D1A8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D2703CB618B788BB0002D1A8 /* Mail_Large.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Mail_Large.tiff; sourceTree = "<group>"; };
+		D2703CB918B793CD0002D1A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		D2703CC218B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		D2703CC318B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D2703CC418B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file; name = fr; path = fr.lproj/MCCUtilities.strings; sourceTree = "<group>"; };
+		D2703CC518B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D2703CC618B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D2703CC718B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D2703CC818B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D2703CC918B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D2703CCA18B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = fr; path = fr.lproj/Credits.rtf; sourceTree = "<group>"; };
 		D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCClassAbstractorLionTests.m; sourceTree = "<group>"; };
 		D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PluginClassMappings.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -184,6 +227,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2703C8418B785EA0002D1A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2703C8818B785EA0002D1A8 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -194,6 +245,7 @@
 				D23CF694176C855800301165 /* MCCMailCommonTests */,
 				D26674FB17E71406004B4869 /* MCCSuperTests */,
 				D26674E317E663C9004B4869 /* MCCSeparatorTests */,
+				D2703C8918B785EA0002D1A8 /* SnitchTester */,
 				D23CF678176C855800301165 /* Frameworks */,
 				D23CF677176C855800301165 /* Products */,
 			);
@@ -208,6 +260,7 @@
 				D26674F917E71406004B4869 /* MCCSuperTests.xctest */,
 				D2421E8F17E71AEF006427A6 /* MCCMailCommonSuper.framework */,
 				D2421EA417E71EC2006427A6 /* MCCMailCommonSeparators.framework */,
+				D2703C8718B785EA0002D1A8 /* SnitchTester.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -240,6 +293,8 @@
 				D23CF6A8176C88C600301165 /* MCCMailAbstractor.m */,
 				D23CF6A9176C88C600301165 /* MCCSwizzle.h */,
 				D23CF6AA176C88C600301165 /* MCCSwizzle.m */,
+				D2703C7318B765A30002D1A8 /* MCCUtilities.h */,
+				D2703C7418B765A30002D1A8 /* MCCUtilities.m */,
 				D23CF6AB176C88D100301165 /* Resources */,
 				D23CF680176C855800301165 /* Project */,
 			);
@@ -261,6 +316,7 @@
 			children = (
 				D23CF69A176C855800301165 /* MCCMailCommonTests.m */,
 				D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */,
+				D2703C7D18B77A150002D1A8 /* MCCUtilitiesTests.m */,
 				D26674CA17E5E010004B4869 /* TestObjects */,
 				D23CF695176C855800301165 /* Supporting Files */,
 			);
@@ -275,6 +331,7 @@
 				D26674CC17E5E031004B4869 /* NSObject+DLIntrospection.m */,
 				D23CF696176C855800301165 /* MCCMailCommonTests-Info.plist */,
 				D23CF697176C855800301165 /* InfoPlist.strings */,
+				D2703C7F18B77C220002D1A8 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -284,6 +341,7 @@
 			children = (
 				D23CF6A5176C88C600301165 /* MailVersionClassMappings.plist */,
 				D23CF682176C855800301165 /* InfoPlist.strings */,
+				D2703C7B18B776360002D1A8 /* MCCUtilities.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -349,6 +407,31 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D2703C8918B785EA0002D1A8 /* SnitchTester */ = {
+			isa = PBXGroup;
+			children = (
+				D2703C9518B785EA0002D1A8 /* SNTAppDelegate.h */,
+				D2703C9618B785EA0002D1A8 /* SNTAppDelegate.m */,
+				D2703C9818B785EA0002D1A8 /* MainMenu.xib */,
+				D2703C9B18B785EA0002D1A8 /* Images.xcassets */,
+				D2703C8A18B785EA0002D1A8 /* Supporting Files */,
+			);
+			path = SnitchTester;
+			sourceTree = "<group>";
+		};
+		D2703C8A18B785EA0002D1A8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D2703CB618B788BB0002D1A8 /* Mail_Large.tiff */,
+				D2703C8B18B785EA0002D1A8 /* SnitchTester-Info.plist */,
+				D2703C8C18B785EA0002D1A8 /* InfoPlist.strings */,
+				D2703C8F18B785EA0002D1A8 /* main.m */,
+				D2703C9118B785EA0002D1A8 /* SnitchTester-Prefix.pch */,
+				D2703C9218B785EA0002D1A8 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -356,6 +439,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2703C7518B765A30002D1A8 /* MCCUtilities.h in Headers */,
 				D23CF6AE176C890E00301165 /* MCCCommonHeader.h in Headers */,
 				D23CF6AF176C891300301165 /* MCCMailAbstractor.h in Headers */,
 				D23CF6B0176C891700301165 /* MCCSwizzle.h in Headers */,
@@ -493,6 +577,23 @@
 			productReference = D26674F917E71406004B4869 /* MCCSuperTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D2703C8618B785EA0002D1A8 /* SnitchTester */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2703CAE18B785EB0002D1A8 /* Build configuration list for PBXNativeTarget "SnitchTester" */;
+			buildPhases = (
+				D2703C8318B785EA0002D1A8 /* Sources */,
+				D2703C8418B785EA0002D1A8 /* Frameworks */,
+				D2703C8518B785EA0002D1A8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SnitchTester;
+			productName = SnitchTester;
+			productReference = D2703C8718B785EA0002D1A8 /* SnitchTester.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -520,6 +621,9 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
+				ar,
+				fr,
 			);
 			mainGroup = D23CF66C176C855800301165;
 			productRefGroup = D23CF677176C855800301165 /* Products */;
@@ -532,6 +636,7 @@
 				D26674E017E663C9004B4869 /* MCCSeparatorTests */,
 				D2421E7F17E71AEF006427A6 /* MCCMailCommonSuper */,
 				D26674F817E71406004B4869 /* MCCSuperTests */,
+				D2703C8618B785EA0002D1A8 /* SnitchTester */,
 			);
 		};
 /* End PBXProject section */
@@ -544,6 +649,7 @@
 				D2E2E963188C9C9D000F1E76 /* PluginClassMappings.plist in Resources */,
 				D23CF684176C855800301165 /* InfoPlist.strings in Resources */,
 				D23CF6B1176C892300301165 /* MailVersionClassMappings.plist in Resources */,
+				D2703C7918B776360002D1A8 /* MCCUtilities.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,7 +657,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2703C8218B77C440002D1A8 /* MCCUtilities.strings in Resources */,
 				D23CF699176C855800301165 /* InfoPlist.strings in Resources */,
+				D2703C8118B77C220002D1A8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -589,6 +697,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2703C8518B785EA0002D1A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2703C8E18B785EA0002D1A8 /* InfoPlist.strings in Resources */,
+				D2703C9C18B785EA0002D1A8 /* Images.xcassets in Resources */,
+				D2703C9418B785EA0002D1A8 /* Credits.rtf in Resources */,
+				D2703CB718B788BB0002D1A8 /* Mail_Large.tiff in Resources */,
+				D2703CB518B7866A0002D1A8 /* MCCUtilities.strings in Resources */,
+				D2703C9A18B785EA0002D1A8 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -598,6 +719,7 @@
 			files = (
 				D23CF6AD176C88F200301165 /* MCCSwizzle.m in Sources */,
 				D23CF6AC176C88EF00301165 /* MCCMailAbstractor.m in Sources */,
+				D2703C7618B765A30002D1A8 /* MCCUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -605,11 +727,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2703C7E18B77A150002D1A8 /* MCCUtilitiesTests.m in Sources */,
 				D26674C417E5D591004B4869 /* TSTObject+MCCSwizzle.m in Sources */,
 				D2E2E960188C90D9000F1E76 /* MCCClassAbstractorLionTests.m in Sources */,
 				D26674D017E5F882004B4869 /* MyObject.m in Sources */,
 				D26674CD17E5E031004B4869 /* NSObject+DLIntrospection.m in Sources */,
 				D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */,
+				D2703C7C18B779EA0002D1A8 /* MCCUtilities.m in Sources */,
 				D23CF69B176C855800301165 /* MCCMailCommonTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -652,6 +776,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2703C8318B785EA0002D1A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2703C9718B785EA0002D1A8 /* SNTAppDelegate.m in Sources */,
+				D2703CB418B7860C0002D1A8 /* MCCUtilities.m in Sources */,
+				D2703C9018B785EA0002D1A8 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -677,6 +811,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D23CF683176C855800301165 /* en */,
+				D2703CC318B795230002D1A8 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -685,6 +820,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D23CF698176C855800301165 /* en */,
+				D2703CC518B795230002D1A8 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -693,6 +829,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D26674E717E663C9004B4869 /* en */,
+				D2703CC818B795230002D1A8 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -701,8 +838,56 @@
 			isa = PBXVariantGroup;
 			children = (
 				D26674FF17E71406004B4869 /* en */,
+				D2703CC718B795230002D1A8 /* fr */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D2703C7B18B776360002D1A8 /* MCCUtilities.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D2703C7A18B776360002D1A8 /* en */,
+				D2703CC418B795230002D1A8 /* fr */,
+			);
+			name = MCCUtilities.strings;
+			path = ../../Resources;
+			sourceTree = "<group>";
+		};
+		D2703C7F18B77C220002D1A8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D2703C8018B77C220002D1A8 /* en */,
+				D2703CC618B795230002D1A8 /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		D2703C8C18B785EA0002D1A8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D2703C8D18B785EA0002D1A8 /* en */,
+				D2703CC918B795230002D1A8 /* fr */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D2703C9218B785EA0002D1A8 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D2703C9318B785EA0002D1A8 /* en */,
+				D2703CCA18B795230002D1A8 /* fr */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		D2703C9818B785EA0002D1A8 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D2703C9918B785EA0002D1A8 /* Base */,
+				D2703CB918B793CD0002D1A8 /* en */,
+				D2703CC218B795230002D1A8 /* fr */,
+			);
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -921,7 +1106,7 @@
 		D26674ED17E663CA004B4869 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommonSeparators.framework/Versions/A/MCCMailCommonSeparators";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommon.framework/Versions/A/MCCMailCommon";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -944,7 +1129,7 @@
 		D26674EE17E663CA004B4869 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommonSeparators.framework/Versions/A/MCCMailCommonSeparators";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommon.framework/Versions/A/MCCMailCommon";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -962,7 +1147,7 @@
 		D266750517E71407004B4869 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommonSuper.framework/Versions/A/MCCMailCommonSuper";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommon.framework/Versions/A/MCCMailCommon";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -984,7 +1169,7 @@
 		D266750617E71407004B4869 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommonSuper.framework/Versions/A/MCCMailCommonSuper";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCMailCommon.framework/Versions/A/MCCMailCommon";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
@@ -996,6 +1181,38 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		D2703CAF18B785EB0002D1A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SnitchTester/SnitchTester-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"TEST_SNITCHING=1",
+				);
+				INFOPLIST_FILE = "SnitchTester/SnitchTester-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D2703CB018B785EB0002D1A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SnitchTester/SnitchTester-Prefix.pch";
+				INFOPLIST_FILE = "SnitchTester/SnitchTester-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
@@ -1064,6 +1281,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D2703CAE18B785EB0002D1A8 /* Build configuration list for PBXNativeTarget "SnitchTester" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2703CAF18B785EB0002D1A8 /* Debug */,
+				D2703CB018B785EB0002D1A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

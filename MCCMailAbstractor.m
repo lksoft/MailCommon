@@ -54,7 +54,7 @@
 	}
 
 	//	Trim them down to ones that are relevant on this OS version
-	NSString	*osName = [[[NSString alloc] initWithFormat:@"10.%ld", (long)[self osMinorVersion]] autorelease];
+	NSString	*osName = [[NSString alloc] initWithFormat:@"10.%ld", (long)[self osMinorVersion]];
 	NSMutableDictionary	*trimmedMappings = [NSMutableDictionary dictionary];
 	for (NSString *mappingKey in [newMappings allKeys]) {
 		//	Get the mapping for this OS version
@@ -63,6 +63,7 @@
 			[trimmedMappings setObject:mappedClassName forKey:mappingKey];
 		}
 	}
+	RELEASE(osName);
 	
 	self.mappings = [NSDictionary dictionaryWithDictionary:trimmedMappings];
 }
@@ -151,10 +152,12 @@ Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 		if (resultClass) {
 			//	Stupid hack to ensure that the +initialize has been called on the class
 			//		to avoid a deadlock seen occaisionally (at least on Mountain Lion)
-			[resultClass class];
+			Class		newClass = [resultClass class];
+			NSString	*newClassName = [aClassName copy];
 			dispatch_barrier_async(classNameDictAccessQueue, ^{
-				[classNameLookup setObject:resultClass forKey:aClassName];
+				[classNameLookup setObject:newClass forKey:newClassName];
 			});
+			RELEASE(newClassName);
 		}
 		// NSLog(@"found class %@ -->%@",className,resultClass);
 		

@@ -1,0 +1,11 @@
+/* 
+  MCCUtilities.strings
+  MCCMailCommon
+
+  Created by Scott Little on 21/2/14.
+  Copyright (c) 2014 Little Known Software, Inc. All rights reserved.
+*/
+
+"SNITCHER_FOUND" = "‘%1$@’ a trouvé ‘%2$@’ installer.";
+"ALLOW_CONNECTIONS_TO_DOMAIN_LIST_SINGULAR" = "Veuillez assurer que les connections pour les domaines suivants sont autorisé en « %1$@ » :\n\n%2$@";
+"ALLOW_CONNECTIONS_TO_DOMAIN_LIST_PLURAL" = "Veuillez assurer que les connections pour le domaine suivant est autorisé en « %1$@ » :\n\n%2$@";

@@ -22,3 +22,17 @@
 #define _MCC_CONCAT_AS_STR(a, b)	_MCC_AS_STR( a ## b )
 #define _MCC_NS_STR(a)				@a
 #define MCC_NSSTRING(a, b)			_MCC_NS_STR(_MCC_CONCAT_AS_STR(a, b))
+
+//	ARC compatibility
+#if __has_feature(objc_arc)
+#define RETAIN(x) (x)
+#define RELEASE(x)
+#define AUTORELEASE(x) (x)
+#define DEALLOC(x) (x)
+#else
+#define RETAIN(x) ([(x) retain])
+#define RELEASE(x) ([(x) release])
+#define AUTORELEASE(x) ([(x) autorelease])
+#define DEALLOC(x) ([(x) dealloc])
+#endif
+

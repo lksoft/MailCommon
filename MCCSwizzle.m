@@ -15,18 +15,6 @@
 typedef struct objc_super * super_pointer;
 
 
-#if __has_feature(objc_arc)
-#define RETAIN(x) (x)
-#define RELEASE(x)
-#define AUTORELEASE(x) (x)
-#define DEALLOC(x) (x)
-#else
-#define RETAIN(x) ([(x) retain])
-#define RELEASE(x) ([(x) release])
-#define AUTORELEASE(x) ([(x) autorelease])
-#define DEALLOC(x) ([(x) dealloc])
-#endif
-
 #ifndef MCC_CLASSNAME_SUFFIX_SEPARATOR
 #define MCC_CLASSNAME_SUFFIX_SEPARATOR	@"_"
 #endif
