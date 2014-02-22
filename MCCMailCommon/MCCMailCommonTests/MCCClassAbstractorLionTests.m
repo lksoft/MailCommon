@@ -8,14 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import "MCCMailAbstractor.h"
-
-@interface TSTMailAbstractor
-@property	(strong)	NSDictionary	*mappings;
-@property	(assign)	NSInteger		testVersionOS;
-- (void)rebuildCurrentMappings;
-- (instancetype)sharedInstance;
-@end
+#import "TSTMailAbstractor.h"
 
 @interface MCCClassAbstractorLionTests : XCTestCase
 @property	(strong)	NSDictionary	*mappings;
@@ -34,6 +27,7 @@
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
+	self.mappings = nil;
     [super tearDown];
 }
 

@@ -57,7 +57,6 @@
 		D2703C7518B765A30002D1A8 /* MCCUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = D2703C7318B765A30002D1A8 /* MCCUtilities.h */; };
 		D2703C7618B765A30002D1A8 /* MCCUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703C7418B765A30002D1A8 /* MCCUtilities.m */; };
 		D2703C7918B776360002D1A8 /* MCCUtilities.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2703C7B18B776360002D1A8 /* MCCUtilities.strings */; };
-		D2703C7C18B779EA0002D1A8 /* MCCUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703C7418B765A30002D1A8 /* MCCUtilities.m */; };
 		D2703C7E18B77A150002D1A8 /* MCCUtilitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703C7D18B77A150002D1A8 /* MCCUtilitiesTests.m */; };
 		D2703C8118B77C220002D1A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2703C7F18B77C220002D1A8 /* Localizable.strings */; };
 		D2703C8218B77C440002D1A8 /* MCCUtilities.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2703C7B18B776360002D1A8 /* MCCUtilities.strings */; };
@@ -71,6 +70,10 @@
 		D2703CB418B7860C0002D1A8 /* MCCUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703C7418B765A30002D1A8 /* MCCUtilities.m */; };
 		D2703CB518B7866A0002D1A8 /* MCCUtilities.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2703C7B18B776360002D1A8 /* MCCUtilities.strings */; };
 		D2703CB718B788BB0002D1A8 /* Mail_Large.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D2703CB618B788BB0002D1A8 /* Mail_Large.tiff */; };
+		D2703CD318B8416C0002D1A8 /* BaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CD218B8416C0002D1A8 /* BaseClass.m */; };
+		D2703CD618B841EB0002D1A8 /* AASwizzledBaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CD518B841EB0002D1A8 /* AASwizzledBaseClass.m */; };
+		D2703CD918B8435F0002D1A8 /* SubClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CD818B8435F0002D1A8 /* SubClass.m */; };
+		D2703CDB18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CDA18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m */; };
 		D2E2E960188C90D9000F1E76 /* MCCClassAbstractorLionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */; };
 		D2E2E963188C9C9D000F1E76 /* PluginClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */; };
 /* End PBXBuildFile section */
@@ -144,7 +147,7 @@
 		D266750117E71406004B4869 /* MCCSuperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCCSuperTests.m; sourceTree = "<group>"; };
 		D2703C7318B765A30002D1A8 /* MCCUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCUtilities.h; path = ../../MCCUtilities.h; sourceTree = "<group>"; };
 		D2703C7418B765A30002D1A8 /* MCCUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCUtilities.m; path = ../../MCCUtilities.m; sourceTree = "<group>"; };
-		D2703C7A18B776360002D1A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/MCCUtilities.strings; sourceTree = "<group>"; };
+		D2703C7A18B776360002D1A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MCCUtilities.strings; sourceTree = "<group>"; };
 		D2703C7D18B77A150002D1A8 /* MCCUtilitiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCUtilitiesTests.m; sourceTree = "<group>"; };
 		D2703C8018B77C220002D1A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D2703C8718B785EA0002D1A8 /* SnitchTester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnitchTester.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,13 +164,21 @@
 		D2703CB918B793CD0002D1A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		D2703CC218B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		D2703CC318B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D2703CC418B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file; name = fr; path = fr.lproj/MCCUtilities.strings; sourceTree = "<group>"; };
+		D2703CC418B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MCCUtilities.strings; sourceTree = "<group>"; };
 		D2703CC518B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D2703CC618B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D2703CC718B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D2703CC818B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D2703CC918B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D2703CCA18B795230002D1A8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = fr; path = fr.lproj/Credits.rtf; sourceTree = "<group>"; };
+		D2703CD118B8416C0002D1A8 /* BaseClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseClass.h; sourceTree = "<group>"; };
+		D2703CD218B8416C0002D1A8 /* BaseClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseClass.m; sourceTree = "<group>"; };
+		D2703CD418B841EB0002D1A8 /* AASwizzledBaseClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AASwizzledBaseClass.h; sourceTree = "<group>"; };
+		D2703CD518B841EB0002D1A8 /* AASwizzledBaseClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AASwizzledBaseClass.m; sourceTree = "<group>"; };
+		D2703CD718B8435F0002D1A8 /* SubClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubClass.h; sourceTree = "<group>"; };
+		D2703CD818B8435F0002D1A8 /* SubClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubClass.m; sourceTree = "<group>"; };
+		D2703CDA18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCClassAbstractorContentionTests.m; sourceTree = "<group>"; };
+		D2703CDD18B8455A0002D1A8 /* TSTMailAbstractor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSTMailAbstractor.h; sourceTree = "<group>"; };
 		D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCClassAbstractorLionTests.m; sourceTree = "<group>"; };
 		D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PluginClassMappings.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -314,10 +325,13 @@
 		D23CF694176C855800301165 /* MCCMailCommonTests */ = {
 			isa = PBXGroup;
 			children = (
+				D2703CDD18B8455A0002D1A8 /* TSTMailAbstractor.h */,
 				D23CF69A176C855800301165 /* MCCMailCommonTests.m */,
 				D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */,
+				D2703CDC18B844D10002D1A8 /* LionObjects */,
 				D2703C7D18B77A150002D1A8 /* MCCUtilitiesTests.m */,
-				D26674CA17E5E010004B4869 /* TestObjects */,
+				D2703CDA18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m */,
+				D26674CA17E5E010004B4869 /* ContentionObjects */,
 				D23CF695176C855800301165 /* Supporting Files */,
 			);
 			path = MCCMailCommonTests;
@@ -346,17 +360,17 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		D26674CA17E5E010004B4869 /* TestObjects */ = {
+		D26674CA17E5E010004B4869 /* ContentionObjects */ = {
 			isa = PBXGroup;
 			children = (
-				D26674C217E5D591004B4869 /* TSTObject+MCCSwizzle.h */,
-				D26674C317E5D591004B4869 /* TSTObject+MCCSwizzle.m */,
-				D26674CE17E5F882004B4869 /* MyObject.h */,
-				D26674CF17E5F882004B4869 /* MyObject.m */,
-				D26674C717E5D6A8004B4869 /* TSTObject.h */,
-				D26674C817E5D6A8004B4869 /* TSTObject.m */,
+				D2703CD418B841EB0002D1A8 /* AASwizzledBaseClass.h */,
+				D2703CD518B841EB0002D1A8 /* AASwizzledBaseClass.m */,
+				D2703CD118B8416C0002D1A8 /* BaseClass.h */,
+				D2703CD218B8416C0002D1A8 /* BaseClass.m */,
+				D2703CD718B8435F0002D1A8 /* SubClass.h */,
+				D2703CD818B8435F0002D1A8 /* SubClass.m */,
 			);
-			name = TestObjects;
+			name = ContentionObjects;
 			sourceTree = "<group>";
 		};
 		D26674E317E663C9004B4869 /* MCCSeparatorTests */ = {
@@ -430,6 +444,19 @@
 				D2703C9218B785EA0002D1A8 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D2703CDC18B844D10002D1A8 /* LionObjects */ = {
+			isa = PBXGroup;
+			children = (
+				D26674C217E5D591004B4869 /* TSTObject+MCCSwizzle.h */,
+				D26674C317E5D591004B4869 /* TSTObject+MCCSwizzle.m */,
+				D26674CE17E5F882004B4869 /* MyObject.h */,
+				D26674CF17E5F882004B4869 /* MyObject.m */,
+				D26674C717E5D6A8004B4869 /* TSTObject.h */,
+				D26674C817E5D6A8004B4869 /* TSTObject.m */,
+			);
+			name = LionObjects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -727,13 +754,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2703CD918B8435F0002D1A8 /* SubClass.m in Sources */,
 				D2703C7E18B77A150002D1A8 /* MCCUtilitiesTests.m in Sources */,
 				D26674C417E5D591004B4869 /* TSTObject+MCCSwizzle.m in Sources */,
 				D2E2E960188C90D9000F1E76 /* MCCClassAbstractorLionTests.m in Sources */,
+				D2703CDB18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m in Sources */,
 				D26674D017E5F882004B4869 /* MyObject.m in Sources */,
+				D2703CD318B8416C0002D1A8 /* BaseClass.m in Sources */,
 				D26674CD17E5E031004B4869 /* NSObject+DLIntrospection.m in Sources */,
 				D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */,
-				D2703C7C18B779EA0002D1A8 /* MCCUtilities.m in Sources */,
+				D2703CD618B841EB0002D1A8 /* AASwizzledBaseClass.m in Sources */,
 				D23CF69B176C855800301165 /* MCCMailCommonTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1289,6 +1319,7 @@
 				D2703CB018B785EB0002D1A8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

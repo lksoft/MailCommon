@@ -4,6 +4,14 @@
 <array>
 	<dict>
 		<key>10.7</key>
+		<string>LionObject</string>
+		<key>10.8</key>
+		<string>NSObject</string>
+		<key>10.9</key>
+		<string>NSObject</string>
+	</dict>
+	<dict>
+		<key>10.7</key>
 		<string>NSObject</string>
 		<key>10.8</key>
 		<string>MLObject</string>
@@ -12,11 +20,11 @@
 	</dict>
 	<dict>
 		<key>10.7</key>
-		<string>LionObject</string>
+		<string>DudeObject</string>
 		<key>10.8</key>
-		<string>NSObject</string>
+		<string>DudeObject</string>
 		<key>10.9</key>
-		<string>NSObject</string>
+		<string>SubClass</string>
 	</dict>
 </array>
 </plist>
