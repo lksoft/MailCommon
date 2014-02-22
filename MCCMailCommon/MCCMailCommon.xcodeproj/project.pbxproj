@@ -74,6 +74,8 @@
 		D2703CD618B841EB0002D1A8 /* AASwizzledBaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CD518B841EB0002D1A8 /* AASwizzledBaseClass.m */; };
 		D2703CD918B8435F0002D1A8 /* SubClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CD818B8435F0002D1A8 /* SubClass.m */; };
 		D2703CDB18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CDA18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m */; };
+		D2703CE318B860230002D1A8 /* MCCDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = D2703CE118B860230002D1A8 /* MCCDefaults.h */; };
+		D2703CE418B860230002D1A8 /* MCCDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CE218B860230002D1A8 /* MCCDefaults.m */; };
 		D2E2E960188C90D9000F1E76 /* MCCClassAbstractorLionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */; };
 		D2E2E963188C9C9D000F1E76 /* PluginClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */; };
 /* End PBXBuildFile section */
@@ -179,6 +181,8 @@
 		D2703CD818B8435F0002D1A8 /* SubClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubClass.m; sourceTree = "<group>"; };
 		D2703CDA18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCClassAbstractorContentionTests.m; sourceTree = "<group>"; };
 		D2703CDD18B8455A0002D1A8 /* TSTMailAbstractor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSTMailAbstractor.h; sourceTree = "<group>"; };
+		D2703CE118B860230002D1A8 /* MCCDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCDefaults.h; path = ../../MCCDefaults.h; sourceTree = "<group>"; };
+		D2703CE218B860230002D1A8 /* MCCDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCDefaults.m; path = ../../MCCDefaults.m; sourceTree = "<group>"; };
 		D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCClassAbstractorLionTests.m; sourceTree = "<group>"; };
 		D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PluginClassMappings.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -306,6 +310,8 @@
 				D23CF6AA176C88C600301165 /* MCCSwizzle.m */,
 				D2703C7318B765A30002D1A8 /* MCCUtilities.h */,
 				D2703C7418B765A30002D1A8 /* MCCUtilities.m */,
+				D2703CE118B860230002D1A8 /* MCCDefaults.h */,
+				D2703CE218B860230002D1A8 /* MCCDefaults.m */,
 				D23CF6AB176C88D100301165 /* Resources */,
 				D23CF680176C855800301165 /* Project */,
 			);
@@ -467,6 +473,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2703C7518B765A30002D1A8 /* MCCUtilities.h in Headers */,
+				D2703CE318B860230002D1A8 /* MCCDefaults.h in Headers */,
 				D23CF6AE176C890E00301165 /* MCCCommonHeader.h in Headers */,
 				D23CF6AF176C891300301165 /* MCCMailAbstractor.h in Headers */,
 				D23CF6B0176C891700301165 /* MCCSwizzle.h in Headers */,
@@ -747,6 +754,7 @@
 				D23CF6AD176C88F200301165 /* MCCSwizzle.m in Sources */,
 				D23CF6AC176C88EF00301165 /* MCCMailAbstractor.m in Sources */,
 				D2703C7618B765A30002D1A8 /* MCCUtilities.m in Sources */,
+				D2703CE418B860230002D1A8 /* MCCDefaults.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
