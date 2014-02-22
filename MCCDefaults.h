@@ -9,21 +9,11 @@
 #import "MCCCommonHeader.h"
 
 
-@protocol MCC_PREFIXED_NAME(DefaultsDelegate) <NSObject>
-
-@optional
-- (void)finishPreparingDefaultsWithDictionary:(NSMutableDictionary *)defaults;
-- (void)backupCurrentDefaultsBeforeWriteAtURL:(NSURL *)currentFileURL;
-
-@end
-
-
 @interface MCC_PREFIXED_NAME(Defaults) : NSObject
 
-@property (strong, atomic, readonly) NSDictionary	*defaultDictionary;
-@property (strong) NSString							*defaultsBundleID;
 @property (assign) NSTimeInterval					readInterval;
-@property (assign) id								delegate;
+
+- (NSDictionary *)allDefaults;
 
 + (id)defaultForKey:(NSString *)key;
 + (id)objectForKey:(NSString *)key;
@@ -41,6 +31,16 @@
 
 + (void)resetCache;
 + (instancetype)sharedDefaults;
-+ (instancetype)sharedDefaultsWithDelegate:(id)aDelegate;
++ (instancetype)makeSharedDefaultsWithDelegate:(id)aDelegate;
+
+@end
+
+
+//	This is an informal protocol for the delegate passed to the makeSharedDefaultsWithDelegate: method
+@protocol MCC_PREFIXED_NAME(DefaultsDelegate) <NSObject>
+
+@optional
+- (void)finishPreparingDefaultsWithDictionary:(NSMutableDictionary *)defaults;
+- (void)backupCurrentDefaultsBeforeWriteAtURL:(NSURL *)currentFileURL;
 
 @end

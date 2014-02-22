@@ -11,9 +11,10 @@
 #define MCC_DEFAULT_READ_INTERVAL	5
 
 @interface MCC_PREFIXED_NAME(Defaults) ()
-@property (strong, atomic, readwrite) NSDictionary	*defaultDictionary;
-@property (strong) NSURL							*defaultsURL;
-@property (assign) NSTimeInterval					lastDiskReadTime;
+@property (strong, atomic) NSDictionary	*defaultDictionary;
+@property (strong) NSURL				*defaultsURL;
+@property (assign) NSTimeInterval		lastDiskReadTime;
+@property (assign) id					delegate;
 @end
 
 
@@ -27,13 +28,12 @@
 		self.readInterval = MCC_DEFAULT_READ_INTERVAL;
 		
 		NSBundle	*bundle = [NSBundle bundleForClass:[self class]];
-		self.defaultsBundleID = [bundle bundleIdentifier];
 		
 		NSFileManager	*manager = [NSFileManager defaultManager];
 		NSArray	*libraryURLs = [manager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
 		if ([libraryURLs count]) {
 			NSURL	*tempURL = [[libraryURLs lastObject] URLByAppendingPathComponent:@"Preferences"];
-			self.defaultsURL = [[tempURL URLByAppendingPathComponent:self.defaultsBundleID] URLByAppendingPathExtension:@"plist"];
+			self.defaultsURL = [[tempURL URLByAppendingPathComponent:[bundle bundleIdentifier]] URLByAppendingPathExtension:@"plist"];
 		}
 		
 		//	Load up initial values and current ones
@@ -66,6 +66,10 @@
 
 	}
 	return self;
+}
+
+- (NSDictionary *)allDefaults {
+	return AUTORELEASE([self.defaultDictionary copy]);
 }
 
 
@@ -234,10 +238,10 @@
 #pragma mark - Class Management
 
 + (instancetype)sharedDefaults {
-	return [self sharedDefaultsWithDelegate:nil];
+	return [self makeSharedDefaultsWithDelegate:nil];
 }
 
-+ (instancetype)sharedDefaultsWithDelegate:(id)aDelegate {
++ (instancetype)makeSharedDefaultsWithDelegate:(id)aDelegate {
 	static	MCC_PREFIXED_NAME(Defaults)	*theDefaults = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
