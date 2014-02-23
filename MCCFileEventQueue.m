@@ -8,7 +8,6 @@
 
 #import "MCCFileEventQueue.h"
 
-#include <sys/event.h>
 //#import <unistd.h>
 //#import <fcntl.h>
 //#include <sys/stat.h>

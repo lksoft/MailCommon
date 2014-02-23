@@ -33,6 +33,7 @@
 #import "MCCCommonHeader.h"
 
 #include <sys/types.h>
+#include <sys/event.h>
 
 //
 //  Logical OR these values into the u_int that you pass in the -addPath:notifyingAbout: method

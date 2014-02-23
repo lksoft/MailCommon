@@ -79,6 +79,7 @@
 		D2703CEC18BA4A2B0002D1A8 /* MCCFileEventQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = D2703CEA18BA4A2B0002D1A8 /* MCCFileEventQueue.h */; };
 		D2703CED18BA4A2B0002D1A8 /* MCCFileEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CEB18BA4A2B0002D1A8 /* MCCFileEventQueue.m */; };
 		D2703CEF18BAA1130002D1A8 /* MCCFileEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CEE18BAA1130002D1A8 /* MCCFileEventTests.m */; };
+		D2703CF218BAB0410002D1A8 /* XCTAsyncTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CF118BAB0410002D1A8 /* XCTAsyncTestCase.m */; };
 		D2E2E960188C90D9000F1E76 /* MCCClassAbstractorLionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */; };
 		D2E2E963188C9C9D000F1E76 /* PluginClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */; };
 /* End PBXBuildFile section */
@@ -189,6 +190,8 @@
 		D2703CEA18BA4A2B0002D1A8 /* MCCFileEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCFileEventQueue.h; path = ../../MCCFileEventQueue.h; sourceTree = "<group>"; };
 		D2703CEB18BA4A2B0002D1A8 /* MCCFileEventQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCFileEventQueue.m; path = ../../MCCFileEventQueue.m; sourceTree = "<group>"; };
 		D2703CEE18BAA1130002D1A8 /* MCCFileEventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCFileEventTests.m; path = ../../MCCFileEventTests.m; sourceTree = "<group>"; };
+		D2703CF018BAB0410002D1A8 /* XCTAsyncTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XCTAsyncTestCase.h; path = AsyncTests/XCTAsyncTestCase.h; sourceTree = SOURCE_ROOT; };
+		D2703CF118BAB0410002D1A8 /* XCTAsyncTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XCTAsyncTestCase.m; path = AsyncTests/XCTAsyncTestCase.m; sourceTree = SOURCE_ROOT; };
 		D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCClassAbstractorLionTests.m; sourceTree = "<group>"; };
 		D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PluginClassMappings.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -354,6 +357,8 @@
 		D23CF695176C855800301165 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D2703CF018BAB0410002D1A8 /* XCTAsyncTestCase.h */,
+				D2703CF118BAB0410002D1A8 /* XCTAsyncTestCase.m */,
 				D2703CDD18B8455A0002D1A8 /* TSTMailAbstractor.h */,
 				D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */,
 				D26674CB17E5E031004B4869 /* NSObject+DLIntrospection.h */,
@@ -783,6 +788,7 @@
 				D26674CD17E5E031004B4869 /* NSObject+DLIntrospection.m in Sources */,
 				D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */,
 				D2703CD618B841EB0002D1A8 /* AASwizzledBaseClass.m in Sources */,
+				D2703CF218BAB0410002D1A8 /* XCTAsyncTestCase.m in Sources */,
 				D2703CEF18BAA1130002D1A8 /* MCCFileEventTests.m in Sources */,
 				D23CF69B176C855800301165 /* MCCMailCommonTests.m in Sources */,
 			);
