@@ -1,12 +1,12 @@
 //
-//  MCCFileEvent.m
+//  MCCFileEventQueue.m
 //  MCCMailCommon
 //
 //  Created by Scott Little on 23/2/14.
 //  Copyright (c) 2014 Little Known Software, Inc. All rights reserved.
 //
 
-#import "MCCFileEvent.h"
+#import "MCCFileEventQueue.h"
 
 #include <sys/event.h>
 //#import <unistd.h>
@@ -50,7 +50,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 @end
 
 
-@interface MCC_PREFIXED_NAME(FileEvent) ()
+@interface MCC_PREFIXED_NAME(FileEventQueue) ()
 @property (strong) NSMutableDictionary	*watchedPathEntries;
 @property (strong) NSMutableArray		*watchedAtomicEntries;
 @property (strong) NSMutableArray		*watchedProcessEntries;
@@ -60,7 +60,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 @end
 
 
-@implementation MCC_PREFIXED_NAME(FileEvent)
+@implementation MCC_PREFIXED_NAME(FileEventQueue)
 
 
 #pragma mark Public Methods
@@ -290,7 +290,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
                             NSArray *notes = [[NSArray alloc] initWithArray:notesToPost];   // notesToPost will be changed in the next loop iteration, which will likely occur before the block below runs.
 							
                             // Post the notifications (or call the delegate method) on the main thread.
-							MCC_PREFIXED_NAME(FileEvent)				__block	*blockSelf = self;
+							MCC_PREFIXED_NAME(FileEventQueue)				__block	*blockSelf = self;
 							id<MCC_PREFIXED_NAME(FileEventDelegate)>	__block	myDelegate = self.delegate;
 							BOOL	forceNotifications = self.shouldAlwaysPostNotifications;
                             dispatch_async(dispatch_get_main_queue(),^{
@@ -317,7 +317,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 				else if (ev.filter == EVFILT_PROC) {
 					id pe = (__bridge id)(ev.udata);
 					if (pe && [pe respondsToSelector:@selector(bundleID)]) {
-						MCC_PREFIXED_NAME(FileEvent)	__block	*blockSelf = self;
+						MCC_PREFIXED_NAME(FileEventQueue)	__block	*blockSelf = self;
 						MCC_PREFIXED_NAME(ProcessEntry)			*processEntry = (MCC_PREFIXED_NAME(ProcessEntry) *)pe;
 						if (processEntry.block) {
 							dispatch_async(dispatch_get_main_queue(), ^{

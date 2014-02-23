@@ -1,5 +1,5 @@
 //
-//  MCCFileEvent.h
+//  MCCFileEventQueue.h
 //  MCCMailCommon
 //
 //  Created by Scott Little on 23/2/14.
@@ -65,17 +65,17 @@ extern NSString *MCC_PREFIXED_NAME(FileEventLinkCountChangeNotification);
 extern NSString *MCC_PREFIXED_NAME(FileEventAccessRevocationNotification);
 
 
-@class MCC_PREFIXED_NAME(FileEvent);
+@class MCC_PREFIXED_NAME(FileEventQueue);
 @protocol MCC_PREFIXED_NAME(FileEventDelegate) <NSObject>
 @required
--(void) fileEvent:(MCC_PREFIXED_NAME(FileEvent) *)anEvent receivedNotification:(NSString *)aNote forPath:(NSString *)aPath;
+-(void) fileEvent:(MCC_PREFIXED_NAME(FileEventQueue) *)anEvent receivedNotification:(NSString *)aNote forPath:(NSString *)aPath;
 @end
 
-typedef void (^MCC_PREFIXED_NAME(PathBlock))(MCC_PREFIXED_NAME(FileEvent) *anEventQueue, NSString *aNote, NSString *anAffectedPath);
-typedef void (^MCC_PREFIXED_NAME(ProcessNotificationBlock))(MCC_PREFIXED_NAME(FileEvent) *anEvent, NSString *processName, NSString *processBundleID, pid_t processID);
+typedef void (^MCC_PREFIXED_NAME(PathBlock))(MCC_PREFIXED_NAME(FileEventQueue) *anEventQueue, NSString *aNote, NSString *anAffectedPath);
+typedef void (^MCC_PREFIXED_NAME(ProcessNotificationBlock))(MCC_PREFIXED_NAME(FileEventQueue) *anEvent, NSString *processName, NSString *processBundleID, pid_t processID);
 
 
-@interface MCC_PREFIXED_NAME(FileEvent) : NSObject
+@interface MCC_PREFIXED_NAME(FileEventQueue) : NSObject
 
 @property (weak) id<MCC_PREFIXED_NAME(FileEventDelegate)> delegate;
 @property (assign) BOOL shouldAlwaysPostNotifications;

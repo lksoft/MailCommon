@@ -8,10 +8,10 @@
 
 #import <XCTest/XCTest.h>
 
-#import "MCCFileEvent.h"
+#import "MCCFileEventQueue.h"
 
 @interface MCCFileEventTests : XCTestCase
-@property (strong) TSTFileEvent	*eventQueue;
+@property (strong) TSTFileEventQueue	*eventQueue;
 @end
 
 @implementation MCCFileEventTests
@@ -19,7 +19,7 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-	self.eventQueue = [[TSTFileEvent alloc] init];
+	self.eventQueue = [[TSTFileEventQueue alloc] init];
 }
 
 - (void)tearDown {
