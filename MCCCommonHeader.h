@@ -28,11 +28,11 @@
 #define RETAIN(x) (x)
 #define RELEASE(x)
 #define AUTORELEASE(x) (x)
-#define DEALLOC(x) (x)
+#define DEALLOC()
 #else
 #define RETAIN(x) ([(x) retain])
 #define RELEASE(x) ([(x) release])
 #define AUTORELEASE(x) ([(x) autorelease])
-#define DEALLOC(x) ([(x) dealloc])
+#define DEALLOC() ([super dealloc])
 #endif
 

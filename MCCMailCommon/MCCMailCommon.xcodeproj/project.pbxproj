@@ -76,6 +76,9 @@
 		D2703CDB18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CDA18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m */; };
 		D2703CE318B860230002D1A8 /* MCCDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = D2703CE118B860230002D1A8 /* MCCDefaults.h */; };
 		D2703CE418B860230002D1A8 /* MCCDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CE218B860230002D1A8 /* MCCDefaults.m */; };
+		D2703CEC18BA4A2B0002D1A8 /* MCCFileEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = D2703CEA18BA4A2B0002D1A8 /* MCCFileEvent.h */; };
+		D2703CED18BA4A2B0002D1A8 /* MCCFileEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CEB18BA4A2B0002D1A8 /* MCCFileEvent.m */; };
+		D2703CEF18BAA1130002D1A8 /* MCCFileEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CEE18BAA1130002D1A8 /* MCCFileEventTests.m */; };
 		D2E2E960188C90D9000F1E76 /* MCCClassAbstractorLionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */; };
 		D2E2E963188C9C9D000F1E76 /* PluginClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */; };
 /* End PBXBuildFile section */
@@ -183,6 +186,9 @@
 		D2703CDD18B8455A0002D1A8 /* TSTMailAbstractor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSTMailAbstractor.h; sourceTree = "<group>"; };
 		D2703CE118B860230002D1A8 /* MCCDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCDefaults.h; path = ../../MCCDefaults.h; sourceTree = "<group>"; };
 		D2703CE218B860230002D1A8 /* MCCDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCDefaults.m; path = ../../MCCDefaults.m; sourceTree = "<group>"; };
+		D2703CEA18BA4A2B0002D1A8 /* MCCFileEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCFileEvent.h; path = ../../MCCFileEvent.h; sourceTree = "<group>"; };
+		D2703CEB18BA4A2B0002D1A8 /* MCCFileEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCFileEvent.m; path = ../../MCCFileEvent.m; sourceTree = "<group>"; };
+		D2703CEE18BAA1130002D1A8 /* MCCFileEventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCFileEventTests.m; path = ../../MCCFileEventTests.m; sourceTree = "<group>"; };
 		D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCClassAbstractorLionTests.m; sourceTree = "<group>"; };
 		D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PluginClassMappings.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -312,6 +318,8 @@
 				D2703C7418B765A30002D1A8 /* MCCUtilities.m */,
 				D2703CE118B860230002D1A8 /* MCCDefaults.h */,
 				D2703CE218B860230002D1A8 /* MCCDefaults.m */,
+				D2703CEA18BA4A2B0002D1A8 /* MCCFileEvent.h */,
+				D2703CEB18BA4A2B0002D1A8 /* MCCFileEvent.m */,
 				D23CF6AB176C88D100301165 /* Resources */,
 				D23CF680176C855800301165 /* Project */,
 			);
@@ -331,13 +339,13 @@
 		D23CF694176C855800301165 /* MCCMailCommonTests */ = {
 			isa = PBXGroup;
 			children = (
-				D2703CDD18B8455A0002D1A8 /* TSTMailAbstractor.h */,
 				D23CF69A176C855800301165 /* MCCMailCommonTests.m */,
-				D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */,
-				D2703CDC18B844D10002D1A8 /* LionObjects */,
 				D2703C7D18B77A150002D1A8 /* MCCUtilitiesTests.m */,
+				D2703CEE18BAA1130002D1A8 /* MCCFileEventTests.m */,
 				D2703CDA18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m */,
 				D26674CA17E5E010004B4869 /* ContentionObjects */,
+				D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */,
+				D2703CDC18B844D10002D1A8 /* LionObjects */,
 				D23CF695176C855800301165 /* Supporting Files */,
 			);
 			path = MCCMailCommonTests;
@@ -346,6 +354,7 @@
 		D23CF695176C855800301165 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D2703CDD18B8455A0002D1A8 /* TSTMailAbstractor.h */,
 				D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */,
 				D26674CB17E5E031004B4869 /* NSObject+DLIntrospection.h */,
 				D26674CC17E5E031004B4869 /* NSObject+DLIntrospection.m */,
@@ -473,6 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2703C7518B765A30002D1A8 /* MCCUtilities.h in Headers */,
+				D2703CEC18BA4A2B0002D1A8 /* MCCFileEvent.h in Headers */,
 				D2703CE318B860230002D1A8 /* MCCDefaults.h in Headers */,
 				D23CF6AE176C890E00301165 /* MCCCommonHeader.h in Headers */,
 				D23CF6AF176C891300301165 /* MCCMailAbstractor.h in Headers */,
@@ -753,6 +763,7 @@
 			files = (
 				D23CF6AD176C88F200301165 /* MCCSwizzle.m in Sources */,
 				D23CF6AC176C88EF00301165 /* MCCMailAbstractor.m in Sources */,
+				D2703CED18BA4A2B0002D1A8 /* MCCFileEvent.m in Sources */,
 				D2703C7618B765A30002D1A8 /* MCCUtilities.m in Sources */,
 				D2703CE418B860230002D1A8 /* MCCDefaults.m in Sources */,
 			);
@@ -772,6 +783,7 @@
 				D26674CD17E5E031004B4869 /* NSObject+DLIntrospection.m in Sources */,
 				D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */,
 				D2703CD618B841EB0002D1A8 /* AASwizzledBaseClass.m in Sources */,
+				D2703CEF18BAA1130002D1A8 /* MCCFileEventTests.m in Sources */,
 				D23CF69B176C855800301165 /* MCCMailCommonTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
