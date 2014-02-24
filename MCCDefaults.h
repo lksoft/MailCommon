@@ -6,7 +6,19 @@
 //  Copyright (c) 2014 Little Known Software, Inc. All rights reserved.
 //
 
+//	NOTE that this file also requires MCCFileEventQueue be in your project to watch for changes to the prefs file
+
 #import "MCCCommonHeader.h"
+
+
+//	This is an informal protocol for the delegate passed to the makeSharedDefaultsWithDelegate: method
+@protocol MCC_PREFIXED_NAME(DefaultsDelegate) <NSObject>
+
+@optional
+- (void)finishPreparingDefaultsWithDictionary:(NSMutableDictionary *)defaults;
+- (void)backupCurrentDefaultsBeforeWriteAtURL:(NSURL *)currentFileURL;
+
+@end
 
 
 @interface MCC_PREFIXED_NAME(Defaults) : NSObject
@@ -29,18 +41,7 @@
 + (void)setFloat:(CGFloat)value forKey:(NSString *)key;
 + (void)setDefaultsForDictionary:(NSDictionary *)newValues;
 
-+ (void)resetCache;
 + (instancetype)sharedDefaults;
-+ (instancetype)makeSharedDefaultsWithDelegate:(id)aDelegate;
-
-@end
-
-
-//	This is an informal protocol for the delegate passed to the makeSharedDefaultsWithDelegate: method
-@protocol MCC_PREFIXED_NAME(DefaultsDelegate) <NSObject>
-
-@optional
-- (void)finishPreparingDefaultsWithDictionary:(NSMutableDictionary *)defaults;
-- (void)backupCurrentDefaultsBeforeWriteAtURL:(NSURL *)currentFileURL;
++ (instancetype)makeSharedDefaultsWithDelegate:(id<MCC_PREFIXED_NAME(DefaultsDelegate)>)aDelegate;
 
 @end

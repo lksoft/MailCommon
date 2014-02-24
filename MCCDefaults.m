@@ -7,14 +7,17 @@
 //
 
 #import "MCCDefaults.h"
+#import "MCCFileEventQueue.h"
 
 #define MCC_DEFAULT_READ_INTERVAL	5
 
 @interface MCC_PREFIXED_NAME(Defaults) ()
 @property (strong, atomic) NSDictionary	*defaultDictionary;
 @property (strong) NSURL				*defaultsURL;
-@property (assign) NSTimeInterval		lastDiskReadTime;
-@property (assign) id					delegate;
+@property (strong) NSOperationQueue		*prefsAccessQueue;
+@property (assign) id<MCC_PREFIXED_NAME(DefaultsDelegate)>	delegate;
+@property (strong) MCC_PREFIXED_NAME(FileEventQueue)		*fileEventQueue;
+@property (copy) MCC_PREFIXED_NAME(PathBlock)				prefsChangeBlock;
 @end
 
 
@@ -39,7 +42,7 @@
 		//	Load up initial values and current ones
 		NSMutableDictionary *defaults = nil;
 		NSURL	*initialDefaultsURL = [bundle URLForResource:@"InitialDefaults" withExtension:@"plist"];
-		if ([manager fileExistsAtPath:[initialDefaultsURL path]]) {
+		if ([manager fileExistsAtPath:initialDefaultsURL.path]) {
 			defaults = [[NSDictionary dictionaryWithContentsOfURL:initialDefaultsURL] mutableCopy];
 		}
 		else {
@@ -57,12 +60,24 @@
 		
 		//	Set values and the read time
 		self.defaultDictionary = [NSDictionary dictionaryWithDictionary:defaults];
-		self.lastDiskReadTime = [[NSDate date] timeIntervalSinceReferenceDate];
 		
 		if (![self.defaultDictionary isEqualToDictionary:storedDefaults]){
 			[self writeToFile];
 		}
 		RELEASE(defaults);
+		
+		self.fileEventQueue = AUTORELEASE([[MCC_PREFIXED_NAME(FileEventQueue) alloc] init]);
+		MCC_PREFIXED_NAME(Defaults)	*blockSelf = self;
+		self.prefsChangeBlock = ^(MCC_PREFIXED_NAME(FileEventQueue) *anEventQueue, NSString *aNote, NSString *anAffectedPath) {
+			if ([anAffectedPath isEqualToString:initialDefaultsURL.path]) {
+				[blockSelf updateFromFileEvent];
+			}
+		};
+		[self.fileEventQueue addAtomicPath:initialDefaultsURL.path withBlock:self.prefsChangeBlock notifyingAbout:(MCCNotifyAboutFileDelete | MCCNotifyAboutFileWrite)];
+		
+		//	Create a serial queue to use
+		self.prefsAccessQueue = AUTORELEASE([[NSOperationQueue alloc] init]);
+		[self.prefsAccessQueue setMaxConcurrentOperationCount:1];
 
 	}
 	return self;
@@ -140,13 +155,58 @@
     return storedDefaults;
 }
 
+- (void)updateFromFileEvent {
+
+	//	Read the file using our queue
+	MCC_PREFIXED_NAME(Defaults)	*blockSelf = self;
+	NSDictionary	__block	*fileDefaults = nil;
+	[self.prefsAccessQueue addOperations:@[[NSBlockOperation blockOperationWithBlock:^{
+		fileDefaults = [blockSelf readFromFile];
+	}]] waitUntilFinished:YES];
+
+	//	Then set the value using the main queue for the KVO stuff
+	NSDictionary	*currentDefaults = [self.defaultDictionary copy];
+	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+		NSMutableArray	*changedKeys = [NSMutableArray array];
+		
+		NSSet	*allKeySet = [[NSSet setWithArray:[fileDefaults allKeys]] setByAddingObjectsFromArray:[currentDefaults allKeys]];
+		for (id key in allKeySet) {
+			id value = [fileDefaults objectForKey:key];
+			
+			if (value == nil) {
+				[self willChangeValueForKey:key];
+				[changedKeys addObject:key];
+			}
+			else if (![[currentDefaults objectForKey:key] isEqualTo:value]) {
+				[self willChangeValueForKey:key];
+				[changedKeys addObject:key];
+			}
+		}
+
+		self.defaultDictionary = fileDefaults;
+		[self writeToFile];
+		for (id key in changedKeys){
+			[self didChangeValueForKey:key];
+		}
+	}];
+
+}
+
 - (void)writeToFile {
     if (self.defaultsURL && self.defaultDictionary) {
-		if ([self.delegate respondsToSelector:@selector(backupCurrentDefaultsBeforeWriteAtURL:)]) {
-			[self.delegate backupCurrentDefaultsBeforeWriteAtURL:self.defaultsURL];
-		}
-        [self.defaultDictionary writeToURL:self.defaultsURL atomically:YES];
-		self.lastDiskReadTime = [NSDate timeIntervalSinceReferenceDate];
+		id<MCC_PREFIXED_NAME(DefaultsDelegate)>	theDelegate = self.delegate;
+		NSURL			*theURL = self.defaultsURL;
+		NSDictionary	*theDict = self.defaultDictionary;
+		MCC_PREFIXED_NAME(FileEventQueue)	*eventQueue = self.fileEventQueue;
+		[self.prefsAccessQueue addOperationWithBlock:^{
+			if ([theDelegate respondsToSelector:@selector(backupCurrentDefaultsBeforeWriteAtURL:)]) {
+				[theDelegate backupCurrentDefaultsBeforeWriteAtURL:theURL];
+			}
+			//	Remove any file event notification to not get it from ourselves
+			[eventQueue removePath:theURL.path];
+			[theDict writeToURL:theURL atomically:YES];
+			[eventQueue addAtomicPath:theURL.path withBlock:self.prefsChangeBlock notifyingAbout:(MCCNotifyAboutFileDelete | MCCNotifyAboutFileWrite)];
+		}];
     }
 }
 
@@ -156,7 +216,7 @@
 		return;
 	}
 	
-	NSMutableDictionary *plugInDefaults = [[self readFromFile] mutableCopy];
+	NSMutableDictionary *plugInDefaults = AUTORELEASE([self.defaultDictionary mutableCopy]);
 	if (!plugInDefaults) {
 		NSLog(@"Defaults is empty -- this should not happen");
 		// do not register these defaults -- just return.
@@ -168,10 +228,12 @@
 		[plugInDefaults removeObjectForKey:key];
 		[self didChangeValueForKey:key];
 	}
+	else {
+		return;
+	}
 	
 	self.defaultDictionary = [NSDictionary dictionaryWithDictionary:plugInDefaults];
 	[self writeToFile];
-	RELEASE(plugInDefaults);
 }
 
 
@@ -181,7 +243,7 @@
 		return;
 	}
 	
-	NSMutableDictionary *plugInDefaults = [[self readFromFile] mutableCopy];
+	NSMutableDictionary *plugInDefaults = AUTORELEASE([self.defaultDictionary mutableCopy]);
 	if (!plugInDefaults) {
 		NSLog(@"Defaults is empty -- this should not happen");
 		// do not register these defaults -- just return.
@@ -201,37 +263,48 @@
 		}
 	}
 	
+	//	Don't bother if nothing is different
+	if ([changedKeys count] == 0) {
+		return;
+	}
+	
 	self.defaultDictionary = plugInDefaults;
 	[self writeToFile];
 	for (id key in changedKeys){
 		[self didChangeValueForKey:key];
 	}
-	RELEASE(plugInDefaults);
-}
-
-- (void)checkCache {
-    if (([NSDate timeIntervalSinceReferenceDate] - self.lastDiskReadTime) > self.readInterval) {
-        self.defaultDictionary = [self readFromFile];
-        self.lastDiskReadTime = [NSDate timeIntervalSinceReferenceDate];
-    }
 }
 
 - (NSDictionary *)_defaultsForKeys:(NSArray *)keys {
-	[self checkCache];
-    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[keys count]];
-    for (id aKey in keys){
-        id value = [self.defaultDictionary objectForKey:aKey];
-        if (value) {
-			[result setValue:value forKey:aKey];
+    NSMutableDictionary __block *result = [NSMutableDictionary dictionaryWithCapacity:[keys count]];
+	NSDictionary		*blockDefaults = self.defaultDictionary;
+	NSOperation			*theReadBlock = [NSBlockOperation blockOperationWithBlock:^{
+		for (id aKey in keys){
+			id value = [blockDefaults objectForKey:aKey];
+			if (value) {
+				[result setValue:value forKey:aKey];
+			}
 		}
-    }
+	}];
+
+	//	Throw on our queue and wait for the result
+	[self.prefsAccessQueue addOperations:@[theReadBlock] waitUntilFinished:YES];
+	
 	return result;
 }
 
 
 - (id)_defaultForKey:(NSString *)key {
-	[self checkCache];
-    return [self.defaultDictionary objectForKey:key];
+	id	__block result = nil;
+	NSDictionary		*blockDefaults = self.defaultDictionary;
+	NSOperation			*theReadBlock = [NSBlockOperation blockOperationWithBlock:^{
+		result = [blockDefaults objectForKey:key];
+	}];
+	
+	//	Throw on our queue and wait for the result
+	[self.prefsAccessQueue addOperations:@[theReadBlock] waitUntilFinished:YES];
+	
+    return result;
 }
 
 
@@ -241,18 +314,13 @@
 	return [self makeSharedDefaultsWithDelegate:nil];
 }
 
-+ (instancetype)makeSharedDefaultsWithDelegate:(id)aDelegate {
++ (instancetype)makeSharedDefaultsWithDelegate:(id<MCC_PREFIXED_NAME(DefaultsDelegate)>)aDelegate {
 	static	MCC_PREFIXED_NAME(Defaults)	*theDefaults = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		theDefaults = RETAIN([[self alloc] initWithDelegate:aDelegate]);
 	});
 	return theDefaults;
-}
-
-+ (void)resetCache {
-	MCC_PREFIXED_NAME(Defaults)	*defaults = [self sharedDefaults];
-	defaults.lastDiskReadTime = 0;
 }
 
 
