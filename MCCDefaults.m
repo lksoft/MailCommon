@@ -9,9 +9,11 @@
 #import "MCCDefaults.h"
 #import "MCCFileEventQueue.h"
 
-#define MCC_DEFAULT_READ_INTERVAL	5
+#define PREF_FILE_NOTIFICATIONS	(MCCNotifyAboutFileDelete | MCCNotifyAboutFileWrite)
+
 
 @interface MCC_PREFIXED_NAME(Defaults) ()
+@property (assign) BOOL					delegateWantsBackups;
 @property (strong, atomic) NSDictionary	*defaultDictionary;
 @property (strong) NSURL				*defaultsURL;
 @property (strong) NSOperationQueue		*prefsAccessQueue;
@@ -28,7 +30,7 @@
 	if (self) {
 
 		self.delegate = aDelegate;
-		self.readInterval = MCC_DEFAULT_READ_INTERVAL;
+		self.delegateWantsBackups = [aDelegate respondsToSelector:@selector(backupCurrentDefaultsBeforeWriteAtURL:)];
 		
 		NSBundle	*bundle = [NSBundle bundleForClass:[self class]];
 		
@@ -73,7 +75,7 @@
 				[blockSelf updateFromFileEvent];
 			}
 		};
-		[self.fileEventQueue addAtomicPath:initialDefaultsURL.path withBlock:self.prefsChangeBlock notifyingAbout:(MCCNotifyAboutFileDelete | MCCNotifyAboutFileWrite)];
+		[self.fileEventQueue addAtomicPath:initialDefaultsURL.path withBlock:self.prefsChangeBlock notifyingAbout:PREF_FILE_NOTIFICATIONS];
 		
 		//	Create a serial queue to use
 		self.prefsAccessQueue = AUTORELEASE([[NSOperationQueue alloc] init]);
@@ -194,18 +196,19 @@
 
 - (void)writeToFile {
     if (self.defaultsURL && self.defaultDictionary) {
+		BOOL			wantsBackups = self.delegateWantsBackups;
 		id<MCC_PREFIXED_NAME(DefaultsDelegate)>	theDelegate = self.delegate;
 		NSURL			*theURL = self.defaultsURL;
 		NSDictionary	*theDict = self.defaultDictionary;
 		MCC_PREFIXED_NAME(FileEventQueue)	*eventQueue = self.fileEventQueue;
 		[self.prefsAccessQueue addOperationWithBlock:^{
-			if ([theDelegate respondsToSelector:@selector(backupCurrentDefaultsBeforeWriteAtURL:)]) {
+			if (wantsBackups) {
 				[theDelegate backupCurrentDefaultsBeforeWriteAtURL:theURL];
 			}
 			//	Remove any file event notification to not get it from ourselves
 			[eventQueue removePath:theURL.path];
 			[theDict writeToURL:theURL atomically:YES];
-			[eventQueue addAtomicPath:theURL.path withBlock:self.prefsChangeBlock notifyingAbout:(MCCNotifyAboutFileDelete | MCCNotifyAboutFileWrite)];
+			[eventQueue addAtomicPath:theURL.path withBlock:self.prefsChangeBlock notifyingAbout:PREF_FILE_NOTIFICATIONS];
 		}];
     }
 }

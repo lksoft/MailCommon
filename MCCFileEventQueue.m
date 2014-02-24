@@ -38,13 +38,13 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 
 @interface MCC_PREFIXED_NAME(ProcessEntry) : NSObject
 
-@property (strong)	NSString									*name;
-@property (strong)	NSString									*bundleID;
-@property (assign)	pid_t										processID;
-@property (strong)	MCC_PREFIXED_NAME(ProcessNotificationBlock)	block;
+@property (strong)	NSString							*name;
+@property (strong)	NSString							*bundleID;
+@property (assign)	pid_t								processID;
+@property (strong)	MCC_PREFIXED_NAME(ProcessQuitBlock)	block;
 
-- (id)initWithBundleID:(NSString *)bundleIdentifier block:(MCC_PREFIXED_NAME(ProcessNotificationBlock))aBlock;
-- (id)initWithProcessID:(pid_t)processIdentifier block:(MCC_PREFIXED_NAME(ProcessNotificationBlock))aBlock;
+- (id)initWithBundleID:(NSString *)bundleIdentifier block:(MCC_PREFIXED_NAME(ProcessQuitBlock))aBlock;
+- (id)initWithProcessID:(pid_t)processIdentifier block:(MCC_PREFIXED_NAME(ProcessQuitBlock))aBlock;
 
 @end
 
@@ -64,11 +64,11 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 
 #pragma mark Public Methods
 
-- (void)executeBlock:(MCC_PREFIXED_NAME(ProcessNotificationBlock))processBlock forProcessIDOnExit:(pid_t)processID {
+- (void)executeBlock:(MCC_PREFIXED_NAME(ProcessQuitBlock))processBlock forProcessIDOnExit:(pid_t)processID {
 	[self watchForExitOfProcessEntry:AUTORELEASE([[MCC_PREFIXED_NAME(ProcessEntry) alloc] initWithProcessID:processID block:processBlock])];
 }
 
-- (void)executeBlock:(MCC_PREFIXED_NAME(ProcessNotificationBlock))processBlock forBundleIDOnExit:(NSString *)bundleID {
+- (void)executeBlock:(MCC_PREFIXED_NAME(ProcessQuitBlock))processBlock forBundleIDOnExit:(NSString *)bundleID {
 	[self watchForExitOfProcessEntry:AUTORELEASE([[MCC_PREFIXED_NAME(ProcessEntry) alloc] initWithBundleID:bundleID block:processBlock])];
 }
 
@@ -458,14 +458,14 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 
 @interface MCC_PREFIXED_NAME(ProcessEntry) ()
 
-- (id)initWithRunningApplication:(NSRunningApplication *)runningApp block:(MCC_PREFIXED_NAME(ProcessNotificationBlock))aBlock;
+- (id)initWithRunningApplication:(NSRunningApplication *)runningApp block:(MCC_PREFIXED_NAME(ProcessQuitBlock))aBlock;
 
 @end
 
 
 @implementation MCC_PREFIXED_NAME(ProcessEntry)
 
-- (id)initWithRunningApplication:(NSRunningApplication *)runningApp block:(MCC_PREFIXED_NAME(ProcessNotificationBlock))aBlock {
+- (id)initWithRunningApplication:(NSRunningApplication *)runningApp block:(MCC_PREFIXED_NAME(ProcessQuitBlock))aBlock {
 	self = [super init];
 	if (runningApp == nil) {
 		RELEASE(self);
@@ -480,11 +480,11 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 	return self;
 }
 
-- (id)initWithBundleID:(NSString *)bundleIdentifier block:(MCC_PREFIXED_NAME(ProcessNotificationBlock))aBlock {
+- (id)initWithBundleID:(NSString *)bundleIdentifier block:(MCC_PREFIXED_NAME(ProcessQuitBlock))aBlock {
 	return [self initWithRunningApplication:[[NSRunningApplication runningApplicationsWithBundleIdentifier:bundleIdentifier] lastObject] block:aBlock];
 }
 
-- (id)initWithProcessID:(pid_t)processIdentifier block:(MCC_PREFIXED_NAME(ProcessNotificationBlock))aBlock {
+- (id)initWithProcessID:(pid_t)processIdentifier block:(MCC_PREFIXED_NAME(ProcessQuitBlock))aBlock {
 	return [self initWithRunningApplication:[NSRunningApplication runningApplicationWithProcessIdentifier:processIdentifier] block:aBlock];
 }
 

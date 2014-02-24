@@ -18,6 +18,13 @@
 @end
 
 
+//	TODO: Add Tests for...
+//		Removing Paths
+//		Results with a delegate
+//		Results by notifications (and failure to get notifications)
+//		Waiting for an app to quit
+
+
 @implementation MCCFileEventTests
 
 - (void)setUp {

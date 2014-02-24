@@ -23,8 +23,6 @@
 
 @interface MCC_PREFIXED_NAME(Defaults) : NSObject
 
-@property (assign) NSTimeInterval					readInterval;
-
 - (NSDictionary *)allDefaults;
 
 + (id)defaultForKey:(NSString *)key;

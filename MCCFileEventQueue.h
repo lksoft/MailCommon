@@ -7,7 +7,7 @@
 //
 
 //
-//  Based heavily on VDKQueue by Bryan D K Jones & UKKQueue by Uli Kusterer
+//  Based almost entirely on VDKQueue by Bryan D K Jones & UKKQueue by Uli Kusterer
 //
 //
 //  IMPORTANT NOTE ABOUT ATOMIC OPERATIONS (Copied from VDKQueue's header file)
@@ -69,11 +69,11 @@ extern NSString *MCC_PREFIXED_NAME(FileEventAccessRevocationNotification);
 @class MCC_PREFIXED_NAME(FileEventQueue);
 @protocol MCC_PREFIXED_NAME(FileEventDelegate) <NSObject>
 @required
--(void) fileEvent:(MCC_PREFIXED_NAME(FileEventQueue) *)anEvent receivedNotification:(NSString *)aNote forPath:(NSString *)aPath;
+- (void)fileEvent:(MCC_PREFIXED_NAME(FileEventQueue) *)anEvent receivedNotification:(NSString *)aNote forPath:(NSString *)aPath;
 @end
 
 typedef void (^MCC_PREFIXED_NAME(PathBlock))(MCC_PREFIXED_NAME(FileEventQueue) *anEventQueue, NSString *aNote, NSString *anAffectedPath);
-typedef void (^MCC_PREFIXED_NAME(ProcessNotificationBlock))(MCC_PREFIXED_NAME(FileEventQueue) *anEvent, NSString *processName, NSString *processBundleID, pid_t processID);
+typedef void (^MCC_PREFIXED_NAME(ProcessQuitBlock))(MCC_PREFIXED_NAME(FileEventQueue) *anEvent, NSString *processName, NSString *processBundleID, pid_t processID);
 
 
 @interface MCC_PREFIXED_NAME(FileEventQueue) : NSObject
@@ -87,8 +87,8 @@ typedef void (^MCC_PREFIXED_NAME(ProcessNotificationBlock))(MCC_PREFIXED_NAME(Fi
 //	Does nothing if that process is not currently runnning. Will remove the event when it is triggered
 //		as it means that the process is no longer valid.
 //
-- (void)executeBlock:(MCC_PREFIXED_NAME(ProcessNotificationBlock))processBlock forProcessIDOnExit:(pid_t)processID;
-- (void)executeBlock:(MCC_PREFIXED_NAME(ProcessNotificationBlock))processBlock forBundleIDOnExit:(NSString *)bundleID;
+- (void)executeBlock:(MCC_PREFIXED_NAME(ProcessQuitBlock))processBlock forProcessIDOnExit:(pid_t)processID;
+- (void)executeBlock:(MCC_PREFIXED_NAME(ProcessQuitBlock))processBlock forBundleIDOnExit:(NSString *)bundleID;
 
 //
 //  Note: there is no need to ask whether a path is already being watched. Just add it or remove it and this class
