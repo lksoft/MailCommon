@@ -113,7 +113,7 @@
 	for (NSString *aLocalization in [thisBundle preferredLocalizations]) {
 		NSString	*newPath = [contentPath stringByAppendingFormat:@"/%@.lproj/%@.%@",aLocalization,fileName,type];
 		if ([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
-			self.filePath = newPath;
+		//	self.filePath = newPath;
 			break;
 		}
 	}
@@ -151,7 +151,12 @@
 				if (winFrame.size.height > 655) {
 					winFrame.size.height = 655;
 				}
-				[window setFrame:winFrame display:YES animate:YES];
+                if ([window isVisible]){
+                    [window setFrame:winFrame display:YES animate:YES];
+                }
+                else{
+                    [window setFrame:winFrame display:YES animate:NO];
+                }
 				//NSLog(@"Setting Window size to:%@", NSStringFromSize(winFrame.size));
 			}
 		}
@@ -187,7 +192,6 @@
 	if (![[self window] isVisible]) {
 		[[self window] center];
 	}
-	[[self window] makeKeyAndOrderFront:self];
 	[[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
@@ -221,9 +225,13 @@
 	
 	[self.webView setHidden:NO];
 	if (![[self window] isVisible]) {
+        
         [[self window] center];
-		[[self window] makeKeyAndOrderFront:self];
+        
 	}
+    [NSApp activateIgnoringOtherApps:YES];
+    [[self window] makeKeyAndOrderFront:self];
+    
 	
 }
 
