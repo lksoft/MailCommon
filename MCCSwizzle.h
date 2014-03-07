@@ -44,7 +44,9 @@ typedef MCC_PREFIXED_NAME(SwizzleType)(^MCC_PREFIXED_NAME(SwizzleFilterBlock))(N
 
 //	Version information
 MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)();
+#ifndef OSVERSION
 #define OSVERSION MCC_PREFIXED_NAME(OSVersion)()
+#endif
 
 //	Macros to call the super of a method normally
 #define SUPER_SELECTOR(selName,...)  objc_msgSendSuper(&(struct objc_super){self, class_getSuperclass([self class])},  @selector(selName) , ##__VA_ARGS__)
