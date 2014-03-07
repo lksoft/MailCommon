@@ -924,5 +924,31 @@ typedef struct objc_super * super_pointer;
 }
 @end
 
+MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)() {
+    
+    static MCC_PREFIXED_NAME(OSVersionValue) static_osVersion = MCC_PREFIXED_NAME(OSVersionUnknown);
+	if (static_osVersion == MCC_PREFIXED_NAME(OSVersionUnknown)) {
+		
+        if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_5) {
+            static_osVersion  = MCC_PREFIXED_NAME(OSVersionLeopard);
+		}
+        else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6) {
+            static_osVersion  = MCC_PREFIXED_NAME(OSVersionSnowLeopard);
+		}
+        else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_7) {
+            static_osVersion  = MCC_PREFIXED_NAME(OSVersionLion);
+		}
+        else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_8) {
+            static_osVersion = MCC_PREFIXED_NAME(OSVersionMountainLion);
+		}
+        else {
+            static_osVersion = MCC_PREFIXED_NAME(OSVersionMavericks);
+		}
+		
+	}
+    return static_osVersion;
+}
+
+
 
 
