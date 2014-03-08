@@ -113,7 +113,7 @@
 	for (NSString *aLocalization in [thisBundle preferredLocalizations]) {
 		NSString	*newPath = [contentPath stringByAppendingFormat:@"/%@.lproj/%@.%@",aLocalization,fileName,type];
 		if ([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
-		//	self.filePath = newPath;
+			self.filePath = newPath;
 			break;
 		}
 	}
