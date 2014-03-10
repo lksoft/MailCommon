@@ -72,6 +72,20 @@
 
 #pragma mark - Getting/Setting Page Content
 
+
+
+-(void)localizeElementID:(NSString*)elementID withString:(NSString*)unlocalizedString fromTable:(NSString*)table{
+    static NSBundle * bundle = nil;
+    if (!bundle) bundle =[NSBundle bundleForClass:[self class]];
+    
+    NSString * localizedString = [bundle localizedStringForKey:unlocalizedString value:unlocalizedString table:table];
+    [self setContentOfElementId:elementID toString:localizedString];
+}
+
+-(void)localizeElementID:(NSString*)elementID usingStringsTable:(NSString*)table{
+    [self localizeElementID:elementID withString:elementID fromTable:table];
+}
+
 - (NSString*)contentOfElementId:(NSString*)pageObjectID {
     WebScriptObject	*scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
@@ -109,10 +123,7 @@
     if (scriptObject) {
 		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')",pageObjectID]];
 		if (result) {
-			if ([result respondsToSelector:@selector(value)]) {
-				[result performSelector:@selector(setValue:) withObject:string];
-			}
-			else if ([result isKindOfClass:[DOMHTMLElement class]]){
+            if ([result isKindOfClass:[DOMHTMLElement class]]){
 				[result setInnerText:string];
 			}
 		}
