@@ -1,6 +1,0 @@
-[submodule "LKConfigs"]
-	path = LKConfigs
-	url = git@github.com:lksoft/LKConfigs.git
-[submodule "MCCMailCommon/DLIntrospection"]
-	path = MCCMailCommon/DLIntrospection
-	url = https://github.com/lksoft/DLIntrospection.git
