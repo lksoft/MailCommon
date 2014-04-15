@@ -924,7 +924,7 @@ typedef struct objc_super * super_pointer;
 }
 @end
 
-MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)() {
+MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void) {
     
     static MCC_PREFIXED_NAME(OSVersionValue) static_osVersion = MCC_PREFIXED_NAME(OSVersionUnknown);
 	if (static_osVersion == MCC_PREFIXED_NAME(OSVersionUnknown)) {

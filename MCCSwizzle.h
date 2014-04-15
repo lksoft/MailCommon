@@ -43,7 +43,7 @@ typedef MCC_PREFIXED_NAME(SwizzleType)(^MCC_PREFIXED_NAME(SwizzleFilterBlock))(N
 @end
 
 //	Version information
-MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)();
+MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void);
 #ifndef OSVERSION
 #define OSVERSION MCC_PREFIXED_NAME(OSVersion)()
 #endif
