@@ -86,13 +86,14 @@
     [self localizeElementID:elementID withString:elementID fromTable:table];
 }
 
-- (NSString*)contentOfElementId:(NSString*)pageObjectID {
+- (NSString *)contentOfElementId:(NSString*)pageObjectID {
     WebScriptObject	*scriptObject = [self.webView windowScriptObject];
     if (scriptObject) {
 		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')",pageObjectID]];
 		if (result) {
 			if ([result respondsToSelector:@selector(value)]) {
-				return [result performSelector:@selector(value)];
+				DOMHTMLInputElement	*inputElement = (DOMHTMLInputElement *)result;
+				return [inputElement value];
 			}
 			else if ([result isKindOfClass:[DOMHTMLElement class]]){
 				return [result innerText];

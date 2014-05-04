@@ -52,10 +52,12 @@
 	return self;
 }
 
+#if !__has_feature(objc_arc)
 - (void)dealloc {
 	self.filePath = nil;
 	[super dealloc];
 }
+#endif
 
 - (void)awakeFromNib {
     [[self window] center];
