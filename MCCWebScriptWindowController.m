@@ -9,18 +9,6 @@
 #import "MCCWebScriptWindowController.h"
 #import "MCCWebScriptPageController.h"
 
-#if __has_feature(objc_arc)
-#define RETAIN(x) (x)
-#define RELEASE(x)
-#define AUTORELEASE(x) (x)
-#define DEALLOC(x) (x)
-#else
-#define RETAIN(x) ([(x) retain])
-#define RELEASE(x) ([(x) release])
-#define AUTORELEASE(x) ([(x) autorelease])
-#define DEALLOC(x) ([(x) dealloc])
-#endif
-
 
 
 @interface MCC_PREFIXED_NAME(WebScriptWindowController) ()
