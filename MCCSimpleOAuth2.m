@@ -8,6 +8,12 @@
 
 #import "MCCSimpleOAuth2.h"
 #import "MCCUtilities.h"
+#import "MCCSSKeychain.h"
+#import "SSKeychain.h"
+
+#define URL_ENCODE(stringValue)	[stringValue stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"!*'();:@&=+$,/?%#[]"] invertedSet]]
+
+NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2ErrorDomain";
 
 
 @interface MCC_PREFIXED_NAME(SimpleOAuth2) ()
@@ -17,6 +23,10 @@
 @property (strong) NSURL	*tokenURL;
 @property (strong) NSURL	*redirectURL;
 @property (strong) NSString	*encodedRedirectURLString;
+@property (strong) NSString	*tokenAccountName;
+@property (strong) NSString	*refreshAccountName;
+@property (strong) NSString	*tokenExpiresAccountName;
+@property (strong) NSTimer	*refreshTimer;
 @property (strong) MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock)	finalizeBlock;
 @end
 
@@ -38,14 +48,30 @@
 		self.endpointURL = anEndpointURL;
 		self.tokenURL = aTokenURL;
 		self.redirectURL = aRedirectURL;
-		self.encodedRedirectURLString = [[self.redirectURL absoluteString] stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"!*'();:@&=+$,/?%#[]"] invertedSet]];
+		self.encodedRedirectURLString = URL_ENCODE([self.redirectURL absoluteString]);
 		self.scope = @"all";
+		self.tokenAccountName = [NSString stringWithFormat:@"%@-accessToken", self.clientId];
+		self.refreshAccountName = [NSString stringWithFormat:@"%@-refreshToken", self.clientId];
+		self.tokenExpiresAccountName = [NSString stringWithFormat:@"%@-tokenExpires", self.clientId];
+		self.accessToken = [MCC_PREFIXED_NAME(Keychain)passwordForService:[self.tokenURL absoluteString] account:self.tokenAccountName];
+
+		NSString	*expiresTimeIntervalString = [MCC_PREFIXED_NAME(Keychain)passwordForService:[self.tokenURL absoluteString] account:self.tokenExpiresAccountName];
+		if (expiresTimeIntervalString) {
+			NSDate	*expiresDate = [NSDate dateWithTimeIntervalSinceReferenceDate:[expiresTimeIntervalString doubleValue] - 11.0];
+			NSTimer	*aTimer = [[NSTimer alloc] initWithFireDate:expiresDate interval:1.0 target:self selector:@selector(renewAccessToken:) userInfo:nil repeats:NO];
+			self.refreshTimer = aTimer;
+			[[NSRunLoop mainRunLoop] addTimer:aTimer forMode:NSRunLoopCommonModes];
+			RELEASE(aTimer);
+		}
+	
 	}
 	return self;
 }
 
-#if !__has_feature(objc_arc)
 - (void)dealloc {
+	[self.refreshTimer invalidate];
+
+#if !__has_feature(objc_arc)
 	self.accessCode = nil;
 	self.clientId = nil;
 	self.clientSecret = nil;
@@ -53,28 +79,55 @@
 	self.tokenURL = nil;
 	self.redirectURL = nil;
 	self.encodedRedirectURLString = nil;
+	self.tokenAccountName = nil;
+	self.refreshAccountName = nil;
+	self.tokenExpiresAccountName = nil;
+	self.refreshTimer = nil;
 	[super dealloc];
-}
 #endif
+}
+
+- (BOOL)alreadyHasToken {
+	if ((self.webview == nil) || self.accessToken) {
+		if (self.finalizeBlock) {
+			NSError	*error = nil;
+			if (self.webview == nil) {
+				error = [NSError errorWithDomain:MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) code:101 userInfo:@{}];
+			}
+			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+				self.finalizeBlock(self, error);
+			}];
+		}
+		return YES;
+	}
+	return NO;
+}
+
+- (void)renewAccessToken:(NSTimer *)aTimer {
+	[aTimer invalidate];
+	self.refreshTimer = nil;
+	self.accessToken = nil;
+	NSString	*refreshToken = [MCC_PREFIXED_NAME(Keychain)passwordForService:[self.tokenURL absoluteString] account:self.refreshAccountName];
+	[self retreiveAccessTokenUsingCode:refreshToken];
+}
 
 - (void)authorizeWithFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock {
-	if (self.webview == nil) {
-		if (aFinalizeBlock) {
-			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-				aFinalizeBlock(self, nil);
-			}];
-			return;
-		}
+	self.finalizeBlock = aFinalizeBlock;
+	if ([self alreadyHasToken]) {
+		return;
 	}
 	
-	self.finalizeBlock = aFinalizeBlock;
-	NSURL	*loadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=code&scope=%@", [self.endpointURL absoluteString], self.clientId, self.encodedRedirectURLString, self.scope]];
+	NSURL	*loadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=code%@%@", [self.endpointURL absoluteString], self.clientId, self.encodedRedirectURLString, (self.scope?@"&scope=":@""), self.scope?self.scope:@""]];
 	[[self.webview mainFrame] loadRequest:[NSURLRequest requestWithURL:loadURL]];
 }
 
-- (void)retreiveAccessTokenUsingCode:(NSString *)aCode {
+- (void)authorizeUsingUser:(NSString *)username andPassword:(NSString *)password withFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock {
+	self.finalizeBlock = aFinalizeBlock;
+	if ([self alreadyHasToken]) {
+		return;
+	}
 	
-	NSString	*postBodyString = [NSString stringWithFormat:@"grant_type=authorization_code&client_id=%@&client_secret=%@&code=%@&redirect_uri=%@", self.clientId, self.clientSecret, aCode, self.encodedRedirectURLString];
+	NSString	*postBodyString = [NSString stringWithFormat:@"grant_type=password&client_id=%@&username=%@&password=%@", self.clientId, URL_ENCODE(username), URL_ENCODE(password)];
 	NSMutableURLRequest	*accessRequest = [NSMutableURLRequest requestWithURL:self.tokenURL];
 	[accessRequest setHTTPMethod:@"POST"];
 	[accessRequest setHTTPBody:[postBodyString dataUsingEncoding:NSUTF8StringEncoding]];
@@ -98,12 +151,85 @@
 			welf.accessToken = resultDict[@"access_token"];
 			welf.scope = resultDict[@"scope"];
 			if (welf.finalizeBlock) {
-				welf.finalizeBlock(welf, welf.accessToken);
+				welf.finalizeBlock(welf, nil);
 			}
 		}
 		
-		//	{"token_type":"bearer","mapi":"zhwsreh629pmketed3wca42u","access_token":"s55dvvucwkwq4rrn2ray8jwt","scope":"all|tr111.infusionsoft.com"}
 	}];
+}
+
+- (void)retreiveAccessTokenUsingCode:(NSString *)aCode {
+	
+	NSString	*postBodyString = [NSString stringWithFormat:@"grant_type=authorization_code&client_id=%@&client_secret=%@&code=%@&redirect_uri=%@", self.clientId, self.clientSecret, aCode, self.encodedRedirectURLString];
+	NSMutableURLRequest	*accessRequest = [NSMutableURLRequest requestWithURL:self.tokenURL];
+	[accessRequest setHTTPMethod:@"POST"];
+	[accessRequest setHTTPBody:[postBodyString dataUsingEncoding:NSUTF8StringEncoding]];
+	[accessRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+	[accessRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+	[accessRequest addValue:[NSString stringWithFormat:@"%@", @([postBodyString length])] forHTTPHeaderField:@"Content-Length"];
+	
+	__block	MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
+	[NSURLConnection sendAsynchronousRequest:accessRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+		
+		//	Remove any existing accessToken
+		NSString	*serviceString = [self.tokenURL absoluteString];
+		[MCC_PREFIXED_NAME(Keychain) deletePasswordForService:serviceString account:welf.tokenAccountName];
+		[MCC_PREFIXED_NAME(Keychain) deletePasswordForService:serviceString account:welf.tokenExpiresAccountName];
+		[welf.refreshTimer invalidate];
+		welf.refreshTimer = nil;
+		
+		NSError		*error = nil;
+		if (connectionError) {
+			error = connectionError;
+		}
+		else {
+			NSDictionary	*resultDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+			if (error == nil) {
+				
+				if (resultDict[@"error"]) {
+					
+					error = [NSError errorWithDomain:MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) code:101 userInfo:@{}];
+					/*	Errors:
+					 invalid_request
+					 invalid_client
+					 invalid_grant
+					 unauthorized_client
+					 unsupported_grant_type
+					 invalid_scope
+					 */
+					
+				}
+				else {
+					welf.accessToken = resultDict[@"access_token"];
+					welf.scope = resultDict[@"scope"];
+					
+					//	Store the token in the keychain
+					if (welf.accessToken) {
+						[MCC_PREFIXED_NAME(Keychain) setPassword:welf.accessToken forService:serviceString account:welf.tokenAccountName];
+					}
+					
+					//	Store the expiration date in the keychain as well, if there is one
+					if (resultDict[@"expires_in"]) {
+						NSTimeInterval	expireTimeIntervalSinceRefDate = [NSDate timeIntervalSinceReferenceDate] + [resultDict[@"expires_in"] integerValue];
+						NSLog(@"expireTimeInterval = '%@'", [@(expireTimeIntervalSinceRefDate) stringValue]);
+						[MCC_PREFIXED_NAME(Keychain) setPassword:[@(expireTimeIntervalSinceRefDate) stringValue] forService:serviceString account:welf.tokenExpiresAccountName];
+					}
+					
+					//	Store the refresh token in the keychain as well, if there is one
+					if (resultDict[@"refresh_token"]) {
+						[MCC_PREFIXED_NAME(Keychain) deletePasswordForService:serviceString account:welf.refreshAccountName];
+						[MCC_PREFIXED_NAME(Keychain) setPassword:resultDict[@"refresh_token"] forService:serviceString account:welf.refreshAccountName];
+					}
+				}
+			}
+		}
+		
+		if (welf.finalizeBlock) {
+			welf.finalizeBlock(welf, error);
+		}
+		
+	}];
+	
 }
 
 #pragma mark WebView Delegate Methods
@@ -116,6 +242,7 @@
 	
 	if ([resultBaseURLString isEqual:redirectBaseURLString]) {
 		
+		//	Extract the query values on the request
 		NSMutableDictionary	*queryResults = [NSMutableDictionary dictionaryWithCapacity:3];
 		NSArray	*queryValues = [[[request URL] query] componentsSeparatedByString:@"&"];
 		for (NSString *aQuery in queryValues) {
@@ -124,13 +251,32 @@
 			queryResults[key] = [value stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		}
 		
-		[self retreiveAccessTokenUsingCode:queryResults[@"code"]];
+		//	Test URL query values for error code
+		if (queryResults[@"error"]) {
+			
+			//	access_denied = no token for me
+			//	invalid_scope = bad scope value
+			
+			//	invalid_request = bad request, should be my fault
+			
+			//	unauthorized_client = self explanitory
+			//	unsupported_response_type = self explanitory
+			//	server_error = 500 equivalent
+			//	temporarily_unavailable = 503 equivalent
+			
+			//	Construct a reasonable error message
+			NSError	*anError = [NSError errorWithDomain:MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) code:101 userInfo:@{}];
+			
+			//	Call the finalize with it
+			self.accessToken = nil;
+			if (self.finalizeBlock) {
+				self.finalizeBlock(self, anError);
+			}
+		}
+		else {
+			[self retreiveAccessTokenUsingCode:queryResults[@"code"]];
+		}
 		
-//		self.accessCode = queryResults[@"code"];
-//		NSLog(@"Scope returned is:'%@'", queryResults[@"scope"]);
-//		if (self.finalizeBlock) {
-//			self.finalizeBlock(self, self.accessCode);
-//		}
 	}
 	[listener use];
 }

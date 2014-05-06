@@ -11,7 +11,11 @@
 
 
 @class MCC_PREFIXED_NAME(SimpleOAuth2);
-typedef void (^MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))(MCC_PREFIXED_NAME(SimpleOAuth2) *authObject, NSString *accessCode);
+
+typedef void (^MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))(MCC_PREFIXED_NAME(SimpleOAuth2) *authObject, NSError *anError);
+
+extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain);
+
 
 @interface MCC_PREFIXED_NAME(SimpleOAuth2) : NSObject
 @property (strong) NSString	*scope;
@@ -21,5 +25,6 @@ typedef void (^MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))(MCC_PREFIXED_NAME(S
 - (instancetype)initWithClientId:(NSString *)aClientId clientSecret:(NSString *)aSecret endpointURL:(NSURL *)anEndpointURL tokenURL:(NSURL *)aTokenURL redirectURL:(NSURL *)aRedirectURL;
 
 - (void)authorizeWithFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock;
+- (void)authorizeUsingUser:(NSString *)username andPassword:(NSString *)password withFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock;
 
 @end
