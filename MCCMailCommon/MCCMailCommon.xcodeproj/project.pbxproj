@@ -80,6 +80,20 @@
 		D2703CED18BA4A2B0002D1A8 /* MCCFileEventQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CEB18BA4A2B0002D1A8 /* MCCFileEventQueue.m */; };
 		D2703CEF18BAA1130002D1A8 /* MCCFileEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CEE18BAA1130002D1A8 /* MCCFileEventTests.m */; };
 		D2703CF218BAB0410002D1A8 /* XCTAsyncTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = D2703CF118BAB0410002D1A8 /* XCTAsyncTestCase.m */; };
+		D2B5E0E418C9E91900F4453E /* MCCAquaticPrime.h in Headers */ = {isa = PBXBuildFile; fileRef = D2B5E0D618C9E91900F4453E /* MCCAquaticPrime.h */; };
+		D2B5E0E518C9E91900F4453E /* MCCAquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B5E0D718C9E91900F4453E /* MCCAquaticPrime.m */; };
+		D2B5E0E618C9E91900F4453E /* MCCLogHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = D2B5E0D818C9E91900F4453E /* MCCLogHelper.h */; };
+		D2B5E0E718C9E91900F4453E /* MCCLogHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B5E0D918C9E91900F4453E /* MCCLogHelper.m */; };
+		D2B5E0E818C9E91900F4453E /* MCCOptionalViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D2B5E0DA18C9E91900F4453E /* MCCOptionalViewController.h */; };
+		D2B5E0E918C9E91900F4453E /* MCCOptionalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B5E0DB18C9E91900F4453E /* MCCOptionalViewController.m */; };
+		D2B5E0EA18C9E91900F4453E /* MCCUserNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = D2B5E0DC18C9E91900F4453E /* MCCUserNotification.h */; };
+		D2B5E0EB18C9E91900F4453E /* MCCUserNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B5E0DD18C9E91900F4453E /* MCCUserNotification.m */; };
+		D2B5E0EC18C9E91900F4453E /* MCCWebScriptPageController.h in Headers */ = {isa = PBXBuildFile; fileRef = D2B5E0DE18C9E91900F4453E /* MCCWebScriptPageController.h */; };
+		D2B5E0ED18C9E91900F4453E /* MCCWebScriptPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B5E0DF18C9E91900F4453E /* MCCWebScriptPageController.m */; };
+		D2B5E0EE18C9E91900F4453E /* MCCWebScriptWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = D2B5E0E018C9E91900F4453E /* MCCWebScriptWindowController.h */; };
+		D2B5E0EF18C9E91900F4453E /* MCCWebScriptWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B5E0E118C9E91900F4453E /* MCCWebScriptWindowController.m */; };
+		D2B5E0F018C9E91900F4453E /* NSData+hexDigits.h in Headers */ = {isa = PBXBuildFile; fileRef = D2B5E0E218C9E91900F4453E /* NSData+hexDigits.h */; };
+		D2B5E0F118C9E91900F4453E /* NSData+hexDigits.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B5E0E318C9E91900F4453E /* NSData+hexDigits.m */; };
 		D2E2E960188C90D9000F1E76 /* MCCClassAbstractorLionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */; };
 		D2E2E963188C9C9D000F1E76 /* PluginClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */; };
 /* End PBXBuildFile section */
@@ -192,6 +206,20 @@
 		D2703CEE18BAA1130002D1A8 /* MCCFileEventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCFileEventTests.m; path = ../../MCCFileEventTests.m; sourceTree = "<group>"; };
 		D2703CF018BAB0410002D1A8 /* XCTAsyncTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XCTAsyncTestCase.h; path = AsyncTests/XCTAsyncTestCase.h; sourceTree = SOURCE_ROOT; };
 		D2703CF118BAB0410002D1A8 /* XCTAsyncTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XCTAsyncTestCase.m; path = AsyncTests/XCTAsyncTestCase.m; sourceTree = SOURCE_ROOT; };
+		D2B5E0D618C9E91900F4453E /* MCCAquaticPrime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCAquaticPrime.h; path = ../../MCCAquaticPrime.h; sourceTree = "<group>"; };
+		D2B5E0D718C9E91900F4453E /* MCCAquaticPrime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCAquaticPrime.m; path = ../../MCCAquaticPrime.m; sourceTree = "<group>"; };
+		D2B5E0D818C9E91900F4453E /* MCCLogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCLogHelper.h; path = ../../MCCLogHelper.h; sourceTree = "<group>"; };
+		D2B5E0D918C9E91900F4453E /* MCCLogHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCLogHelper.m; path = ../../MCCLogHelper.m; sourceTree = "<group>"; };
+		D2B5E0DA18C9E91900F4453E /* MCCOptionalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCOptionalViewController.h; path = ../../MCCOptionalViewController.h; sourceTree = "<group>"; };
+		D2B5E0DB18C9E91900F4453E /* MCCOptionalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCOptionalViewController.m; path = ../../MCCOptionalViewController.m; sourceTree = "<group>"; };
+		D2B5E0DC18C9E91900F4453E /* MCCUserNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCUserNotification.h; path = ../../MCCUserNotification.h; sourceTree = "<group>"; };
+		D2B5E0DD18C9E91900F4453E /* MCCUserNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCUserNotification.m; path = ../../MCCUserNotification.m; sourceTree = "<group>"; };
+		D2B5E0DE18C9E91900F4453E /* MCCWebScriptPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCWebScriptPageController.h; path = ../../MCCWebScriptPageController.h; sourceTree = "<group>"; };
+		D2B5E0DF18C9E91900F4453E /* MCCWebScriptPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCWebScriptPageController.m; path = ../../MCCWebScriptPageController.m; sourceTree = "<group>"; };
+		D2B5E0E018C9E91900F4453E /* MCCWebScriptWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCCWebScriptWindowController.h; path = ../../MCCWebScriptWindowController.h; sourceTree = "<group>"; };
+		D2B5E0E118C9E91900F4453E /* MCCWebScriptWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCCWebScriptWindowController.m; path = ../../MCCWebScriptWindowController.m; sourceTree = "<group>"; };
+		D2B5E0E218C9E91900F4453E /* NSData+hexDigits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+hexDigits.h"; path = "../../NSData+hexDigits.h"; sourceTree = "<group>"; };
+		D2B5E0E318C9E91900F4453E /* NSData+hexDigits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+hexDigits.m"; path = "../../NSData+hexDigits.m"; sourceTree = "<group>"; };
 		D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCClassAbstractorLionTests.m; sourceTree = "<group>"; };
 		D2E2E961188C9B9D000F1E76 /* PluginClassMappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PluginClassMappings.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -312,6 +340,20 @@
 		D23CF67F176C855800301165 /* MCCMailCommon */ = {
 			isa = PBXGroup;
 			children = (
+				D2B5E0D618C9E91900F4453E /* MCCAquaticPrime.h */,
+				D2B5E0D718C9E91900F4453E /* MCCAquaticPrime.m */,
+				D2B5E0D818C9E91900F4453E /* MCCLogHelper.h */,
+				D2B5E0D918C9E91900F4453E /* MCCLogHelper.m */,
+				D2B5E0DA18C9E91900F4453E /* MCCOptionalViewController.h */,
+				D2B5E0DB18C9E91900F4453E /* MCCOptionalViewController.m */,
+				D2B5E0DC18C9E91900F4453E /* MCCUserNotification.h */,
+				D2B5E0DD18C9E91900F4453E /* MCCUserNotification.m */,
+				D2B5E0DE18C9E91900F4453E /* MCCWebScriptPageController.h */,
+				D2B5E0DF18C9E91900F4453E /* MCCWebScriptPageController.m */,
+				D2B5E0E018C9E91900F4453E /* MCCWebScriptWindowController.h */,
+				D2B5E0E118C9E91900F4453E /* MCCWebScriptWindowController.m */,
+				D2B5E0E218C9E91900F4453E /* NSData+hexDigits.h */,
+				D2B5E0E318C9E91900F4453E /* NSData+hexDigits.m */,
 				D23CF6A6176C88C600301165 /* MCCCommonHeader.h */,
 				D23CF6A7176C88C600301165 /* MCCMailAbstractor.h */,
 				D23CF6A8176C88C600301165 /* MCCMailAbstractor.m */,
@@ -486,11 +528,18 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2B5E0EC18C9E91900F4453E /* MCCWebScriptPageController.h in Headers */,
 				D2703C7518B765A30002D1A8 /* MCCUtilities.h in Headers */,
+				D2B5E0E618C9E91900F4453E /* MCCLogHelper.h in Headers */,
+				D2B5E0EA18C9E91900F4453E /* MCCUserNotification.h in Headers */,
+				D2B5E0F018C9E91900F4453E /* NSData+hexDigits.h in Headers */,
 				D2703CEC18BA4A2B0002D1A8 /* MCCFileEventQueue.h in Headers */,
 				D2703CE318B860230002D1A8 /* MCCDefaults.h in Headers */,
 				D23CF6AE176C890E00301165 /* MCCCommonHeader.h in Headers */,
 				D23CF6AF176C891300301165 /* MCCMailAbstractor.h in Headers */,
+				D2B5E0E818C9E91900F4453E /* MCCOptionalViewController.h in Headers */,
+				D2B5E0E418C9E91900F4453E /* MCCAquaticPrime.h in Headers */,
+				D2B5E0EE18C9E91900F4453E /* MCCWebScriptWindowController.h in Headers */,
 				D23CF6B0176C891700301165 /* MCCSwizzle.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -766,10 +815,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2B5E0F118C9E91900F4453E /* NSData+hexDigits.m in Sources */,
+				D2B5E0ED18C9E91900F4453E /* MCCWebScriptPageController.m in Sources */,
 				D23CF6AD176C88F200301165 /* MCCSwizzle.m in Sources */,
 				D23CF6AC176C88EF00301165 /* MCCMailAbstractor.m in Sources */,
+				D2B5E0EB18C9E91900F4453E /* MCCUserNotification.m in Sources */,
+				D2B5E0E718C9E91900F4453E /* MCCLogHelper.m in Sources */,
+				D2B5E0E518C9E91900F4453E /* MCCAquaticPrime.m in Sources */,
 				D2703CED18BA4A2B0002D1A8 /* MCCFileEventQueue.m in Sources */,
+				D2B5E0EF18C9E91900F4453E /* MCCWebScriptWindowController.m in Sources */,
 				D2703C7618B765A30002D1A8 /* MCCUtilities.m in Sources */,
+				D2B5E0E918C9E91900F4453E /* MCCOptionalViewController.m in Sources */,
 				D2703CE418B860230002D1A8 /* MCCDefaults.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
