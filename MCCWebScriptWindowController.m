@@ -9,18 +9,6 @@
 #import "MCCWebScriptWindowController.h"
 #import "MCCWebScriptPageController.h"
 
-#if __has_feature(objc_arc)
-#define RETAIN(x) (x)
-#define RELEASE(x)
-#define AUTORELEASE(x) (x)
-#define DEALLOC(x) (x)
-#else
-#define RETAIN(x) ([(x) retain])
-#define RELEASE(x) ([(x) release])
-#define AUTORELEASE(x) ([(x) autorelease])
-#define DEALLOC(x) ([(x) dealloc])
-#endif
-
 
 
 @interface MCC_PREFIXED_NAME(WebScriptWindowController) ()
@@ -52,10 +40,12 @@
 	return self;
 }
 
+#if !__has_feature(objc_arc)
 - (void)dealloc {
 	self.filePath = nil;
 	[super dealloc];
 }
+#endif
 
 - (void)awakeFromNib {
     [[self window] center];
@@ -151,7 +141,12 @@
 				if (winFrame.size.height > 655) {
 					winFrame.size.height = 655;
 				}
-				[window setFrame:winFrame display:YES animate:YES];
+                if ([window isVisible]){
+                    [window setFrame:winFrame display:YES animate:YES];
+                }
+                else{
+                    [window setFrame:winFrame display:YES animate:NO];
+                }
 				//NSLog(@"Setting Window size to:%@", NSStringFromSize(winFrame.size));
 			}
 		}
@@ -187,7 +182,6 @@
 	if (![[self window] isVisible]) {
 		[[self window] center];
 	}
-	[[self window] makeKeyAndOrderFront:self];
 	[[self.webView mainFrame] loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
@@ -221,9 +215,13 @@
 	
 	[self.webView setHidden:NO];
 	if (![[self window] isVisible]) {
+        
         [[self window] center];
-		[[self window] makeKeyAndOrderFront:self];
+        
 	}
+    [NSApp activateIgnoringOtherApps:YES];
+    [[self window] makeKeyAndOrderFront:self];
+    
 	
 }
 

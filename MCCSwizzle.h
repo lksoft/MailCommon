@@ -16,6 +16,15 @@ typedef enum MCC_PREFIXED_NAME(SwizzleType) {
 	MCC_PREFIXED_NAME(SwizzleTypeAdd)
 } MCC_PREFIXED_NAME(SwizzleType);
 
+typedef NS_ENUM(NSInteger, MCC_PREFIXED_NAME(OSVersionValue)) {
+	MCC_PREFIXED_NAME(OSVersionUnknown) = 0,
+	MCC_PREFIXED_NAME(OSVersionLeopard) = 5,
+	MCC_PREFIXED_NAME(OSVersionSnowLeopard),
+	MCC_PREFIXED_NAME(OSVersionLion),
+	MCC_PREFIXED_NAME(OSVersionMountainLion),
+	MCC_PREFIXED_NAME(OSVersionMavericks)
+};
+
 typedef MCC_PREFIXED_NAME(SwizzleType)(^MCC_PREFIXED_NAME(SwizzleFilterBlock))(NSString *methodName);
 
 
@@ -32,6 +41,12 @@ typedef MCC_PREFIXED_NAME(SwizzleType)(^MCC_PREFIXED_NAME(SwizzleFilterBlock))(N
 @interface MCC_PREFIXED_NAME(Swizzle) (Properties)
 + (void)swizzlePropertiesToClass:(Class)targetClass;
 @end
+
+//	Version information
+MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void);
+#ifndef OSVERSION
+#define OSVERSION MCC_PREFIXED_NAME(OSVersion)()
+#endif
 
 //	Macros to call the super of a method normally
 #define SUPER_SELECTOR(selName,...)  objc_msgSendSuper(&(struct objc_super){self, class_getSuperclass([self class])},  @selector(selName) , ##__VA_ARGS__)

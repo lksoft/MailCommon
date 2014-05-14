@@ -11,11 +11,13 @@
 #define _MCC_CONCAT(a,b)			_MCC_CONCAT_2(a,b)
 
 #ifdef    MCC_PLUGIN_PREFIX
-#define	MCC_PREFIXED_NAME(symbol)	_MCC_CONCAT(MCC_PLUGIN_PREFIX,symbol)
-#define	MCC_SUFFIXED_NAME(symbol)	_MCC_CONCAT(symbol, _MCC_CONCAT(_, MCC_PLUGIN_PREFIX) )
+#define	MCC_PREFIXED_NAME(symbol)		_MCC_CONCAT(MCC_PLUGIN_PREFIX,symbol)
+#define	MCC_PREFIXED_CONSTANT(symbol)	_MCC_CONCAT(_MCC_CONCAT(k, MCC_PLUGIN_PREFIX),symbol)
+#define	MCC_SUFFIXED_NAME(symbol)		_MCC_CONCAT(symbol, _MCC_CONCAT(_, MCC_PLUGIN_PREFIX) )
 #else
-#define	MCC_PREFIXED_NAME(symbol)	_MCC_CONCAT(MCC,symbol)
-#define	MCC_SUFFIXED_NAME(symbol)	_MCC_CONCAT(symbol,_MCC)
+#define	MCC_PREFIXED_NAME(symbol)		_MCC_CONCAT(MCC,symbol)
+#define	MCC_PREFIXED_CONSTANT(symbol)	_MCC_CONCAT(kMCC,symbol)
+#define	MCC_SUFFIXED_NAME(symbol)		_MCC_CONCAT(symbol,_MCC)
 #endif	//	MCC_PLUGIN_PREFIX
 
 #define _MCC_AS_STR(a)				#a
