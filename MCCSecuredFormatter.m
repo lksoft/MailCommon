@@ -8,12 +8,13 @@
 
 #import "MCCSecuredFormatter.h"
 
+
 @implementation MCCSecuredFormatter
 
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage {
 	
 	//	If the  context is a secure formatting, then get the original message format from the tag and bleep stuff
-	if (logMessage->logContext == MCCSecureFormattingContext) {
+	if ((logMessage->logContext == MCCSecureFormattingContext) && (logMessage->tag != nil)) {
 		//	Don't use the dereference that DDLog only allows, since the memory management will get screwed up
 		[logMessage setValue:[self secureFormat:logMessage->tag] forKey:@"logMsg"];
 	}
