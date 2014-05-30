@@ -9,7 +9,7 @@
 #import "MCCSecuredFormatter.h"
 
 
-@implementation MCCSecuredFormatter
+@implementation MCC_PREFIXED_NAME(SecuredFormatter)
 
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage {
 	
@@ -21,6 +21,8 @@
 	
 	return [super formatLogMessage:logMessage];
 }
+
+//	Turn this *%4.2f into <[*%4.2f*]> before calling super, then strip any <[* *]> containers
 
 - (NSString *)secureFormat:(NSString *)format {
 	

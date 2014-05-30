@@ -12,14 +12,22 @@
 	#undef LOG_LEVEL_DEF
 #endif
 extern int	MCC_PREFIXED_NAME(DDDebugLevel);
-extern int	MCC_PREFIXED_NAME(DDDebugTypes);
 #define	LOG_LEVEL_DEF	MCC_PREFIXED_NAME(DDDebugLevel)
+extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 
+
+@interface MCC_PREFIXED_NAME(LumberJack) : NSObject
+
++ (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict;
++ (int)debugLevel;
++ (void)setDebugLevel:(int)newLevel;
+
+@end
 
 #pragma mark - MCC Macros
 
-#define MCCSecureFormattingContext	1
-#define MCCTypeFormattingContext	2
+#define MCCSecureFormattingContext	(1 << 1)
+#define MCCFeatureFormattingContext	(1 << 2)
 
 #ifdef LOG_MACRO
 	#undef LOG_MACRO
@@ -46,14 +54,9 @@ extern int	MCC_PREFIXED_NAME(DDDebugTypes);
 #define MCCDebug(frmt, ...)					LOG_OBJC_MAYBE(LOG_ASYNC_DEBUG, LOG_LEVEL_DEF, LOG_FLAG_DEBUG, 0, frmt, ##__VA_ARGS__)
 #define MCCLog(frmt, ...)					LOG_OBJC_TAG_MAYBE(LOG_ASYNC_VERBOSE, LOG_LEVEL_DEF, LOG_FLAG_VERBOSE, DEFAULT_CONTEXT, frmt, frmt, ##__VA_ARGS__)
 
-#define MCCLogTyped(typeFlag, frmt, ...)	LOG_OBJC_MAYBE(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDDebugTypes), typeFlag, MCCTypeFormattingContext, frmt, ##__VA_ARGS__)
+#define MCCLogFeature(featureFlag, frmt, ...)		LOG_OBJC_MAYBE(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, MCCFeatureFormattingContext, frmt, ##__VA_ARGS__)
+#define MCCLogSecFeature(featureFlag, frmt, ...)	LOG_OBJC_TAG_MAYBE(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, (MCCSecureFormattingContext & MCCFeatureFormattingContext), frmt, frmt, ##__VA_ARGS__)
 
-
-#pragma mark - Level & Type Functions
-
-int MCC_PREFIXED_NAME(LumberJackDebugLevel)(void);
-void MCC_PREFIXED_NAME(SetLumberJackDebugLevel)(int newLevel);
-void MCC_PREFIXED_NAME(AddLumberJackDebugType)(int newType);
 
 
 #pragma mark - LumberJack Mappings
@@ -67,8 +70,8 @@ void MCC_PREFIXED_NAME(AddLumberJackDebugType)(int newType);
 
 //	Protocols
 #define	DDLogger							MCC_PREFIXED_NAME(DDLogger)
-#define	DDLogFormatter						MCC_PREFIXED_CONSTANT(DDLogFormatter)
-#define	DDRegisteredDynamicLogging			MCC_PREFIXED_CONSTANT(DDRegisteredDynamicLogging)
+#define	DDLogFormatter						MCC_PREFIXED_NAME(DDLogFormatter)
+#define	DDRegisteredDynamicLogging			MCC_PREFIXED_NAME(DDRegisteredDynamicLogging)
 
 //	Other Symbols
 #define	DDExtractFileNameWithoutExtension	MCC_PREFIXED_NAME(DDExtractFileNameWithoutExtension)
@@ -111,4 +114,7 @@ void MCC_PREFIXED_NAME(AddLumberJackDebugType)(int newType);
 
 //	From CLIColor (support file)
 //	Classes
-#define	CLIColor			MCC_PREFIXED_NAME(CLIColor)
+#define	CLIColor							MCC_PREFIXED_NAME(CLIColor)
+
+//	Needs to go here to ensure that the defines above are loaded first
+#include "DDLog.h"

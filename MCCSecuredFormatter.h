@@ -6,12 +6,10 @@
 //  Copyright (c) 2014 Little Known Software. All rights reserved.
 //
 
-#import "MCCCommonHeader.h"
-#import "DDFileLogger.h"
-#import "MCCLumberJack.h"
+#import "MCCFeatureFormatter.h"
 
 
-@interface MCCSecuredFormatter : DDLogFileFormatterDefault
-- (NSString *)secureFormat:(NSString *)format;
+@interface MCC_PREFIXED_NAME(SecuredFormatter) : MCC_PREFIXED_NAME(FeatureFormatter)
+
 @end
 
