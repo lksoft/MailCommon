@@ -19,7 +19,7 @@
 	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
 	MCCLog(@"This log has secured info:*%@ and non-secured info:%@", @"Should Not Be Visible", @"Should Be Visible");
 	
-	XCTAssertEqualObjects([[self logMessages] firstObject][@"contents"], @"This log has secured info:Should Not Be Visible and non-secured info:Should Be Visible", @"");
+	MCCAssertFirstLogEquals(@"This log has secured info:Should Not Be Visible and non-secured info:Should Be Visible");
 }
 
 - (void)setUp {
