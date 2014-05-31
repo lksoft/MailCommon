@@ -100,6 +100,33 @@
 		D2F7FC17193936E100FC3F35 /* DDTTYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = D2F7FC0A193936E100FC3F35 /* DDTTYLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D2F7FC18193936E100FC3F35 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC0B193936E100FC3F35 /* DDTTYLogger.m */; };
 		D2F7FC191939374B00FC3F35 /* MCCLumberJack.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBCF193935AC00FC3F35 /* MCCLumberJack.m */; };
+		D2F7FC20193A0C3A00FC3F35 /* MCCLumberJackBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC1F193A0C3A00FC3F35 /* MCCLumberJackBase.m */; };
+		D2F7FC26193A0E7F00FC3F35 /* MCCLumberJackBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC1F193A0C3A00FC3F35 /* MCCLumberJackBase.m */; };
+		D2F7FC28193A0E7F00FC3F35 /* MCCLumberJackInsecureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC1A193A0BBD00FC3F35 /* MCCLumberJackInsecureTests.m */; };
+		D2F7FC2A193A0E7F00FC3F35 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF679176C855800301165 /* Cocoa.framework */; };
+		D2F7FC2B193A0E7F00FC3F35 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF68E176C855800301165 /* XCTest.framework */; };
+		D2F7FC2E193A0E7F00FC3F35 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2F7FBF01939369300FC3F35 /* InfoPlist.strings */; };
+		D2F7FC36193A114F00FC3F35 /* MCCLumberJackInsecure-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = D2F7FC35193A114F00FC3F35 /* MCCLumberJackInsecure-Prefix.pch */; };
+		D2F7FC39193A126700FC3F35 /* DDASLLogCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC02193936E100FC3F35 /* DDASLLogCapture.m */; };
+		D2F7FC3A193A126700FC3F35 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC0B193936E100FC3F35 /* DDTTYLogger.m */; };
+		D2F7FC3B193A126700FC3F35 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC06193936E100FC3F35 /* DDFileLogger.m */; };
+		D2F7FC3C193A126700FC3F35 /* MCCSecuredFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBD1193935AC00FC3F35 /* MCCSecuredFormatter.m */; };
+		D2F7FC3D193A126700FC3F35 /* MCCLumberJack.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBCF193935AC00FC3F35 /* MCCLumberJack.m */; };
+		D2F7FC3E193A126700FC3F35 /* MCCFeatureFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBCD193935AC00FC3F35 /* MCCFeatureFormatter.m */; };
+		D2F7FC3F193A126700FC3F35 /* MCCBundleFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBCB193935AC00FC3F35 /* MCCBundleFileManager.m */; };
+		D2F7FC40193A126700FC3F35 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC08193936E100FC3F35 /* DDLog.m */; };
+		D2F7FC41193A126700FC3F35 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC04193936E100FC3F35 /* DDASLLogger.m */; };
+		D2F7FC42193A126700FC3F35 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC00193936E100FC3F35 /* DDAbstractDatabaseLogger.m */; };
+		D2F7FC44193A126700FC3F35 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF679176C855800301165 /* Cocoa.framework */; };
+		D2F7FC46193A126700FC3F35 /* DDLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D2F7FC07193936E100FC3F35 /* DDLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2F7FC47193A126700FC3F35 /* DDFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = D2F7FC05193936E100FC3F35 /* DDFileLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2F7FC48193A126700FC3F35 /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = D2F7FBFF193936E100FC3F35 /* DDAbstractDatabaseLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2F7FC49193A126700FC3F35 /* DDASLLogCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = D2F7FC01193936E100FC3F35 /* DDASLLogCapture.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2F7FC4A193A126700FC3F35 /* DDTTYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = D2F7FC0A193936E100FC3F35 /* DDTTYLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2F7FC4B193A126700FC3F35 /* DDASLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = D2F7FC03193936E100FC3F35 /* DDASLLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2F7FC4C193A126700FC3F35 /* DDLog+LOGV.h in Headers */ = {isa = PBXBuildFile; fileRef = D2F7FC09193936E100FC3F35 /* DDLog+LOGV.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2F7FC4E193A126700FC3F35 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2F7FBDC1939369300FC3F35 /* InfoPlist.strings */; };
+		D2F7FC54193A13F800FC3F35 /* MCCLumberJackInsecure.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2F7FC52193A126700FC3F35 /* MCCLumberJackInsecure.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +157,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = D2F7FBD61939369300FC3F35;
 			remoteInfo = MCCLumberJack;
+		};
+		D2F7FC55193A140D00FC3F35 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D23CF66D176C855800301165 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2F7FC37193A126700FC3F35;
+			remoteInfo = MCCLumberJackInsecure;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -241,6 +275,14 @@
 		D2F7FC09193936E100FC3F35 /* DDLog+LOGV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DDLog+LOGV.h"; path = "LumberJack/Lumberjack/DDLog+LOGV.h"; sourceTree = "<group>"; };
 		D2F7FC0A193936E100FC3F35 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDTTYLogger.h; path = LumberJack/Lumberjack/DDTTYLogger.h; sourceTree = "<group>"; };
 		D2F7FC0B193936E100FC3F35 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDTTYLogger.m; path = LumberJack/Lumberjack/DDTTYLogger.m; sourceTree = "<group>"; };
+		D2F7FC1A193A0BBD00FC3F35 /* MCCLumberJackInsecureTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCLumberJackInsecureTests.m; sourceTree = "<group>"; };
+		D2F7FC1F193A0C3A00FC3F35 /* MCCLumberJackBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCLumberJackBase.m; sourceTree = "<group>"; };
+		D2F7FC21193A0C6D00FC3F35 /* MCCLumberJackBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCCLumberJackBase.h; sourceTree = "<group>"; };
+		D2F7FC32193A0E7F00FC3F35 /* MCCLumberJackInsecureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MCCLumberJackInsecureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2F7FC33193A0E7F00FC3F35 /* MCCLumberJackInsecureTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MCCLumberJackInsecureTests-Info.plist"; path = "/Users/scott/Projects/Littleknown/MailCommon/MCCMailCommon/MCCLumberJackInsecureTests-Info.plist"; sourceTree = "<absolute>"; };
+		D2F7FC35193A114F00FC3F35 /* MCCLumberJackInsecure-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MCCLumberJackInsecure-Prefix.pch"; sourceTree = "<group>"; };
+		D2F7FC52193A126700FC3F35 /* MCCLumberJackInsecure.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCCLumberJackInsecure.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2F7FC53193A126700FC3F35 /* MCCLumberJackInsecure-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MCCLumberJackInsecure-Info.plist"; path = "/Users/scott/Projects/Littleknown/MailCommon/MCCMailCommon/MCCLumberJackInsecure-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,6 +366,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D2F7FC29193A0E7F00FC3F35 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2F7FC54193A13F800FC3F35 /* MCCLumberJackInsecure.framework in Frameworks */,
+				D2F7FC2A193A0E7F00FC3F35 /* Cocoa.framework in Frameworks */,
+				D2F7FC2B193A0E7F00FC3F35 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2F7FC43193A126700FC3F35 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2F7FC44193A126700FC3F35 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -354,6 +414,8 @@
 				D2703C8718B785EA0002D1A8 /* SnitchTester.app */,
 				D2F7FBD71939369300FC3F35 /* MCCLumberJack.framework */,
 				D2F7FBE71939369300FC3F35 /* MCCLumberJackTests.xctest */,
+				D2F7FC32193A0E7F00FC3F35 /* MCCLumberJackInsecureTests.xctest */,
+				D2F7FC52193A126700FC3F35 /* MCCLumberJackInsecure.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -561,9 +623,10 @@
 		D2F7FBDA1939369300FC3F35 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D2F7FBDB1939369300FC3F35 /* MCCLumberJack-Info.plist */,
-				D2F7FBDC1939369300FC3F35 /* InfoPlist.strings */,
 				D2F7FBDF1939369300FC3F35 /* MCCLumberJack-Prefix.pch */,
+				D2F7FBDB1939369300FC3F35 /* MCCLumberJack-Info.plist */,
+				D2F7FC53193A126700FC3F35 /* MCCLumberJackInsecure-Info.plist */,
+				D2F7FBDC1939369300FC3F35 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -572,6 +635,9 @@
 			isa = PBXGroup;
 			children = (
 				D2F7FBF31939369300FC3F35 /* MCCLumberJackTests.m */,
+				D2F7FC1A193A0BBD00FC3F35 /* MCCLumberJackInsecureTests.m */,
+				D2F7FC1F193A0C3A00FC3F35 /* MCCLumberJackBase.m */,
+				D2F7FC21193A0C6D00FC3F35 /* MCCLumberJackBase.h */,
 				D2F7FBEE1939369300FC3F35 /* Supporting Files */,
 			);
 			path = MCCLumberJackTests;
@@ -581,6 +647,8 @@
 			isa = PBXGroup;
 			children = (
 				D2F7FBEF1939369300FC3F35 /* MCCLumberJackTests-Info.plist */,
+				D2F7FC33193A0E7F00FC3F35 /* MCCLumberJackInsecureTests-Info.plist */,
+				D2F7FC35193A114F00FC3F35 /* MCCLumberJackInsecure-Prefix.pch */,
 				D2F7FBF01939369300FC3F35 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -616,6 +684,7 @@
 			files = (
 				D2703C7518B765A30002D1A8 /* MCCUtilities.h in Headers */,
 				D23CF6AE176C890E00301165 /* MCCCommonHeader.h in Headers */,
+				D2F7FC36193A114F00FC3F35 /* MCCLumberJackInsecure-Prefix.pch in Headers */,
 				D23CF6AF176C891300301165 /* MCCMailAbstractor.h in Headers */,
 				D23CF6B0176C891700301165 /* MCCSwizzle.h in Headers */,
 			);
@@ -652,6 +721,20 @@
 				D2F7FC17193936E100FC3F35 /* DDTTYLogger.h in Headers */,
 				D2F7FC10193936E100FC3F35 /* DDASLLogger.h in Headers */,
 				D2F7FC16193936E100FC3F35 /* DDLog+LOGV.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2F7FC45193A126700FC3F35 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2F7FC46193A126700FC3F35 /* DDLog.h in Headers */,
+				D2F7FC47193A126700FC3F35 /* DDFileLogger.h in Headers */,
+				D2F7FC48193A126700FC3F35 /* DDAbstractDatabaseLogger.h in Headers */,
+				D2F7FC49193A126700FC3F35 /* DDASLLogCapture.h in Headers */,
+				D2F7FC4A193A126700FC3F35 /* DDTTYLogger.h in Headers */,
+				D2F7FC4B193A126700FC3F35 /* DDASLLogger.h in Headers */,
+				D2F7FC4C193A126700FC3F35 /* DDLog+LOGV.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -819,6 +902,42 @@
 			productReference = D2F7FBE71939369300FC3F35 /* MCCLumberJackTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D2F7FC22193A0E7F00FC3F35 /* MCCLumberJackInsecureTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2F7FC2F193A0E7F00FC3F35 /* Build configuration list for PBXNativeTarget "MCCLumberJackInsecureTests" */;
+			buildPhases = (
+				D2F7FC25193A0E7F00FC3F35 /* Sources */,
+				D2F7FC29193A0E7F00FC3F35 /* Frameworks */,
+				D2F7FC2D193A0E7F00FC3F35 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D2F7FC56193A140D00FC3F35 /* PBXTargetDependency */,
+			);
+			name = MCCLumberJackInsecureTests;
+			productName = MCCLumberJackTests;
+			productReference = D2F7FC32193A0E7F00FC3F35 /* MCCLumberJackInsecureTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D2F7FC37193A126700FC3F35 /* MCCLumberJackInsecure */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2F7FC4F193A126700FC3F35 /* Build configuration list for PBXNativeTarget "MCCLumberJackInsecure" */;
+			buildPhases = (
+				D2F7FC38193A126700FC3F35 /* Sources */,
+				D2F7FC43193A126700FC3F35 /* Frameworks */,
+				D2F7FC45193A126700FC3F35 /* Headers */,
+				D2F7FC4D193A126700FC3F35 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MCCLumberJackInsecure;
+			productName = MCCLumberJack;
+			productReference = D2F7FC52193A126700FC3F35 /* MCCLumberJackInsecure.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -867,6 +986,8 @@
 				D2703C8618B785EA0002D1A8 /* SnitchTester */,
 				D2F7FBD61939369300FC3F35 /* MCCLumberJack */,
 				D2F7FBE61939369300FC3F35 /* MCCLumberJackTests */,
+				D2F7FC37193A126700FC3F35 /* MCCLumberJackInsecure */,
+				D2F7FC22193A0E7F00FC3F35 /* MCCLumberJackInsecureTests */,
 			);
 		};
 /* End PBXProject section */
@@ -953,6 +1074,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2F7FBF21939369300FC3F35 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2F7FC2D193A0E7F00FC3F35 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2F7FC2E193A0E7F00FC3F35 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2F7FC4D193A126700FC3F35 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2F7FC4E193A126700FC3F35 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1056,7 +1193,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2F7FC20193A0C3A00FC3F35 /* MCCLumberJackBase.m in Sources */,
 				D2F7FBF41939369300FC3F35 /* MCCLumberJackTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2F7FC25193A0E7F00FC3F35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2F7FC26193A0E7F00FC3F35 /* MCCLumberJackBase.m in Sources */,
+				D2F7FC28193A0E7F00FC3F35 /* MCCLumberJackInsecureTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2F7FC38193A126700FC3F35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2F7FC39193A126700FC3F35 /* DDASLLogCapture.m in Sources */,
+				D2F7FC3A193A126700FC3F35 /* DDTTYLogger.m in Sources */,
+				D2F7FC3B193A126700FC3F35 /* DDFileLogger.m in Sources */,
+				D2F7FC3C193A126700FC3F35 /* MCCSecuredFormatter.m in Sources */,
+				D2F7FC3D193A126700FC3F35 /* MCCLumberJack.m in Sources */,
+				D2F7FC3E193A126700FC3F35 /* MCCFeatureFormatter.m in Sources */,
+				D2F7FC3F193A126700FC3F35 /* MCCBundleFileManager.m in Sources */,
+				D2F7FC40193A126700FC3F35 /* DDLog.m in Sources */,
+				D2F7FC41193A126700FC3F35 /* DDASLLogger.m in Sources */,
+				D2F7FC42193A126700FC3F35 /* DDAbstractDatabaseLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1082,6 +1246,11 @@
 			isa = PBXTargetDependency;
 			target = D2F7FBD61939369300FC3F35 /* MCCLumberJack */;
 			targetProxy = D2F7FBEA1939369300FC3F35 /* PBXContainerItemProxy */;
+		};
+		D2F7FC56193A140D00FC3F35 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2F7FC37193A126700FC3F35 /* MCCLumberJackInsecure */;
+			targetProxy = D2F7FC55193A140D00FC3F35 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1597,6 +1766,90 @@
 			};
 			name = Release;
 		};
+		D2F7FC30193A0E7F00FC3F35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCLumberJackInsecure.framework/Versions/A/MCCLumberJackInsecure";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCLumberJack/MCCLumberJack-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					MCC_INSECURE_LOGS,
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "MCCLumberJackInsecureTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = MCCLumberJackInsecureTests;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		D2F7FC31193A0E7F00FC3F35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MCCLumberJackInsecure.framework/Versions/A/MCCLumberJackInsecure";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCLumberJack/MCCLumberJack-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "MCCLumberJackInsecureTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = MCCLumberJackInsecureTests;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		D2F7FC50193A126700FC3F35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCLumberJack/MCCLumberJack-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					MCC_INSECURE_LOGS,
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "MCCLumberJackInsecure-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = MCCLumberJackInsecure;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		D2F7FC51193A126700FC3F35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MCCLumberJack/MCCLumberJack-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "MCCLumberJackInsecure-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = MCCLumberJackInsecure;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1687,6 +1940,24 @@
 				D2F7FBFA1939369400FC3F35 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+		};
+		D2F7FC2F193A0E7F00FC3F35 /* Build configuration list for PBXNativeTarget "MCCLumberJackInsecureTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2F7FC30193A0E7F00FC3F35 /* Debug */,
+				D2F7FC31193A0E7F00FC3F35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D2F7FC4F193A126700FC3F35 /* Build configuration list for PBXNativeTarget "MCCLumberJackInsecure" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2F7FC50193A126700FC3F35 /* Debug */,
+				D2F7FC51193A126700FC3F35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

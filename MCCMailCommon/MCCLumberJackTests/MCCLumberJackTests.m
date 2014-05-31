@@ -6,71 +6,57 @@
 //  Copyright (c) 2014 Little Known Software, Inc. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
+#import "MCCLumberJackBase.h"
 
-@interface MCCLumberJackTests : XCTestCase
-
+@interface MCCLumberJackTests : MCCLumberJackBase
 @end
 
 @implementation MCCLumberJackTests
 
-- (void)testExample {
+- (void)testSimpleLog {
+	
 	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
 	MCCLog(@"This here is a log");
-	MCCSecDebug(@"This here is a secure log:%@", @"Blah");
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+	
+	XCTAssertEqualObjects([[self logMessages] firstObject][@"contents"], @"(MCCLumberJackTests.m:%@ testSimpleLog): This here is a log", @"");
 }
 
-#pragma mark - Setup and Cleanup
-
-- (void)setUp {
+- (void)testSecureLog {
 	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
+	MCCSecDebug(@"This log has secured info:%@", @"Should Not Be Visible");
+	
+	XCTAssertEqualObjects([[self logMessages] firstObject][@"contents"], @"This log has secured info:<****>", @"");
+}
+
+- (void)testSecureLogByArgument {
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
+	MCCLog(@"This log has secured info:*%@", @"Should Not Be Visible");
+	
+	XCTAssertEqualObjects([[self logMessages] firstObject][@"contents"], @"This log has secured info:<****>", @"");
+}
+
+- (void)testSecureLogByArgumentWithUnsecured {
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
+	MCCLog(@"This log has secured info:*%@ and non-secured info:%@", @"Should Not Be Visible", @"Should Be Visible");
+	
+	XCTAssertEqualObjects([[self logMessages] firstObject][@"contents"], @"This log has secured info:<****> and non-secured info:Should Be Visible", @"");
+}
+
+
+- (void)setUp
+{
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-	
-	//	Flush any logs to be sure
-	[DDLog flushLog];
-	
-	//	Remove any existing log files starting with the current bundleID from the path below
-	//	/Users/scott/Library/Logs/xctest/
-	NSError			*error = nil;
-	NSString		*bundleID = [[NSBundle bundleForClass:[LBJLumberJack class]] bundleIdentifier];
-	NSFileManager	*manager = [[NSFileManager alloc] init];
-	NSMutableArray	*URLsToDelete = [NSMutableArray array];
-	if ([manager fileExistsAtPath:[[self logTestFolderURL] path]]) {
-		NSArray	*fileURLs = [manager contentsOfDirectoryAtURL:[self logTestFolderURL] includingPropertiesForKeys:@[NSURLNameKey] options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
-		if (fileURLs == nil) {
-			NSLog(@"Could not get list of files: %@", error);
-		}
-		for (NSURL *aURL in fileURLs) {
-			if ([[aURL lastPathComponent] hasPrefix:bundleID]) {
-				[URLsToDelete addObject:aURL];
-			}
-		}
-	}
-	for (NSURL *aURL in URLsToDelete) {
-		if (![manager removeItemAtURL:aURL error:&error]) {
-			NSLog(@"Could not remove a file [%@]: %@", [aURL lastPathComponent], error);
-		}
-	}
-	
-	//	Reset the log level to a norm
-	[LBJLumberJack setDebugLevel:LOG_LEVEL_VERBOSE];
-
 }
 
-- (void)tearDown {
+- (void)tearDown
+{
     // Put teardown code here. This method is called after the invocation of each test method in the class.
-	[DDLog removeAllLoggers];
     [super tearDown];
 }
 
-- (NSURL *)logTestFolderURL {
-
-	NSURL	*theURL = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] firstObject];
-	theURL = [[theURL URLByAppendingPathComponent:@"Logs"] URLByAppendingPathComponent:@"xctest"];
-	
-	return theURL;
-}
 
 @end
