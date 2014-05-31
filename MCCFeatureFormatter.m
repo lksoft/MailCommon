@@ -15,16 +15,18 @@ int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage {
 	
+	NSString	*featureName = @"";
+	
 	//	If the context is a feature formatting and there is a feature set, determine what to add
 	if (self.featureMappings && (logMessage->logContext & MCCFeatureFormattingContext) && (logMessage->logFlag != 0)) {
-		
-		NSString	*featureName = self.featureMappings[@(logMessage->logFlag)];
-		if (featureName) {
-			//	Don't use the dereference that DDLog only allows for setting, since the memory management will get screwed up EVEN UNDER ARC
-			NSString	*newString = [NSString stringWithFormat:@"[%@]: %@", featureName, logMessage->logMsg];
-			[logMessage setValue:newString forKey:@"logMsg"];
+		if (self.featureMappings[@(logMessage->logFlag)]) {
+			featureName = [NSString stringWithFormat:@" (%@)", self.featureMappings[@(logMessage->logFlag)]];
 		}
 	}
+
+	NSString	*fileName = [[NSString stringWithUTF8String:logMessage->file] lastPathComponent];
+	NSString	*newMessage = [NSString stringWithFormat:@"[%@:%d %s]%@ | %@", fileName, logMessage->lineNumber, logMessage->function, featureName, logMessage->logMsg];
+	[logMessage setValue:newMessage forKey:@"logMsg"];
 	
 	return [super formatLogMessage:logMessage];
 }
