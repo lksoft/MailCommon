@@ -80,6 +80,22 @@
 	MCCAssertFirstLogEquals(@"This log has an integer value:<****>", VERBOSE_TYPE);
 }
 
+- (void)testUnsecuredFloatArgument {
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
+	MCCLog(@"This log has a float value:%4.2f", 42.314);
+	
+	MCCAssertFirstLogEquals(@"This log has a float value:42.31", VERBOSE_TYPE);
+}
+
+- (void)testSecuredFloatArgument {
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
+	MCCLog(@"This log has a float value:*%4.2f", 42.314);
+	
+	MCCAssertFirstLogEquals(@"This log has a float value:<****>", VERBOSE_TYPE);
+}
+
 
 #pragma mark - Info Logs
 
