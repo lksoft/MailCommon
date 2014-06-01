@@ -28,8 +28,7 @@
 
 - (NSString *)preMarkedSecureFormat:(NSString *)format {
 	
-	//	the text to replace the hidden output with
-//	NSString		*replaceWith = @"<****>";
+	//	the text to pre mark the secured output with
 	NSString	*addBefore = @"<[*";
 	NSString	*addAfter = @"*]>";
 	
