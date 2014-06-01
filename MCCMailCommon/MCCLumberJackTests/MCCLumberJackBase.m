@@ -44,8 +44,8 @@
 		NSMutableArray	*newMessages = [NSMutableArray arrayWithCapacity:[lines count]];
 		for (NSString *aLine in lines) {
 			if ([aLine length] > 25) {
-				NSString	*dateString = [aLine substringToIndex:19];
-				NSString	*contents = [aLine substringFromIndex:25];
+				NSString	*dateString = [aLine substringToIndex:23];
+				NSString	*contents = [aLine substringFromIndex:24];
 				[newMessages addObject:@{@"date": [self.dateFormatter dateFromString:dateString], @"contents": contents}];
 			}
 			else {
@@ -91,7 +91,8 @@
 	//	Create our date formatter once, if needed
 	if (self.dateFormatter == nil) {
 		self.dateFormatter = [[NSDateFormatter alloc] init];
-		self.dateFormatter.dateFormat = @"yyyy/MM/dd HH:mm:ss";
+		[self.dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4]; // 10.4+ style
+		[self.dateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss.SSS"];
 	}
 	
 }

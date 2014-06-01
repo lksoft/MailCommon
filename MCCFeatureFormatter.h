@@ -7,11 +7,12 @@
 //
 
 #import "MCCCommonHeader.h"
-#import "DDFileLogger.h"
+//#import "DDFileLogger.h"
 #import "MCCLumberJack.h"
 
 
-@interface MCC_PREFIXED_NAME(FeatureFormatter) : DDLogFileFormatterDefault
+@interface MCC_PREFIXED_NAME(FeatureFormatter) : NSObject <DDLogFormatter>
+@property (strong) NSDateFormatter	*dateFormatter;
 @property (strong) NSDictionary *featureMappings;
 @end
 

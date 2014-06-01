@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Little Known Software, Inc. All rights reserved.
 //
 
-#include "MCCCommonHeader.h"
+#import "MCCCommonHeader.h"
 
 #ifdef LOG_LEVEL_DEF
 	#undef LOG_LEVEL_DEF
@@ -29,17 +29,17 @@ extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 #define MCCSecureFormattingContext	(1 << 1)
 #define MCCFeatureFormattingContext	(1 << 2)
 
-#ifdef LOG_MACRO
-	#undef LOG_MACRO
-#endif
-#define LOG_MACRO(isAsynchronous, lvl, flg, ctx, atag, fnct, frmt, ...) \
-	[DDLog log:isAsynchronous level:lvl flag:flg context:ctx file:__FILE__ function:fnct line:__LINE__ tag:atag format:(frmt), ##__VA_ARGS__]
-
-#define MCCSecErr(frmt, ...)	LOG_OBJC_TAG_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, MCCSecureFormattingContext, frmt, frmt, ##__VA_ARGS__)
-#define MCCSecErrC(frmt, ...)	LOG_C_TAG_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, MCCSecureFormattingContext, frmt, frmt, ##__VA_ARGS__)
-#define MCCSecWarn(frmt, ...)	LOG_OBJC_TAG_MAYBE(LOG_ASYNC_WARN, LOG_LEVEL_DEF, LOG_FLAG_WARN, MCCSecureFormattingContext, frmt, frmt, ##__VA_ARGS__)
-#define MCCSecInfo(frmt, ...)	LOG_OBJC_TAG_MAYBE(LOG_ASYNC_INFO, LOG_LEVEL_DEF, LOG_FLAG_INFO, MCCSecureFormattingContext, frmt, frmt, ##__VA_ARGS__)
-#define MCCSecDebug(frmt, ...)	LOG_OBJC_TAG_MAYBE(LOG_ASYNC_DEBUG, LOG_LEVEL_DEF, LOG_FLAG_DEBUG, MCCSecureFormattingContext, frmt, frmt, ##__VA_ARGS__)
+//#ifdef LOG_MACRO
+//	#undef LOG_MACRO
+//#endif
+//#define LOG_MACRO(isAsynchronous, lvl, flg, ctx, atag, fnct, frmt, ...) \
+//	[DDLog log:isAsynchronous level:lvl flag:flg context:ctx file:__FILE__ function:fnct line:__LINE__ tag:atag format:(frmt), ##__VA_ARGS__]
+//
+//#define MCCSecErr(frmt, ...)	LOG_OBJC_TAG_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, MCCSecureFormattingContext, frmt, frmt, ##__VA_ARGS__)
+//#define MCCSecErrC(frmt, ...)	LOG_C_TAG_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, MCCSecureFormattingContext, frmt, frmt, ##__VA_ARGS__)
+//#define MCCSecWarn(frmt, ...)	LOG_OBJC_TAG_MAYBE(LOG_ASYNC_WARN, LOG_LEVEL_DEF, LOG_FLAG_WARN, MCCSecureFormattingContext, frmt, frmt, ##__VA_ARGS__)
+//#define MCCSecInfo(frmt, ...)	LOG_OBJC_TAG_MAYBE(LOG_ASYNC_INFO, LOG_LEVEL_DEF, LOG_FLAG_INFO, MCCSecureFormattingContext, frmt, frmt, ##__VA_ARGS__)
+//#define MCCSecDebug(frmt, ...)	LOG_OBJC_TAG_MAYBE(LOG_ASYNC_DEBUG, LOG_LEVEL_DEF, LOG_FLAG_DEBUG, MCCSecureFormattingContext, frmt, frmt, ##__VA_ARGS__)
 
 #ifdef MCC_INSECURE_LOGS
 	#define DEFAULT_CONTEXT	0
@@ -47,15 +47,15 @@ extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 	#define DEFAULT_CONTEXT	MCCSecureFormattingContext
 #endif
 
-#define MCCErr(frmt, ...)					LOG_OBJC_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, 0, frmt, ##__VA_ARGS__)
-#define MCCErrC(frmt, ...)					LOG_C_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, 0, frmt, ##__VA_ARGS__)
-#define MCCWarn(frmt, ...)					LOG_OBJC_MAYBE(LOG_ASYNC_WARN, LOG_LEVEL_DEF, LOG_FLAG_WARN, 0, frmt, ##__VA_ARGS__)
-#define MCCInfo(frmt, ...)					LOG_OBJC_MAYBE(LOG_ASYNC_INFO, LOG_LEVEL_DEF, LOG_FLAG_INFO, 0, frmt, ##__VA_ARGS__)
-#define MCCDebug(frmt, ...)					LOG_OBJC_MAYBE(LOG_ASYNC_DEBUG, LOG_LEVEL_DEF, LOG_FLAG_DEBUG, 0, frmt, ##__VA_ARGS__)
+#define MCCErr(frmt, ...)					LOG_OBJC_TAG_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, 0, frmt, frmt, ##__VA_ARGS__)
+#define MCCErrC(frmt, ...)					LOG_C_TAG_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, 0, frmt, frmt, ##__VA_ARGS__)
+#define MCCWarn(frmt, ...)					LOG_OBJC_TAG_MAYBE(LOG_ASYNC_WARN, LOG_LEVEL_DEF, LOG_FLAG_WARN, 0, frmt, frmt, ##__VA_ARGS__)
+#define MCCInfo(frmt, ...)					LOG_OBJC_TAG_MAYBE(LOG_ASYNC_INFO, LOG_LEVEL_DEF, LOG_FLAG_INFO, 0, frmt, frmt, ##__VA_ARGS__)
+#define MCCDebug(frmt, ...)					LOG_OBJC_TAG_MAYBE(LOG_ASYNC_DEBUG, LOG_LEVEL_DEF, LOG_FLAG_DEBUG, 0, frmt, frmt, ##__VA_ARGS__)
 #define MCCLog(frmt, ...)					LOG_OBJC_TAG_MAYBE(LOG_ASYNC_VERBOSE, LOG_LEVEL_DEF, LOG_FLAG_VERBOSE, DEFAULT_CONTEXT, frmt, frmt, ##__VA_ARGS__)
 
-#define MCCLogFeature(featureFlag, frmt, ...)		LOG_OBJC_MAYBE(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, MCCFeatureFormattingContext, frmt, ##__VA_ARGS__)
-#define MCCLogSecFeature(featureFlag, frmt, ...)	LOG_OBJC_TAG_MAYBE(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, (MCCSecureFormattingContext & MCCFeatureFormattingContext), frmt, frmt, ##__VA_ARGS__)
+#define MCCLogFeature(featureFlag, frmt, ...)		LOG_OBJC_TAG_MAYBE(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, MCCFeatureFormattingContext, frmt, frmt, ##__VA_ARGS__)
+//#define MCCLogSecFeature(featureFlag, frmt, ...)	LOG_OBJC_TAG_MAYBE(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, (MCCSecureFormattingContext & MCCFeatureFormattingContext), frmt, frmt, ##__VA_ARGS__)
 
 
 
