@@ -600,12 +600,12 @@
 		D2F7FBD91939369300FC3F35 /* MCCLumberJack */ = {
 			isa = PBXGroup;
 			children = (
-				D2F7FBCA193935AC00FC3F35 /* MCCBundleFileManager.h */,
-				D2F7FBCB193935AC00FC3F35 /* MCCBundleFileManager.m */,
-				D2F7FBCC193935AC00FC3F35 /* MCCFeatureFormatter.h */,
-				D2F7FBCD193935AC00FC3F35 /* MCCFeatureFormatter.m */,
 				D2F7FBCE193935AC00FC3F35 /* MCCLumberJack.h */,
 				D2F7FBCF193935AC00FC3F35 /* MCCLumberJack.m */,
+				D2F7FBCC193935AC00FC3F35 /* MCCFeatureFormatter.h */,
+				D2F7FBCD193935AC00FC3F35 /* MCCFeatureFormatter.m */,
+				D2F7FBCA193935AC00FC3F35 /* MCCBundleFileManager.h */,
+				D2F7FBCB193935AC00FC3F35 /* MCCBundleFileManager.m */,
 				D2F7FBFE193936BA00FC3F35 /* CocoaLumberJack */,
 				D2F7FBDA1939369300FC3F35 /* Supporting Files */,
 			);
