@@ -73,4 +73,8 @@ int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 	MCC_PREFIXED_NAME(DDLogFeatures) = (MCC_PREFIXED_NAME(DDLogFeatures) | newFeature);
 }
 
++ (void)resetLogFeature {
+	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
+}
+
 @end

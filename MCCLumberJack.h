@@ -63,7 +63,7 @@ extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 #define MCCInfoS(frmt, ...)						LOG_OBJC_MAYBE_SEC(LOG_ASYNC_INFO, LOG_LEVEL_DEF, LOG_FLAG_INFO, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
 #define MCCDebugS(frmt, ...)					LOG_OBJC_MAYBE_SEC(LOG_ASYNC_DEBUG, LOG_LEVEL_DEF, LOG_FLAG_DEBUG, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
 #define MCCLogS(frmt, ...)						LOG_OBJC_MAYBE_SEC(LOG_ASYNC_VERBOSE, LOG_LEVEL_DEF, LOG_FLAG_VERBOSE, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
-#define MCCLogFeatureS(featureFlag, frmt, ...)	LOG_OBJC_MAYBE_SEC(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, (DEFAULT_CONTEXT & MCCFeatureFormattingContext), frmt, ##__VA_ARGS__)
+#define MCCLogFeatureS(featureFlag, frmt, ...)	LOG_OBJC_MAYBE_SEC(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, (DEFAULT_CONTEXT | MCCFeatureFormattingContext), frmt, ##__VA_ARGS__)
 
 
 

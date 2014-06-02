@@ -9,6 +9,11 @@
 #import "MCCLumberJackBase.h"
 
 
+@interface LBJLumberJack (TestingFeatureReset)
++ (void)resetLogFeature;
+@end
+
+
 @implementation MCCLumberJackBase
 
 - (void)testFileCreated {
@@ -69,6 +74,10 @@
 	//	Flush any logs to be sure
 	[DDLog flushLog];
 	
+	//	Reset the log level and the Feature
+	[LBJLumberJack setDebugLevel:LOG_LEVEL_VERBOSE];
+	[LBJLumberJack resetLogFeature];
+	
 	//	Remove any existing log files starting with the current bundleID from the path below
 	//	/Users/scott/Library/Logs/xctest/
 	NSError			*error = nil;
@@ -85,9 +94,6 @@
 		}
 	}
 	
-	//	Reset the log level to a norm
-	[LBJLumberJack setDebugLevel:LOG_LEVEL_VERBOSE];
-	
 	//	Create our date formatter once, if needed
 	if (self.dateFormatter == nil) {
 		self.dateFormatter = [[NSDateFormatter alloc] init];
@@ -99,6 +105,7 @@
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
+	[DDLog flushLog];
 	[DDLog removeAllLoggers];
 	self.manager = nil;
     [super tearDown];

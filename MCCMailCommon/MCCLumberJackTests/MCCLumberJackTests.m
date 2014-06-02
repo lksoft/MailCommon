@@ -29,6 +29,56 @@
 	MCCAssertFirstFeatureLogEquals(@"This here is a log", @"FeatureName");
 }
 
+- (void)testFeatureNotOn {
+	
+	int	featureFlag = (1 << 0);
+	int	featureFlag2 = (1 << 1);
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:@{@(featureFlag): @"FeatureNameOne", @(featureFlag2): @"FeatureNameTwo"}];
+	[LBJLumberJack addLogFeature:featureFlag];
+	MCCLogFeature(featureFlag2, @"This here is a log");
+
+	//	No log should have been outputted
+	XCTAssertNil([self logMessages], @"Log Output was Created");
+}
+
+- (void)testOneOfTwoFeatureLog {
+	
+	int	featureFlag = (1 << 0);
+	int	featureFlag2 = (1 << 1);
+	int	featureFlag3 = (1 << 2);
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:@{@(featureFlag): @"FeatureNameOne", @(featureFlag2): @"FeatureNameTwo", @(featureFlag3): @"FeatureNameThree"}];
+	[LBJLumberJack addLogFeature:featureFlag3];
+	MCCLogFeature(featureFlag, @"This here is a feature log");
+	MCCLogFeature(featureFlag2, @"This here is a feature two log");
+	MCCLogFeature(featureFlag3, @"This here is a feature three log");
+	
+	MCCAssertFirstFeatureLogEquals(@"This here is a feature three log", @"FeatureNameThree");
+}
+
+- (void)testSecureFeatureNameLog {
+	
+	int	featureFlag = (1 << 1);
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:@{@(featureFlag): @"FeatureName"}];
+	[LBJLumberJack addLogFeature:featureFlag];
+	MCCLogFeatureS(featureFlag, @"This here is a log with secure info:*%@", @"Should Not Be Visible");
+	
+	MCCAssertFirstFeatureLogEquals(@"This here is a log with secure info:<****>", @"FeatureName");
+}
+
+- (void)testSecureFeatureNameLogAsInsecure {
+	
+	int	featureFlag = (1 << 1);
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:@{@(featureFlag): @"FeatureName"}];
+	[LBJLumberJack addLogFeature:featureFlag];
+	MCCLogFeature(featureFlag, @"This here is a log with secure info:*%@", @"Should Not Be Visible");
+	
+	MCCAssertFirstFeatureLogEquals(@"This here is a log with secure info:\\*Should Not Be Visible", @"FeatureName");
+}
+
 
 #pragma mark - Standard Logs
 
@@ -94,6 +144,33 @@
 	MCCLogS(@"This log has a float value:*%4.2f", 42.314);
 	
 	MCCAssertFirstLogEquals(@"This log has a float value:<****>", VERBOSE_TYPE);
+}
+
+
+#pragma mark - Secure Passed as Insecure
+
+- (void)testStringPassedAsSecureToInsecure {
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
+	MCCLog(@"This log has a string value:*%@", @"Should Show Up");
+	
+	MCCAssertFirstLogEquals(@"This log has a string value:\\*Should Show Up", VERBOSE_TYPE);
+}
+
+- (void)testStringPassedAsSecureToInsecureAlsoInsecure {
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
+	MCCLog(@"This log has a string value:*%@ and this is not marked:%@", @"Should Show Up", @"Here Too");
+	
+	MCCAssertFirstLogEquals(@"This log has a string value:\\*Should Show Up and this is not marked:Here Too", VERBOSE_TYPE);
+}
+
+- (void)testFloatPassedAsSecureToInsecure {
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
+	MCCLog(@"This log has a float value:*%4.3f", 42.31415);
+	
+	MCCAssertFirstLogEquals(@"This log has a float value:\\*42.314", VERBOSE_TYPE);
 }
 
 
