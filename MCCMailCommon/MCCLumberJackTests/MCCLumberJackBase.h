@@ -43,6 +43,6 @@
 
 #define MCCAssertFirstFeatureLogEquals(logMessage, feature) \
 	do { \
-		NSString	*featureName = [NSString stringWithFormat:@" (%@)", feature]; \
+		NSString	*featureName = [NSString stringWithFormat:@" \\(%@\\)", feature]; \
 		MCCAssertLogEquals(([[self logMessages] firstObject][@"contents"]), logMessage, VERBOSE_TYPE, featureName); \
 	} while (0)

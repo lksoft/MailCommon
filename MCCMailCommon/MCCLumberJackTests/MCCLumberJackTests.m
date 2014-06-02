@@ -51,7 +51,7 @@
 - (void)testSecureLog {
 	
 	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
-	MCCLog(@"This log has secured info:*%@", @"Should Not Be Visible");
+	MCCLogS(@"This log has secured info:*%@", @"Should Not Be Visible");
 	
 	MCCAssertFirstLogEquals(@"This log has secured info:<****>", VERBOSE_TYPE);
 }
@@ -59,7 +59,7 @@
 - (void)testSecureAndUnsecuredLog {
 	
 	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
-	MCCLog(@"This log has secured info:*%@ and insecured info:%@", @"Should Not Be Visible", @"Should Be Visible");
+	MCCLogS(@"This log has secured info:*%@ and insecured info:%@", @"Should Not Be Visible", @"Should Be Visible");
 	
 	MCCAssertFirstLogEquals(@"This log has secured info:<****> and insecured info:Should Be Visible", VERBOSE_TYPE);
 }
@@ -75,7 +75,7 @@
 - (void)testSecuredIntegerArgument {
 	
 	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
-	MCCLog(@"This log has an integer value:*%d", 42);
+	MCCLogS(@"This log has an integer value:*%d", 42);
 	
 	MCCAssertFirstLogEquals(@"This log has an integer value:<****>", VERBOSE_TYPE);
 }
@@ -91,7 +91,7 @@
 - (void)testSecuredFloatArgument {
 	
 	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
-	MCCLog(@"This log has a float value:*%4.2f", 42.314);
+	MCCLogS(@"This log has a float value:*%4.2f", 42.314);
 	
 	MCCAssertFirstLogEquals(@"This log has a float value:<****>", VERBOSE_TYPE);
 }
@@ -110,7 +110,7 @@
 - (void)testSecureInfoLog {
 	
 	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
-	MCCInfo(@"This log has secured info:*%@", @"Should Not Be Visible");
+	MCCInfoS(@"This log has secured info:*%@", @"Should Not Be Visible");
 	
 	MCCAssertFirstLogEquals(@"This log has secured info:<****>", INFO_TYPE);
 }
@@ -129,7 +129,7 @@
 - (void)testSecureErrorLog {
 	
 	[LBJLumberJack addStandardLoggersWithFeatureDict:nil];
-	MCCErr(@"This log has secured info:*%@", @"Should Not Be Visible");
+	MCCErrS(@"This log has secured info:*%@", @"Should Not Be Visible");
 	
 	MCCAssertFirstLogEquals(@"This log has secured info:<****>", ERROR_TYPE);
 }

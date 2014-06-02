@@ -41,18 +41,21 @@ int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 		}
 	}
 	
-	//	Check for the level below is not there to set value
-	if (!(logMessage->logLevel & LOG_LEVEL_VERBOSE)) {
-		logLevelString = DEBUG_TYPE;
-	}
-	if (!(logMessage->logLevel & LOG_LEVEL_DEBUG)) {
-		logLevelString = INFO_TYPE;
-	}
-	if (!(logMessage->logLevel & LOG_LEVEL_INFO)) {
-		logLevelString = WARN_TYPE;
-	}
-	if (!(logMessage->logLevel & LOG_LEVEL_WARN)) {
-		logLevelString = ERROR_TYPE;
+	//	Only put a logLevelString, if this is not a feature context
+	if (!(logMessage->logContext & MCCFeatureFormattingContext)) {
+		//	Check for the level below is not there to set value
+		if (logMessage->logFlag & LOG_FLAG_DEBUG) {
+			logLevelString = DEBUG_TYPE;
+		}
+		else if (logMessage->logFlag & LOG_FLAG_ERROR) {
+			logLevelString = ERROR_TYPE;
+		}
+		else if (logMessage->logFlag & LOG_FLAG_INFO) {
+			logLevelString = INFO_TYPE;
+		}
+		else if (logMessage->logFlag & LOG_FLAG_WARN) {
+			logLevelString = WARN_TYPE;
+		}
 	}
 	
 	NSString	*fileName = [[NSString stringWithUTF8String:logMessage->file] lastPathComponent];

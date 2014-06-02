@@ -83,7 +83,6 @@
 		D2F7FBEC1939369300FC3F35 /* MCCLumberJack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2F7FBD71939369300FC3F35 /* MCCLumberJack.framework */; };
 		D2F7FBF21939369300FC3F35 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2F7FBF01939369300FC3F35 /* InfoPlist.strings */; };
 		D2F7FBF41939369300FC3F35 /* MCCLumberJackTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBF31939369300FC3F35 /* MCCLumberJackTests.m */; };
-		D2F7FBFB193936AD00FC3F35 /* MCCSecuredFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBD1193935AC00FC3F35 /* MCCSecuredFormatter.m */; };
 		D2F7FBFC193936AF00FC3F35 /* MCCFeatureFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBCD193935AC00FC3F35 /* MCCFeatureFormatter.m */; };
 		D2F7FBFD193936B500FC3F35 /* MCCBundleFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBCB193935AC00FC3F35 /* MCCBundleFileManager.m */; };
 		D2F7FC0C193936E100FC3F35 /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = D2F7FBFF193936E100FC3F35 /* DDAbstractDatabaseLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -110,7 +109,6 @@
 		D2F7FC39193A126700FC3F35 /* DDASLLogCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC02193936E100FC3F35 /* DDASLLogCapture.m */; };
 		D2F7FC3A193A126700FC3F35 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC0B193936E100FC3F35 /* DDTTYLogger.m */; };
 		D2F7FC3B193A126700FC3F35 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC06193936E100FC3F35 /* DDFileLogger.m */; };
-		D2F7FC3C193A126700FC3F35 /* MCCSecuredFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBD1193935AC00FC3F35 /* MCCSecuredFormatter.m */; };
 		D2F7FC3D193A126700FC3F35 /* MCCLumberJack.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBCF193935AC00FC3F35 /* MCCLumberJack.m */; };
 		D2F7FC3E193A126700FC3F35 /* MCCFeatureFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBCD193935AC00FC3F35 /* MCCFeatureFormatter.m */; };
 		D2F7FC3F193A126700FC3F35 /* MCCBundleFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FBCB193935AC00FC3F35 /* MCCBundleFileManager.m */; };
@@ -252,8 +250,6 @@
 		D2F7FBCD193935AC00FC3F35 /* MCCFeatureFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCCFeatureFormatter.m; path = ../../MCCFeatureFormatter.m; sourceTree = "<group>"; };
 		D2F7FBCE193935AC00FC3F35 /* MCCLumberJack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCCLumberJack.h; path = ../../MCCLumberJack.h; sourceTree = "<group>"; };
 		D2F7FBCF193935AC00FC3F35 /* MCCLumberJack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCCLumberJack.m; path = ../../MCCLumberJack.m; sourceTree = "<group>"; };
-		D2F7FBD0193935AC00FC3F35 /* MCCSecuredFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MCCSecuredFormatter.h; path = ../../MCCSecuredFormatter.h; sourceTree = "<group>"; };
-		D2F7FBD1193935AC00FC3F35 /* MCCSecuredFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCCSecuredFormatter.m; path = ../../MCCSecuredFormatter.m; sourceTree = "<group>"; };
 		D2F7FBD71939369300FC3F35 /* MCCLumberJack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCCLumberJack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7FBDB1939369300FC3F35 /* MCCLumberJack-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MCCLumberJack-Info.plist"; sourceTree = "<group>"; };
 		D2F7FBDD1939369300FC3F35 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -612,8 +608,6 @@
 				D2F7FBCD193935AC00FC3F35 /* MCCFeatureFormatter.m */,
 				D2F7FBCE193935AC00FC3F35 /* MCCLumberJack.h */,
 				D2F7FBCF193935AC00FC3F35 /* MCCLumberJack.m */,
-				D2F7FBD0193935AC00FC3F35 /* MCCSecuredFormatter.h */,
-				D2F7FBD1193935AC00FC3F35 /* MCCSecuredFormatter.m */,
 				D2F7FBFE193936BA00FC3F35 /* CocoaLumberJack */,
 				D2F7FBDA1939369300FC3F35 /* Supporting Files */,
 			);
@@ -1179,7 +1173,6 @@
 				D2F7FC0F193936E100FC3F35 /* DDASLLogCapture.m in Sources */,
 				D2F7FC18193936E100FC3F35 /* DDTTYLogger.m in Sources */,
 				D2F7FC13193936E100FC3F35 /* DDFileLogger.m in Sources */,
-				D2F7FBFB193936AD00FC3F35 /* MCCSecuredFormatter.m in Sources */,
 				D2F7FC191939374B00FC3F35 /* MCCLumberJack.m in Sources */,
 				D2F7FBFC193936AF00FC3F35 /* MCCFeatureFormatter.m in Sources */,
 				D2F7FBFD193936B500FC3F35 /* MCCBundleFileManager.m in Sources */,
@@ -1214,7 +1207,6 @@
 				D2F7FC39193A126700FC3F35 /* DDASLLogCapture.m in Sources */,
 				D2F7FC3A193A126700FC3F35 /* DDTTYLogger.m in Sources */,
 				D2F7FC3B193A126700FC3F35 /* DDFileLogger.m in Sources */,
-				D2F7FC3C193A126700FC3F35 /* MCCSecuredFormatter.m in Sources */,
 				D2F7FC3D193A126700FC3F35 /* MCCLumberJack.m in Sources */,
 				D2F7FC3E193A126700FC3F35 /* MCCFeatureFormatter.m in Sources */,
 				D2F7FC3F193A126700FC3F35 /* MCCBundleFileManager.m in Sources */,
@@ -1932,6 +1924,7 @@
 				D2F7FBF71939369400FC3F35 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D2F7FBF81939369400FC3F35 /* Build configuration list for PBXNativeTarget "MCCLumberJackTests" */ = {
 			isa = XCConfigurationList;
@@ -1940,6 +1933,7 @@
 				D2F7FBFA1939369400FC3F35 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D2F7FC2F193A0E7F00FC3F35 /* Build configuration list for PBXNativeTarget "MCCLumberJackInsecureTests" */ = {
 			isa = XCConfigurationList;

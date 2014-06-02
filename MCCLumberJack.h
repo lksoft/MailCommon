@@ -24,10 +24,20 @@ extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 
 @end
 
+
 #pragma mark - MCC Macros
 
 #define MCCSecureFormattingContext	(1 << 1)
 #define MCCFeatureFormattingContext	(1 << 2)
+
+#define MCCErr(frmt, ...)						LOG_OBJC_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, 0, frmt, ##__VA_ARGS__)
+#define MCCErrC(frmt, ...)						LOG_C_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, 0, frmt, ##__VA_ARGS__)
+#define MCCWarn(frmt, ...)						LOG_OBJC_MAYBE(LOG_ASYNC_WARN, LOG_LEVEL_DEF, LOG_FLAG_WARN, 0, frmt, ##__VA_ARGS__)
+#define MCCInfo(frmt, ...)						LOG_OBJC_MAYBE(LOG_ASYNC_INFO, LOG_LEVEL_DEF, LOG_FLAG_INFO, 0, frmt, ##__VA_ARGS__)
+#define MCCDebug(frmt, ...)						LOG_OBJC_MAYBE(LOG_ASYNC_DEBUG, LOG_LEVEL_DEF, LOG_FLAG_DEBUG, 0, frmt, ##__VA_ARGS__)
+#define MCCLog(frmt, ...)						LOG_OBJC_MAYBE(LOG_ASYNC_VERBOSE, LOG_LEVEL_DEF, LOG_FLAG_VERBOSE, 0, frmt, ##__VA_ARGS__)
+#define MCCLogFeature(featureFlag, frmt, ...)	LOG_OBJC_MAYBE(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, MCCFeatureFormattingContext, frmt, ##__VA_ARGS__)
+
 
 #ifdef MCC_INSECURE_LOGS
 	#define DEFAULT_CONTEXT	0
@@ -35,14 +45,25 @@ extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 	#define DEFAULT_CONTEXT	MCCSecureFormattingContext
 #endif
 
-#define MCCErr(frmt, ...)					LOG_OBJC_TAG_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, 0, frmt, frmt, ##__VA_ARGS__)
-#define MCCErrC(frmt, ...)					LOG_C_TAG_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, 0, frmt, frmt, ##__VA_ARGS__)
-#define MCCWarn(frmt, ...)					LOG_OBJC_TAG_MAYBE(LOG_ASYNC_WARN, LOG_LEVEL_DEF, LOG_FLAG_WARN, 0, frmt, frmt, ##__VA_ARGS__)
-#define MCCInfo(frmt, ...)					LOG_OBJC_TAG_MAYBE(LOG_ASYNC_INFO, LOG_LEVEL_DEF, LOG_FLAG_INFO, 0, frmt, frmt, ##__VA_ARGS__)
-#define MCCDebug(frmt, ...)					LOG_OBJC_TAG_MAYBE(LOG_ASYNC_DEBUG, LOG_LEVEL_DEF, LOG_FLAG_DEBUG, 0, frmt, frmt, ##__VA_ARGS__)
-#define MCCLog(frmt, ...)					LOG_OBJC_TAG_MAYBE(LOG_ASYNC_VERBOSE, LOG_LEVEL_DEF, LOG_FLAG_VERBOSE, DEFAULT_CONTEXT, frmt, frmt, ##__VA_ARGS__)
+#define LOG_MACRO_SEC(isAsynchronous, lvl, flg, ctx, fnct, frmt, ...) \
+	[DDLog secureLog:isAsynchronous level:lvl flag:flg context:ctx file:__FILE__ function:fnct line:__LINE__ tag:nil format:(frmt), ##__VA_ARGS__]
 
-#define MCCLogFeature(featureFlag, frmt, ...)		LOG_OBJC_TAG_MAYBE(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, MCCFeatureFormattingContext, frmt, frmt, ##__VA_ARGS__)
+#define LOG_MAYBE_SEC(async, lvl, flg, ctx, fnct, frmt, ...) \
+	do { if(lvl & flg) LOG_MACRO_SEC(async, lvl, flg, ctx, fnct, frmt, ##__VA_ARGS__); } while(0)
+
+#define LOG_OBJC_MAYBE_SEC(async, lvl, flg, ctx, frmt, ...) \
+	LOG_MAYBE_SEC(async, lvl, flg, ctx, sel_getName(_cmd), frmt, ##__VA_ARGS__)
+
+#define LOG_C_MAYBE_SEC(async, lvl, flg, ctx, frmt, ...) \
+	LOG_MAYBE_SEC(async, lvl, flg, ctx, __FUNCTION__, frmt, ##__VA_ARGS__)
+
+#define MCCErrS(frmt, ...)						LOG_OBJC_MAYBE_SEC(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
+#define MCCErrCS(frmt, ...)						LOG_C_MAYBE_SEC(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
+#define MCCWarnS(frmt, ...)						LOG_OBJC_MAYBE_SEC(LOG_ASYNC_WARN, LOG_LEVEL_DEF, LOG_FLAG_WARN, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
+#define MCCInfoS(frmt, ...)						LOG_OBJC_MAYBE_SEC(LOG_ASYNC_INFO, LOG_LEVEL_DEF, LOG_FLAG_INFO, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
+#define MCCDebugS(frmt, ...)					LOG_OBJC_MAYBE_SEC(LOG_ASYNC_DEBUG, LOG_LEVEL_DEF, LOG_FLAG_DEBUG, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
+#define MCCLogS(frmt, ...)						LOG_OBJC_MAYBE_SEC(LOG_ASYNC_VERBOSE, LOG_LEVEL_DEF, LOG_FLAG_VERBOSE, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
+#define MCCLogFeatureS(featureFlag, frmt, ...)	LOG_OBJC_MAYBE_SEC(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, (DEFAULT_CONTEXT & MCCFeatureFormattingContext), frmt, ##__VA_ARGS__)
 
 
 
@@ -105,3 +126,8 @@ extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 
 //	Needs to go here to ensure that the defines above are loaded first
 #include "DDLog.h"
+
+
+@interface DDLog (MCCLumberJack)
++ (void)secureLog:(BOOL)asynchronous level:(int)level flag:(int)flag context:(int)context file:(const char *)file function:(const char *)function line:(int)line tag:(id)tag format:(NSString *)format, ...;
+@end
