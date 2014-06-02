@@ -7,3 +7,6 @@
 [submodule "MCCMailCommon/AsyncTests"]
 	path = MCCMailCommon/AsyncTests
 	url = https://github.com/iheartradio/xctest-additions.git
+[submodule "MCCMailCommon/LumberJack"]
+	path = MCCMailCommon/LumberJack
+	url = git@github.com:lksoft/CocoaLumberjack.git
