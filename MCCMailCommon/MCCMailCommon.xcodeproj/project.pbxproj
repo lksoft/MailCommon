@@ -105,7 +105,6 @@
 		D2F7FC2A193A0E7F00FC3F35 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF679176C855800301165 /* Cocoa.framework */; };
 		D2F7FC2B193A0E7F00FC3F35 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF68E176C855800301165 /* XCTest.framework */; };
 		D2F7FC2E193A0E7F00FC3F35 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2F7FBF01939369300FC3F35 /* InfoPlist.strings */; };
-		D2F7FC36193A114F00FC3F35 /* MCCLumberJackInsecure-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = D2F7FC35193A114F00FC3F35 /* MCCLumberJackInsecure-Prefix.pch */; };
 		D2F7FC39193A126700FC3F35 /* DDASLLogCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC02193936E100FC3F35 /* DDASLLogCapture.m */; };
 		D2F7FC3A193A126700FC3F35 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC0B193936E100FC3F35 /* DDTTYLogger.m */; };
 		D2F7FC3B193A126700FC3F35 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F7FC06193936E100FC3F35 /* DDFileLogger.m */; };
@@ -276,7 +275,6 @@
 		D2F7FC21193A0C6D00FC3F35 /* MCCLumberJackBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCCLumberJackBase.h; sourceTree = "<group>"; };
 		D2F7FC32193A0E7F00FC3F35 /* MCCLumberJackInsecureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MCCLumberJackInsecureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7FC33193A0E7F00FC3F35 /* MCCLumberJackInsecureTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MCCLumberJackInsecureTests-Info.plist"; path = "/Users/scott/Projects/Littleknown/MailCommon/MCCMailCommon/MCCLumberJackInsecureTests-Info.plist"; sourceTree = "<absolute>"; };
-		D2F7FC35193A114F00FC3F35 /* MCCLumberJackInsecure-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MCCLumberJackInsecure-Prefix.pch"; sourceTree = "<group>"; };
 		D2F7FC52193A126700FC3F35 /* MCCLumberJackInsecure.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCCLumberJackInsecure.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7FC53193A126700FC3F35 /* MCCLumberJackInsecure-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MCCLumberJackInsecure-Info.plist"; path = "/Users/scott/Projects/Littleknown/MailCommon/MCCMailCommon/MCCLumberJackInsecure-Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -642,7 +640,6 @@
 			children = (
 				D2F7FBEF1939369300FC3F35 /* MCCLumberJackTests-Info.plist */,
 				D2F7FC33193A0E7F00FC3F35 /* MCCLumberJackInsecureTests-Info.plist */,
-				D2F7FC35193A114F00FC3F35 /* MCCLumberJackInsecure-Prefix.pch */,
 				D2F7FBF01939369300FC3F35 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -678,7 +675,6 @@
 			files = (
 				D2703C7518B765A30002D1A8 /* MCCUtilities.h in Headers */,
 				D23CF6AE176C890E00301165 /* MCCCommonHeader.h in Headers */,
-				D2F7FC36193A114F00FC3F35 /* MCCLumberJackInsecure-Prefix.pch in Headers */,
 				D23CF6AF176C891300301165 /* MCCMailAbstractor.h in Headers */,
 				D23CF6B0176C891700301165 /* MCCSwizzle.h in Headers */,
 			);
