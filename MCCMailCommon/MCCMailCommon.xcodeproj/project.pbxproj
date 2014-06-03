@@ -42,6 +42,7 @@
 		D2421EA017E71EC2006427A6 /* MailVersionClassMappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D23CF6A5176C88C600301165 /* MailVersionClassMappings.plist */; };
 		D2421EA617E71F90006427A6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D23CF679176C855800301165 /* Cocoa.framework */; };
 		D2421EA717E71F95006427A6 /* MCCMailCommonSeparators.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2421EA417E71EC2006427A6 /* MCCMailCommonSeparators.framework */; };
+		D25DEED4193E039600837BE8 /* MCCClassAbstractorNoMappingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D25DEED3193E039600837BE8 /* MCCClassAbstractorNoMappingTests.m */; };
 		D26674C417E5D591004B4869 /* TSTObject+MCCSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674C317E5D591004B4869 /* TSTObject+MCCSwizzle.m */; };
 		D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674C817E5D6A8004B4869 /* TSTObject.m */; };
 		D26674CD17E5E031004B4869 /* NSObject+DLIntrospection.m in Sources */ = {isa = PBXBuildFile; fileRef = D26674CC17E5E031004B4869 /* NSObject+DLIntrospection.m */; };
@@ -187,6 +188,7 @@
 		D23CF6AA176C88C600301165 /* MCCSwizzle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MCCSwizzle.m; path = ../../MCCSwizzle.m; sourceTree = "<group>"; };
 		D2421E8F17E71AEF006427A6 /* MCCMailCommonSuper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCCMailCommonSuper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2421EA417E71EC2006427A6 /* MCCMailCommonSeparators.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCCMailCommonSeparators.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D25DEED3193E039600837BE8 /* MCCClassAbstractorNoMappingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCClassAbstractorNoMappingTests.m; sourceTree = "<group>"; };
 		D26674C217E5D591004B4869 /* TSTObject+MCCSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TSTObject+MCCSwizzle.h"; sourceTree = "<group>"; };
 		D26674C317E5D591004B4869 /* TSTObject+MCCSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TSTObject+MCCSwizzle.m"; sourceTree = "<group>"; };
 		D26674C717E5D6A8004B4869 /* TSTObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTObject.h; sourceTree = "<group>"; };
@@ -466,6 +468,7 @@
 				D2703CDD18B8455A0002D1A8 /* TSTMailAbstractor.h */,
 				D23CF69A176C855800301165 /* MCCMailCommonTests.m */,
 				D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */,
+				D25DEED3193E039600837BE8 /* MCCClassAbstractorNoMappingTests.m */,
 				D2703CDC18B844D10002D1A8 /* LionObjects */,
 				D2703C7D18B77A150002D1A8 /* MCCUtilitiesTests.m */,
 				D2703CDA18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m */,
@@ -1111,6 +1114,7 @@
 				D26674C917E5D6A8004B4869 /* TSTObject.m in Sources */,
 				D2703CD618B841EB0002D1A8 /* AASwizzledBaseClass.m in Sources */,
 				D23CF69B176C855800301165 /* MCCMailCommonTests.m in Sources */,
+				D25DEED4193E039600837BE8 /* MCCClassAbstractorNoMappingTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
