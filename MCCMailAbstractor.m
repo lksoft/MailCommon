@@ -55,10 +55,15 @@
 
 	//	Trim them down to ones that are relevant on this OS version
 	NSString	*osName = [[NSString alloc] initWithFormat:@"10.%ld", (long)[self osMinorVersion]];
+	NSString	*previousOsName = [[NSString alloc] initWithFormat:@"10.%ld", (long)([self osMinorVersion] - 1)];
 	NSMutableDictionary	*trimmedMappings = [NSMutableDictionary dictionary];
 	for (NSString *mappingKey in [newMappings allKeys]) {
 		//	Get the mapping for this OS version
 		NSString	*mappedClassName = [[newMappings objectForKey:mappingKey] objectForKey:osName];
+		if (mappedClassName == nil) {
+			mappedClassName = [[newMappings objectForKey:mappingKey] objectForKey:previousOsName];
+		}
+		NSAssert(mappedClassName != nil, @"Could not find a mapping for %@ or %@ in %@", osName, previousOsName, translationArray);
 		if (![mappingKey isEqualToString:mappedClassName]) {
 			[trimmedMappings setObject:mappedClassName forKey:mappingKey];
 		}
