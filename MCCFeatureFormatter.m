@@ -8,8 +8,6 @@
 
 #import "MCCFeatureFormatter.h"
 
-int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
-
 #define ERROR_TYPE		@"<Err>"
 #define WARN_TYPE		@"<Warn>"
 #define INFO_TYPE		@"<Info>"
@@ -67,14 +65,3 @@ int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 
 @end
 
-@implementation MCC_PREFIXED_NAME(LumberJack) (FeatureFormatter)
-
-+ (void)addLogFeature:(int)newFeature {
-	MCC_PREFIXED_NAME(DDLogFeatures) = (MCC_PREFIXED_NAME(DDLogFeatures) | newFeature);
-}
-
-+ (void)resetLogFeature {
-	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
-}
-
-@end

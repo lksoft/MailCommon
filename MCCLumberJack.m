@@ -18,6 +18,8 @@
 	int	MCC_PREFIXED_NAME(DDDebugLevel) = ((int)LOG_LEVEL_INFO);
 #endif
 
+int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
+
 
 @implementation MCC_PREFIXED_NAME(LumberJack)
 
@@ -49,6 +51,17 @@
 
 + (void)setDebugLevel:(int)newLevel {
 	MCC_PREFIXED_NAME(DDDebugLevel) = newLevel;
+}
+
+
+#pragma mark - Feature Settings
+
++ (void)addLogFeature:(int)newFeature {
+	MCC_PREFIXED_NAME(DDLogFeatures) = (MCC_PREFIXED_NAME(DDLogFeatures) | newFeature);
+}
+
++ (void)resetLogFeature {
+	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 }
 
 @end

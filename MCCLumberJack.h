@@ -21,6 +21,7 @@ extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 + (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict;
 + (int)debugLevel;
 + (void)setDebugLevel:(int)newLevel;
++ (void)addLogFeature:(int)newFeature;
 
 @end
 
