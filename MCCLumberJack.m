@@ -27,9 +27,15 @@ int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 #pragma mark - Helper Creation
 
 + (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict {
+	[self addStandardLoggersWithFeatureDict:featureDict forBundleId:nil];
+}
+
++ (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict forBundleId:(NSString *)aBundleId {
+	
+	NSLog(@"SJL BundleID is :%@", aBundleId);
 
 	//	Set up the logging
-	MCC_PREFIXED_NAME(BundleFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(BundleFileManager) alloc] init];
+	MCC_PREFIXED_NAME(BundleFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(BundleFileManager) alloc] initWithBundleId:aBundleId];
 	DDFileLogger		*fileLogger = [[DDFileLogger alloc] initWithLogFileManager:bundleFileManager];
 	MCC_PREFIXED_NAME(FeatureFormatter)	*featureFormatter = [[MCC_PREFIXED_NAME(FeatureFormatter) alloc] init];
 	featureFormatter.featureMappings = featureDict;

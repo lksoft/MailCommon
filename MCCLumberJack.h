@@ -19,6 +19,7 @@ extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 @interface MCC_PREFIXED_NAME(LumberJack) : NSObject
 
 + (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict;
++ (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict forBundleId:(NSString *)aBundleId;
 + (int)debugLevel;
 + (void)setDebugLevel:(int)newLevel;
 + (void)addLogFeature:(int)newFeature;
