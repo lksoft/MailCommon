@@ -69,6 +69,7 @@
 		}
 	}
 	RELEASE(osName);
+	RELEASE(previousOsName);
 	
 	self.mappings = [NSDictionary dictionaryWithDictionary:trimmedMappings];
 }
