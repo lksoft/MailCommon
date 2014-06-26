@@ -21,6 +21,10 @@
 int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 
 
+@interface MCC_PREFIXED_NAME(LumberJack) ()
+@property (strong) MCC_PREFIXED_NAME(FeatureFormatter) *featureFormatter;
+@end
+
 @implementation MCC_PREFIXED_NAME(LumberJack)
 
 
@@ -37,15 +41,26 @@ int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 	//	Set up the logging
 	MCC_PREFIXED_NAME(BundleFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(BundleFileManager) alloc] initWithBundleId:aBundleId];
 	DDFileLogger		*fileLogger = [[DDFileLogger alloc] initWithLogFileManager:bundleFileManager];
-	MCC_PREFIXED_NAME(FeatureFormatter)	*featureFormatter = [[MCC_PREFIXED_NAME(FeatureFormatter) alloc] init];
-	featureFormatter.featureMappings = featureDict;
-	[fileLogger setLogFormatter:featureFormatter];
+	MCC_PREFIXED_NAME(LumberJack)	*jack = [self defaultInstance];
+	jack.featureFormatter.featureMappings = featureDict;
+	[fileLogger setLogFormatter:jack.featureFormatter];
 	[DDLog addLogger:fileLogger withLogLevel:INT32_MAX];
 #ifdef DEBUG
 	//	Will log everything to Xcode console
 	[DDLog addLogger:[DDTTYLogger sharedInstance] withLogLevel:INT32_MAX];
 #endif
 
+}
+
++ (instancetype)defaultInstance {
+	static MCC_PREFIXED_NAME(LumberJack) *defaultLumberJack = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		defaultLumberJack = [[self alloc] init];
+		defaultLumberJack.featureFormatter = [[MCC_PREFIXED_NAME(FeatureFormatter) alloc] init];
+	});
+	
+	return defaultLumberJack;
 }
 
 
@@ -76,6 +91,7 @@ int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 @interface DDLog (MCCLumberJackInternal)
 + (void)queueLogMessage:(DDLogMessage *)logMessage asynchronously:(BOOL)asyncFlag;
 @end
+
 
 @implementation DDLog (MCCLumberJack)
 
