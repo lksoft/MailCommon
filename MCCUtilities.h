@@ -30,6 +30,6 @@ static inline BOOL MCC_PREFIXED_NAME(IsEmpty)(id thing) { return thing == nil ||
 #define IS_EMPTY(value)	(MCC_PREFIXED_NAME(IsEmpty(value)))
 #define NONNIL(x)	((x == nil)?@"":x)
 
-
+#define THREAD_DICT		([[NSThread currentThread] threadDictionary])
 
 
