@@ -93,6 +93,42 @@ typedef struct objc_super * super_pointer;
 	[self swizzlePropertiesToClass:targetClass];
 }
 
++ (void)swizzleWithMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock {
+	
+	NSRange		separatorRange = [[self className] rangeOfString:MCC_CLASSNAME_SUFFIX_SEPARATOR];
+	if (separatorRange.location == NSNotFound) {
+		NSLog(@"Could not swizzle class %@ - it has no suffix", [self className]);
+		return;
+	}
+	NSString	*targetClassName = [[self className] substringToIndex:separatorRange.location];
+	NSString	*prefix = [NSString stringWithFormat:@"%@%@", [[self className] substringFromIndex:separatorRange.location + [MCC_CLASSNAME_SUFFIX_SEPARATOR length]], MCC_CLASSNAME_PREFIX_APPENDOR];
+	
+	Class	targetClass = MCC_PREFIXED_NAME(ClassFromString)(targetClassName);
+	if (!targetClass) {
+		NSLog(@"Class %@ was not found to swizzle", targetClassName);
+		return;
+	}
+	
+	unsigned int	methodCount = 0;
+	Method			*methods = nil;
+	
+	// Extend instance Methods
+	methods = class_copyMethodList(self, &methodCount);
+	[self processMethods:methods count:(NSInteger)methodCount passingTest:testBlock toClass:targetClass usingPrefix:prefix withDebugging:DEFAULT_DEBUGGING isClassMethod:NO];
+	
+	free(methods);
+	
+	// Extend Class Methods
+	methods = class_copyMethodList(object_getClass(self), &methodCount);
+	[self processMethods:methods count:(NSInteger)methodCount passingTest:testBlock toClass:targetClass usingPrefix:prefix withDebugging:DEFAULT_DEBUGGING isClassMethod:YES];
+	free(methods);
+	
+	methods = NULL;
+	
+	[self swizzlePropertiesToClass:targetClass];
+	
+}
+
 + (void)addAllMethodsToClass:(Class)targetClass usingPrefix:(NSString*)prefix {
 	[self addMethodsPassingTest:nil toClass:targetClass usingPrefix:prefix withDebugging:DEFAULT_DEBUGGING];
 }
