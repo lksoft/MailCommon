@@ -36,8 +36,6 @@ int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 
 + (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict forBundleId:(NSString *)aBundleId {
 	
-	NSLog(@"SJL BundleID is :%@", aBundleId);
-
 	//	Set up the logging
 	MCC_PREFIXED_NAME(BundleFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(BundleFileManager) alloc] initWithBundleId:aBundleId];
 	DDFileLogger		*fileLogger = [[DDFileLogger alloc] initWithLogFileManager:bundleFileManager];
