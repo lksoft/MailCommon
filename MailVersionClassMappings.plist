@@ -3,84 +3,104 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>10.10</key>
+		<string>MFMessageDeliverer</string>
 		<key>10.7</key>
 		<string>MailDelivery</string>
 		<key>10.8</key>
 		<string>MailDelivery</string>
 		<key>10.9</key>
 		<string>MFMessageDeliverer</string>
-		<key>10.10</key>
-		<string>MFMessageDeliverer</string>
 	</dict>
 	<dict>
+		<key>10.10</key>
+		<string>MFSMTPDeliverer</string>
 		<key>10.7</key>
 		<string>SMTPDelivery</string>
 		<key>10.8</key>
 		<string>SMTPDelivery</string>
 		<key>10.9</key>
 		<string>MFSMTPDeliverer</string>
-		<key>10.10</key>
-		<string>MFSMTPDeliverer</string>
 	</dict>
 	<dict>
+		<key>10.10</key>
+		<string>MFEWSDeliverer</string>
 		<key>10.7</key>
 		<string>EWSDelivery</string>
 		<key>10.8</key>
 		<string>EWSDelivery</string>
 		<key>10.9</key>
 		<string>MFEWSDeliverer</string>
-		<key>10.10</key>
-		<string>MFEWSDeliverer</string>
 	</dict>
 	<dict>
+		<key>10.10</key>
+		<string>DocumentEditor</string>
 		<key>10.7</key>
 		<string>MailDocumentEditor</string>
 		<key>10.8</key>
 		<string>MailDocumentEditor</string>
 		<key>10.9</key>
 		<string>DocumentEditor</string>
-		<key>10.10</key>
-		<string>DocumentEditor</string>
 	</dict>
 	<dict>
+		<key>10.10</key>
+		<string>MFMailbox</string>
 		<key>10.7</key>
 		<string>MailboxUid</string>
 		<key>10.8</key>
 		<string>MailboxUid</string>
 		<key>10.9</key>
 		<string>MFMailbox</string>
-		<key>10.10</key>
-		<string>MFMailbox</string>
 	</dict>
 	<dict>
+		<key>10.10</key>
+		<string>RulesPreferences</string>
 		<key>10.7</key>
 		<string>MailSorterPreferences</string>
 		<key>10.8</key>
 		<string>RulesPreferences</string>
 		<key>10.9</key>
 		<string>RulesPreferences</string>
-		<key>10.10</key>
-		<string>RulesPreferences</string>
 	</dict>
 	<dict>
+		<key>10.10</key>
+		<string>MFSmartMailbox</string>
 		<key>10.7</key>
 		<string>SmartMailboxUid</string>
 		<key>10.8</key>
 		<string>SmartMailboxUid</string>
 		<key>10.9</key>
 		<string>MFSmartMailbox</string>
-		<key>10.10</key>
-		<string>MFSmartMailbox</string>
 	</dict>
 	<dict>
+		<key>10.10</key>
+		<string>_MCOutgoingMessageBody</string>
 		<key>10.7</key>
 		<string>_OutgoingMessageBody</string>
 		<key>10.8</key>
 		<string>_OutgoingMessageBody</string>
 		<key>10.9</key>
 		<string>_MCOutgoingMessageBody</string>
+	</dict>
+	<dict>
 		<key>10.10</key>
-		<string>_MCOutgoingMessageBody</string>
+		<string>MCMimeBody</string>
+		<key>10.7</key>
+		<string>MimeBody</string>
+		<key>10.8</key>
+		<string>MimeBody</string>
+		<key>10.9</key>
+		<string>MCMimeBody</string>
+	</dict>
+	<dict>
+		<key>10.10</key>
+		<string>MCStringRenderContext</string>
+		<key>10.7</key>
+		<string>MessageStringRenderContext</string>
+		<key>10.8</key>
+		<string>MessageStringRenderContext</string>
+		<key>10.9</key>
+		<string>MCStringRenderContext</string>
 	</dict>
 </array>
 </plist>
