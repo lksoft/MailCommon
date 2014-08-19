@@ -19,6 +19,7 @@
 #endif
 
 int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
+int	MCC_PREFIXED_NAME(DDLogBugs) = 0;
 
 
 @interface MCC_PREFIXED_NAME(LumberJack) ()
@@ -48,6 +49,18 @@ int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 	[DDLog addLogger:[DDTTYLogger sharedInstance] withLogLevel:INT32_MAX];
 #endif
 
+}
+
++ (void)addBugLoggerWithDict:(NSDictionary *)bugDict forBundleId:(NSString *)aBundleId {
+	
+	NSString	*bundleId = [aBundleId stringByAppendingString:@".bugs"];
+	//	Set up the logging
+	MCC_PREFIXED_NAME(BundleFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(BundleFileManager) alloc] initWithBundleId:bundleId];
+	DDFileLogger		*fileLogger = [[DDFileLogger alloc] initWithLogFileManager:bundleFileManager];
+	MCC_PREFIXED_NAME(LumberJack)	*jack = [self defaultInstance];
+	jack.featureFormatter.featureMappings = bugDict;
+	[fileLogger setLogFormatter:jack.featureFormatter];
+	[DDLog addLogger:fileLogger withLogLevel:INT32_MAX];
 }
 
 + (instancetype)defaultInstance {
@@ -81,6 +94,14 @@ int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
 
 + (void)resetLogFeature {
 	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
+}
+
++ (void)addLogBug:(int)newBug {
+	MCC_PREFIXED_NAME(DDLogBugs) = (MCC_PREFIXED_NAME(DDLogBugs) | newBug);
+}
+
++ (void)resetLogBug {
+	MCC_PREFIXED_NAME(DDLogBugs) = 0;
 }
 
 @end
