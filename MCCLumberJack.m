@@ -10,6 +10,7 @@
 #import "DDFileLogger.h"
 #import "DDTTYLogger.h"
 #import "MCCFeatureFormatter.h"
+#import "MCCBugFormatter.h"
 #import "MCCBundleFileManager.h"
 
 #ifdef DEBUG
@@ -24,6 +25,7 @@ int	MCC_PREFIXED_NAME(DDLogBugs) = 0;
 
 @interface MCC_PREFIXED_NAME(LumberJack) ()
 @property (strong) MCC_PREFIXED_NAME(FeatureFormatter) *featureFormatter;
+@property (strong) MCC_PREFIXED_NAME(BugFormatter) *bugFormatter;
 @end
 
 @implementation MCC_PREFIXED_NAME(LumberJack)
@@ -58,8 +60,9 @@ int	MCC_PREFIXED_NAME(DDLogBugs) = 0;
 	MCC_PREFIXED_NAME(BundleFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(BundleFileManager) alloc] initWithBundleId:bundleId];
 	DDFileLogger		*fileLogger = [[DDFileLogger alloc] initWithLogFileManager:bundleFileManager];
 	MCC_PREFIXED_NAME(LumberJack)	*jack = [self defaultInstance];
-	jack.featureFormatter.featureMappings = bugDict;
-	[fileLogger setLogFormatter:jack.featureFormatter];
+	jack.bugFormatter = [[MCC_PREFIXED_NAME(BugFormatter) alloc] init];
+	jack.bugFormatter.featureMappings = bugDict;
+	[fileLogger setLogFormatter:jack.bugFormatter];
 	[DDLog addLogger:fileLogger withLogLevel:INT32_MAX];
 }
 
@@ -69,6 +72,7 @@ int	MCC_PREFIXED_NAME(DDLogBugs) = 0;
 	dispatch_once(&onceToken, ^{
 		defaultLumberJack = [[self alloc] init];
 		defaultLumberJack.featureFormatter = [[MCC_PREFIXED_NAME(FeatureFormatter) alloc] init];
+		defaultLumberJack.bugFormatter = nil;
 	});
 	
 	return defaultLumberJack;
