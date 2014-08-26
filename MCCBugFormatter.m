@@ -8,8 +8,6 @@
 
 #import "MCCBugFormatter.h"
 
-#define DEBUG_TYPE		@"<Debug>"
-
 
 @implementation MCC_PREFIXED_NAME(BugFormatter)
 
@@ -26,14 +24,13 @@
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage {
 	
 	NSString	*bugName = @"";
-	NSString	*logLevelString = DEBUG_TYPE;
 	
-	//	Only put a logLevelString, if this is not a feature context
+	//	Only put a logLevelString, if this is not a bug context
 	if (!(logMessage->logContext & MCCBugFormattingContext)) {
 		return nil;
 	}
 	
-	//	If the context is a feature formatting and there is a feature set, determine what to add
+	//	If the context is a bug formatting and there is a feature set, determine what to add
 	if (self.featureMappings && (logMessage->logFlag != 0)) {
 		if (self.featureMappings[@(logMessage->logFlag)]) {
 			bugName = [NSString stringWithFormat:@" (%@)", self.featureMappings[@(logMessage->logFlag)]];
@@ -43,7 +40,7 @@
 	NSString	*fileName = [[NSString stringWithUTF8String:logMessage->file] lastPathComponent];
     NSString	*dateAndTime = [self.dateFormatter stringFromDate:(logMessage->timestamp)];
     
-	return [NSString stringWithFormat:@"%@ %@ [%@:%d %s]%@ | %@", dateAndTime, logLevelString, fileName, logMessage->lineNumber, logMessage->function, bugName, logMessage->logMsg];
+	return [NSString stringWithFormat:@"%@ <Bug> [%@:%d %s]%@ | %@", dateAndTime, fileName, logMessage->lineNumber, logMessage->function, bugName, logMessage->logMsg];
 }
 
 
