@@ -55,7 +55,7 @@ int	MCC_PREFIXED_NAME(DDLogBugs) = 0;
 
 + (void)addBugLoggerWithDict:(NSDictionary *)bugDict forBundleId:(NSString *)aBundleId {
 	
-	NSString	*bundleId = [aBundleId stringByAppendingString:@".bugs"];
+	NSString	*bundleId = [@"bugs." stringByAppendingString:aBundleId];
 	//	Set up the logging
 	MCC_PREFIXED_NAME(BundleFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(BundleFileManager) alloc] initWithBundleId:bundleId];
 	DDFileLogger		*fileLogger = [[DDFileLogger alloc] initWithLogFileManager:bundleFileManager];
