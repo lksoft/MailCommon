@@ -6,4 +6,4 @@
 	url = https://github.com/lksoft/DLIntrospection.git
 [submodule "MCCMailCommon/LumberJack"]
 	path = MCCMailCommon/LumberJack
-	url = git@github.com:lksoft/CocoaLumberjack.git
+	url = https://github.com/lksoft/CocoaLumberjack.git
