@@ -32,4 +32,32 @@ static inline BOOL MCC_PREFIXED_NAME(IsEmpty)(id thing) { return thing == nil ||
 
 #define THREAD_DICT		([[NSThread currentThread] threadDictionary])
 
+#define MCCLogMailVersion() \
+do { \
+	SEL			commonMailInfoKey = NSSelectorFromString(@"CommonMailInfoKey"); \
+	NSString	*mailVersionInformation = objc_getAssociatedObject(NSApp, commonMailInfoKey); \
+	if (!mailVersionInformation) { \
+		NSDictionary	*OSVersionDictionary = [NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"]; \
+		NSString		*OSBuild = [OSVersionDictionary objectForKey:@"ProductBuildVersion"]; \
+		NSString		*OSVersion = [OSVersionDictionary objectForKey:@"ProductVersion"]; \
+		mailVersionInformation = [NSString stringWithFormat:@"\n\t\tLoaded Mail Version %@ (%@)\n\t\tOS X Version %@ (%@)", \
+								  [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"], OSVersion,OSBuild]; \
+		NSLog (@"%@",mailVersionInformation); \
+		objc_setAssociatedObject(NSApp, commonMailInfoKey, mailVersionInformation, OBJC_ASSOCIATION_RETAIN); \
+	} \
+} while (NO);
 
+/*
+void MCCLogPluginVersion(NSDictionary *pluginInfoDict);
+void MCCLogPluginVersion(NSDictionary *pluginInfoDict) {
+
+//#define MCCLogPluginVersion(pluginInfoDict) \
+
+do { \
+	NSString	*pluginVersionInformation = [NSString stringWithFormat:@"\n\t\tLoaded %@ %@ (%@)\n\t\tBuild [%@:%@]", \
+							  pluginInfoDict[@"CFBundleName"], pluginInfoDict[@"CFBundleShortVersionString"], pluginInfoDict[@"CFBundleVersion"], pluginInfoDict[@"LKSBuildBranch"], pluginInfoDict[@"LKSBuildSHA"]]; \
+	NSLog (@"%@", pluginVersionInformation); \
+} while (NO);
+
+}
+*/
