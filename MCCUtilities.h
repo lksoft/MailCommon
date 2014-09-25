@@ -47,17 +47,10 @@ do { \
 	} \
 } while (NO);
 
-/*
-void MCCLogPluginVersion(NSDictionary *pluginInfoDict);
-void MCCLogPluginVersion(NSDictionary *pluginInfoDict) {
-
-//#define MCCLogPluginVersion(pluginInfoDict) \
-
+#define MCCLogPluginVersion(pluginInfoDict) \
 do { \
-	NSString	*pluginVersionInformation = [NSString stringWithFormat:@"\n\t\tLoaded %@ %@ (%@)\n\t\tBuild [%@:%@]", \
-							  pluginInfoDict[@"CFBundleName"], pluginInfoDict[@"CFBundleShortVersionString"], pluginInfoDict[@"CFBundleVersion"], pluginInfoDict[@"LKSBuildBranch"], pluginInfoDict[@"LKSBuildSHA"]]; \
+	NSString	*pluginVersionInformation = [NSString stringWithFormat:@"\n\t\tLoaded ‘%@’ %@ (%@) by %@\n\t\tBuild [%@:%@]", \
+							  pluginInfoDict[@"CFBundleName"], pluginInfoDict[@"CFBundleShortVersionString"], pluginInfoDict[@"CFBundleVersion"], pluginInfoDict[@"MPCCompanyName"], pluginInfoDict[@"LKSBuildBranch"], pluginInfoDict[@"LKSBuildSHA"]]; \
 	NSLog (@"%@", pluginVersionInformation); \
 } while (NO);
 
-}
-*/
