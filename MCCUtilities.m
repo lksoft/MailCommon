@@ -54,7 +54,7 @@
 			alert.icon = iconImage;
 			
 			[alert runModal];
-			RELEASE(alert);
+			MCC_RELEASE(alert);
 
 			foundSnitcher = YES;
 			

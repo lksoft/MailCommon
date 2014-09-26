@@ -8,18 +8,6 @@
 
 #import "MCCUserNotification.h"
 
-#if __has_feature(objc_arc)
-#define RETAIN(x) (x)
-#define RELEASE(x)
-#define AUTORELEASE(x) (x)
-#define DEALLOC(x) (x)
-#else
-#define RETAIN(x) ([(x) retain])
-#define RELEASE(x) ([(x) release])
-#define AUTORELEASE(x) ([(x) autorelease])
-#define DEALLOC(x) ([(x) dealloc])
-#endif
-
 #define WINDOW_HEIGHT	60.0f
 #define WINDOW_WIDTH	300.0f
 #define TOP_PADDING		40.0f
@@ -47,7 +35,7 @@
 		return;
 	}
 	
-	MCC_PREFIXED_NAME(UserNoteOperation)	*myOp = AUTORELEASE([[MCC_PREFIXED_NAME(UserNoteOperation) alloc] initWithUserNotification:notification notificationCenter:self]);
+	MCC_PREFIXED_NAME(UserNoteOperation)	*myOp = MCC_AUTORELEASE([[MCC_PREFIXED_NAME(UserNoteOperation) alloc] initWithUserNotification:notification notificationCenter:self]);
 	[self.notificationQueue addOperation:myOp];
 	
 }
@@ -59,14 +47,14 @@
 	if (self) {
 		NSRect		windowRect = [[[NSScreen screens] objectAtIndex:0] frame];
 		windowRect = NSMakeRect(windowRect.size.width - (WINDOW_WIDTH + RIGHT_PADDING), windowRect.size.height - (WINDOW_HEIGHT + TOP_PADDING), WINDOW_WIDTH, WINDOW_HEIGHT);
-		self.window = AUTORELEASE([[NSWindow alloc] initWithContentRect:windowRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:YES]);
-		self.textField = AUTORELEASE([[NSTextField alloc] initWithFrame:NSMakeRect(60.0f, 30.0f, 230.0f, 20.0f)]);
+		self.window = MCC_AUTORELEASE([[NSWindow alloc] initWithContentRect:windowRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:YES]);
+		self.textField = MCC_AUTORELEASE([[NSTextField alloc] initWithFrame:NSMakeRect(60.0f, 30.0f, 230.0f, 20.0f)]);
 		[self.textField setEditable:NO];
 		[self.textField setEnabled:NO];
 		[self.textField setTextColor:[NSColor colorWithCalibratedWhite:0.2 alpha:1.0]];
 		[self.textField setDrawsBackground:NO];
 		[self.textField setBordered:NO];
-		self.subtextField = AUTORELEASE([[NSTextField alloc] initWithFrame:NSMakeRect(60.0f, 10.0f, 230.0f, 20.0f)]);
+		self.subtextField = MCC_AUTORELEASE([[NSTextField alloc] initWithFrame:NSMakeRect(60.0f, 10.0f, 230.0f, 20.0f)]);
 		[self.subtextField setEditable:NO];
 		[self.subtextField setEnabled:NO];
 		[self.subtextField setTextColor:[NSColor colorWithCalibratedWhite:0.35 alpha:1.0]];

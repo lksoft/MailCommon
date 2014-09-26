@@ -80,7 +80,7 @@
 			NSLog(@"ERROR Class %@ does not inherit from %@!", controllerClassName, [MCC_PREFIXED_NAME(WebScriptPageController) class]);
 			
 		}
-        RELEASE(controllerObject);
+        MCC_RELEASE(controllerObject);
 	}
 	else{
 		NSLog(@"ERROR cannot find Class %@!",controllerClassName);

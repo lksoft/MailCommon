@@ -68,8 +68,8 @@
 			[trimmedMappings setObject:mappedClassName forKey:mappingKey];
 		}
 	}
-	RELEASE(osName);
-	RELEASE(previousOsName);
+	MCC_RELEASE(osName);
+	MCC_RELEASE(previousOsName);
 	
 	self.mappings = [NSDictionary dictionaryWithDictionary:trimmedMappings];
 }
@@ -163,7 +163,7 @@ Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 			dispatch_barrier_async(classNameDictAccessQueue, ^{
 				[classNameLookup setObject:newClass forKey:newClassName];
 			});
-			RELEASE(newClassName);
+			MCC_RELEASE(newClassName);
 		}
 		// NSLog(@"found class %@ -->%@",className,resultClass);
 		
