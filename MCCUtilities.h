@@ -54,7 +54,7 @@ do { \
 					NSString		*fullPath = [[bundles stringByAppendingPathComponent:bundlePath] stringByResolvingSymlinksInPath]; \
 					NSString		*infoPlistPath = [fullPath stringByAppendingPathComponent:@"Contents/info.plist"]; \
 					NSDictionary	*infoDict = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath]; \
-					[mailVersionInformation appendFormat:@"\n\t\t\t%@ (%@)", fullPath, [infoDict objectForKey:@"CFBundleVersion"]]; \
+					[mailVersionInformation appendFormat:@"\n\t\t\t%@ (%@ - %@)", fullPath, [infoDict objectForKey:@"CFBundleShortVersionString"], [infoDict objectForKey:@"CFBundleVersion"]]; \
 				} \
 			} \
 		} \
