@@ -34,15 +34,31 @@ static inline BOOL MCC_PREFIXED_NAME(IsEmpty)(id thing) { return thing == nil ||
 
 #define MCCLogMailVersion() \
 do { \
-	SEL			commonMailInfoKey = NSSelectorFromString(@"CommonMailInfoKey"); \
-	NSString	*mailVersionInformation = objc_getAssociatedObject(NSApp, commonMailInfoKey); \
-	if (!mailVersionInformation) { \
+	SEL commonMailInfoKey = NSSelectorFromString(@"CommonMailInfoKey"); \
+	NSString	*mailVersionInfo = objc_getAssociatedObject(NSApp,commonMailInfoKey); \
+	if (!mailVersionInfo) { \
 		NSDictionary	*OSVersionDictionary = [NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"]; \
 		NSString		*OSBuild = [OSVersionDictionary objectForKey:@"ProductBuildVersion"]; \
 		NSString		*OSVersion = [OSVersionDictionary objectForKey:@"ProductVersion"]; \
-		mailVersionInformation = [NSString stringWithFormat:@"\n\t\tLoaded Mail Version %@ (%@)\n\t\tOS X Version %@ (%@)", \
-								  [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"], OSVersion,OSBuild]; \
-		NSLog (@"%@",mailVersionInformation); \
+		NSMutableString	*mailVersionInformation = [NSMutableString stringWithFormat:@"\n\t\tLoaded Mail Version %@ (%@)\n\t\tOS X Version %@ (%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"], OSVersion,OSBuild]; \
+		[mailVersionInformation appendFormat:@"\n\t\tInstalled Bundles:"]; \
+		NSArray			*pathsToSearch = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,NSUserDomainMask|NSLocalDomainMask|NSSystemDomainMask, YES); \
+		NSFileManager	*fm = [NSFileManager defaultManager]; \
+		for (NSString *pathToSeach in pathsToSearch) { \
+			NSString	*mailLibraryPath =[pathToSeach stringByAppendingPathComponent:@"Mail"]; \
+			NSString	*bundles = [mailLibraryPath stringByAppendingPathComponent:@"Bundles"]; \
+			NSError		*fmError = nil; \
+			NSArray		*dirContents = [fm contentsOfDirectoryAtPath:bundles error:&fmError]; \
+			for (NSString *bundlePath in dirContents) { \
+				if ([bundlePath hasSuffix:@"mailbundle"]) { \
+					NSString		*fullPath = [[bundles stringByAppendingPathComponent:bundlePath] stringByResolvingSymlinksInPath]; \
+					NSString		*infoPlistPath = [fullPath stringByAppendingPathComponent:@"Contents/info.plist"]; \
+					NSDictionary	*infoDict = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath]; \
+					[mailVersionInformation appendFormat:@"\n\t\t\t%@ (%@)", fullPath, [infoDict objectForKey:@"CFBundleVersion"]]; \
+				} \
+			} \
+		} \
+		NSLog (@"%@", mailVersionInformation); \
 		objc_setAssociatedObject(NSApp, commonMailInfoKey, mailVersionInformation, OBJC_ASSOCIATION_RETAIN); \
 	} \
 } while (NO);
