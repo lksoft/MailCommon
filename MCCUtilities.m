@@ -66,6 +66,35 @@
 	return foundSnitcher;
 }
 
++ (NSURL *)debugInfoScriptURL {
+	NSArray	*applicationScripts = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationScriptsDirectory inDomains:NSUserDomainMask];
+	NSURL	*scriptURL = nil;
+	if ([applicationScripts count] > 0) {
+		scriptURL = [applicationScripts objectAtIndex:0];
+	}
+	scriptURL = [scriptURL URLByAppendingPathComponent:@"LKS"];
+	scriptURL = [[scriptURL URLByAppendingPathComponent:@"GetCompleteDebugInfo"] URLByAppendingPathExtension:@"scpt"];
+	return [scriptURL filePathURL];
+}
+
++ (void)runDebugInfoScript {
+	NSError				*scriptError = nil;
+	NSURL				*scriptURL = [self debugInfoScriptURL];
+	NSUserScriptTask	*scriptTask = [[NSUserAppleScriptTask alloc] initWithURL:scriptURL error:&scriptError];
+	[scriptTask executeWithCompletionHandler:^(NSError *error) {
+		if (error != nil) {
+			NSLog(@"There was an error:%@", error);
+		}
+		else {
+			NSLog(@"Completed OK");
+		}
+	}];
+}
+
++ (BOOL)debugInfoScriptIsAvailable {
+	return [[self debugInfoScriptURL] checkResourceIsReachableAndReturnError:nil];
+}
+
 
 #pragma Singleton
 
