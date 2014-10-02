@@ -107,7 +107,6 @@ static	NSMutableDictionary		*MCC_PREFIXED_NAME(_ovc_optionalViewNibs);
 	
 	//	ensure that a proper identifier was passed
 	if (identifier == nil) {
-		NSLog(@"A null identifier was passed to controllerWithID: in %@", NSStringFromClass(self));
 		return nil;
 	}
 	
