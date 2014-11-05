@@ -93,6 +93,12 @@
 	return [scriptURL filePathURL];
 }
 
++ (NSURL *)helperScriptURL {
+	NSURL	*scriptURL = [SPRUtilities applicationScriptsURL];
+	scriptURL = [[scriptURL URLByAppendingPathComponent:@"HelperScript"] URLByAppendingPathExtension:@"sh"];
+	return [scriptURL filePathURL];
+}
+
 + (void)runDebugInfoScript {
 	NSError				*scriptError = nil;
 	NSURL				*scriptURL = [self debugInfoScriptURL];
@@ -109,6 +115,10 @@
 
 + (BOOL)debugInfoScriptIsAvailable {
 	return [[self debugInfoScriptURL] checkResourceIsReachableAndReturnError:nil];
+}
+
++ (BOOL)helperScriptIsAvailable {
+	return [[self helperScriptURL] checkResourceIsReachableAndReturnError:nil];
 }
 
 

@@ -17,6 +17,8 @@
 + (BOOL)notifyUserAboutSnitchesForPluginName:(NSString *)pluginName domainList:(NSArray *)domains usingIcon:(NSImage *)iconImage;
 + (instancetype)sharedInstance;
 + (NSURL *)applicationScriptsURL;
++ (NSURL *)helperScriptURL;
++ (BOOL)helperScriptIsAvailable;
 + (BOOL)debugInfoScriptIsAvailable;
 + (void)runDebugInfoScript;
 @end
