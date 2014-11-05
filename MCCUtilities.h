@@ -11,10 +11,12 @@
 
 @interface MCC_PREFIXED_NAME(Utilities) : NSObject
 
-@property (strong) NSBundle	*bundle;
+@property (strong) NSBundle *bundle;
+@property (strong) NSString *scriptPathComponent;
 
 + (BOOL)notifyUserAboutSnitchesForPluginName:(NSString *)pluginName domainList:(NSArray *)domains usingIcon:(NSImage *)iconImage;
 + (instancetype)sharedInstance;
++ (NSURL *)applicationScriptsURL;
 + (BOOL)debugInfoScriptIsAvailable;
 + (void)runDebugInfoScript;
 @end

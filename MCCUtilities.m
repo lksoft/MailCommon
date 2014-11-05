@@ -66,13 +66,29 @@
 	return foundSnitcher;
 }
 
-+ (NSURL *)debugInfoScriptURL {
-	NSArray	*applicationScripts = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationScriptsDirectory inDomains:NSUserDomainMask];
++ (NSURL *)applicationScriptsURL {
 	NSURL	*scriptURL = nil;
-	if ([applicationScripts count] > 0) {
-		scriptURL = [applicationScripts objectAtIndex:0];
+	
+	if (OSVERSION >= SPROSVersionMountainLion) {
+		NSArray	*applicationScripts = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationScriptsDirectory inDomains:NSUserDomainMask];
+		if ([applicationScripts count] > 0) {
+			scriptURL = [applicationScripts objectAtIndex:0];
+		}
 	}
-	scriptURL = [scriptURL URLByAppendingPathComponent:@"LKS"];
+	else {
+		scriptURL = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
+		scriptURL = [scriptURL URLByAppendingPathComponent:@"Application Scripts"];
+		scriptURL = [scriptURL URLByAppendingPathComponent:@"com.apple.mail"];
+	}
+	
+	if (!IS_EMPTY([[self sharedInstance] scriptPathComponent])) {
+		scriptURL = [scriptURL URLByAppendingPathComponent:[[self sharedInstance] scriptPathComponent]];
+	}
+	return scriptURL;
+}
+
++ (NSURL *)debugInfoScriptURL {
+	NSURL	*scriptURL = [self applicationScriptsURL];
 	scriptURL = [[scriptURL URLByAppendingPathComponent:@"GetCompleteDebugInfo"] URLByAppendingPathExtension:@"scpt"];
 	return [scriptURL filePathURL];
 }
