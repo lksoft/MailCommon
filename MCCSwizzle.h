@@ -22,7 +22,8 @@ typedef NS_ENUM(NSInteger, MCC_PREFIXED_NAME(OSVersionValue)) {
 	MCC_PREFIXED_NAME(OSVersionSnowLeopard),
 	MCC_PREFIXED_NAME(OSVersionLion),
 	MCC_PREFIXED_NAME(OSVersionMountainLion),
-	MCC_PREFIXED_NAME(OSVersionMavericks)
+	MCC_PREFIXED_NAME(OSVersionMavericks),
+	MCC_PREFIXED_NAME(OSVersionYosemite)
 };
 
 typedef MCC_PREFIXED_NAME(SwizzleType)(^MCC_PREFIXED_NAME(SwizzleFilterBlock))(NSString *methodName);

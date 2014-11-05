@@ -960,6 +960,16 @@ typedef struct objc_super * super_pointer;
 }
 @end
 
+#ifndef NSAppKitVersionNumber10_7
+#define NSAppKitVersionNumber10_7 1138
+#endif
+#ifndef NSAppKitVersionNumber10_8
+#define NSAppKitVersionNumber10_8 1187
+#endif
+#ifndef NSAppKitVersionNumber10_9
+#define NSAppKitVersionNumber10_9 1265
+#endif
+
 MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void) {
     
     static MCC_PREFIXED_NAME(OSVersionValue) static_osVersion = MCC_PREFIXED_NAME(OSVersionUnknown);
@@ -977,8 +987,11 @@ MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void) {
         else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_8) {
             static_osVersion = MCC_PREFIXED_NAME(OSVersionMountainLion);
 		}
+		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_9) {
+			static_osVersion = MCC_PREFIXED_NAME(OSVersionMavericks);
+		}
         else {
-            static_osVersion = MCC_PREFIXED_NAME(OSVersionMavericks);
+            static_osVersion = MCC_PREFIXED_NAME(OSVersionYosemite);
 		}
 		
 	}
