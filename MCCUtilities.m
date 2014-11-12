@@ -69,7 +69,7 @@
 + (NSURL *)applicationScriptsURL {
 	NSURL	*scriptURL = nil;
 	
-	if (OSVERSION >= SPROSVersionMountainLion) {
+	if (OSVERSION >= MCC_PREFIXED_NAME(OSVersionMountainLion)) {
 		NSArray	*applicationScripts = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationScriptsDirectory inDomains:NSUserDomainMask];
 		if ([applicationScripts count] > 0) {
 			scriptURL = [applicationScripts objectAtIndex:0];
@@ -94,7 +94,7 @@
 }
 
 + (NSURL *)helperScriptURL {
-	NSURL	*scriptURL = [SPRUtilities applicationScriptsURL];
+	NSURL	*scriptURL = [MCC_PREFIXED_NAME(Utilities) applicationScriptsURL];
 	scriptURL = [[scriptURL URLByAppendingPathComponent:@"HelperScript"] URLByAppendingPathExtension:@"sh"];
 	return [scriptURL filePathURL];
 }
