@@ -134,7 +134,7 @@
 }
 
 + (BOOL)debugInfoScriptIsAvailable {
-	return [[self debugInfoScriptURL] checkResourceIsReachableAndReturnError:nil];
+	return ([[self debugInfoScriptURL] checkResourceIsReachableAndReturnError:nil] && [[self helperScriptURL] checkResourceIsReachableAndReturnError:nil]);
 }
 
 + (BOOL)helperScriptIsAvailable {
