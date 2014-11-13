@@ -11,6 +11,13 @@ else
 	exit 1;
 fi
 
+
+if [ "$ACTION" == "-debug" ]; then
+	MY_DIR=`dirname "$0"`
+	/usr/bin/osascript "$MY_DIR/GetCompleteDebugInfo.applescript" "$2" "$3"
+	exit 0;
+fi
+
 # Test to see if the bundle path is valid
 if [[ -d "$BUNDLE_PATH" ]]; then
 

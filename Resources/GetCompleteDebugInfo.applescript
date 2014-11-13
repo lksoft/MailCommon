@@ -50,13 +50,19 @@ on run (argv)
 		end if
 	end tell
 	
+	set systemVersion to do shell script "sw_vers -productVersion"
+	set systemBuildVersion to do shell script "sw_vers -buildVersion"
+	
+	-- Build out the system version info
+	set msgContent to msgContent & "OS X Version: " & systemVersion & " (" & systemBuildVersion & ")" & return
+	
 	set mailUUID to do shell script "defaults read /Applications/Mail.app/Contents/Info PluginCompatibilityUUID"
 	set mailBuild to do shell script "defaults read /Applications/Mail.app/Contents/Info CFBundleVersion"
 	
 	set mailVersion to do shell script "defaults read /Applications/Mail.app/Contents/Info CFBundleShortVersionString"
 	
 	-- Build out the main version info
-	set msgContent to msgContent & "Mail Version: " & mailVersion & "(" & mailBuild & ") UUID: " & mailUUID & return
+	set msgContent to msgContent & "Mail Version: " & mailVersion & " (" & mailBuild & ") UUID: " & mailUUID & return
 	
 	--	Add the list of plugins installed
 	set msgContent to msgContent & return & "Installed Plugins:" & return & "====================" & return
