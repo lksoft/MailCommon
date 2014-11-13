@@ -7,6 +7,7 @@
 //
 
 #import "MCCUtilities.h"
+#import "MCCDebugReasonSheet.h"
 
 
 @implementation MCC_PREFIXED_NAME(Utilities)
@@ -89,7 +90,7 @@
 
 + (NSURL *)debugInfoScriptURL {
 	NSURL	*scriptURL = [self applicationScriptsURL];
-	scriptURL = [[scriptURL URLByAppendingPathComponent:@"GetCompleteDebugInfo"] URLByAppendingPathExtension:@"scpt"];
+	scriptURL = [[scriptURL URLByAppendingPathComponent:@"GetCompleteDebugInfo"] URLByAppendingPathExtension:@"applescript"];
 	return [scriptURL filePathURL];
 }
 
@@ -99,18 +100,37 @@
 	return [scriptURL filePathURL];
 }
 
-+ (void)runDebugInfoScript {
-	NSError				*scriptError = nil;
-	NSURL				*scriptURL = [self debugInfoScriptURL];
-	NSUserScriptTask	*scriptTask = [[NSUserAppleScriptTask alloc] initWithURL:scriptURL error:&scriptError];
-	[scriptTask executeWithCompletionHandler:^(NSError *error) {
-		if (error != nil) {
-			NSLog(@"There was an error:%@", error);
++ (void)runDebugInfoScriptUsingView:(NSView *)targetView {
+	
+	NSAssert(targetView != nil, @"You must pass a view to runDebugInfoScriptUsingView:");
+	
+	MCCDebugReasonSheet	*reasonSheet = [[MCCDebugReasonSheet alloc] init];
+	[reasonSheet showSheetInWindow:[targetView window]];
+	
+	[[NSNotificationCenter defaultCenter] addObserverForName:MCCDebugReasonGivenNotification object:reasonSheet queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+		
+		NSString	*messageSubject = [NSString stringWithFormat:@"Debug information for %@", [[[[self sharedInstance] bundle] infoDictionary] valueForKey:(NSString *)kCFBundleNameKey]];
+		NSString	*messageProblem = [reasonSheet.problemText string];
+		
+		NSURL	*pathURL = [MCC_PREFIXED_NAME(Utilities) helperScriptURL];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:[pathURL path]]) {
+			NSArray	*scriptArguments = @[@"-debug", messageSubject, messageProblem];
+			
+			NSError			*scriptError = nil;
+			NSUserUnixTask	*scriptTask = [[NSUserUnixTask alloc] initWithURL:pathURL error:&scriptError];
+			[scriptTask executeWithArguments:scriptArguments completionHandler:^(NSError *executeError) {
+				if (executeError) {
+					[targetView presentError:executeError modalForWindow:[targetView window] delegate:nil didPresentSelector:nil contextInfo:NULL];
+					NSLog(@"Error executing uninstall script:%@", executeError);
+				}
+			}];
+			
 		}
-		else {
-			NSLog(@"Completed OK");
-		}
+		
+		[reasonSheet release];
 	}];
+	
+	
 }
 
 + (BOOL)debugInfoScriptIsAvailable {

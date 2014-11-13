@@ -20,7 +20,7 @@
 + (NSURL *)helperScriptURL;
 + (BOOL)helperScriptIsAvailable;
 + (BOOL)debugInfoScriptIsAvailable;
-+ (void)runDebugInfoScript;
++ (void)runDebugInfoScriptUsingView:(NSView *)targetView;
 @end
 
 
