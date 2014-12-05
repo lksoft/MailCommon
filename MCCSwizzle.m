@@ -12,6 +12,7 @@
 #import "MCCSwizzle.h"
 #import "MCCMailAbstractor.h"
 #import <objc/objc-runtime.h>
+#import <objc/message.h>
 typedef struct objc_super * super_pointer;
 
 
@@ -213,12 +214,15 @@ typedef struct objc_super * super_pointer;
     Class runtimeSuper = class_getSuperclass([self class]);
     if (runtimeSuper){
         super_pointer  sp = &(struct objc_super){self, runtimeSuper};
-        objc_msgSendSuper(sp,  _cmd);
+		id (*objc_msgSendSuper_typed)(struct objc_super *, SEL, va_list) = (void *)&objc_msgSendSuper;
+        objc_msgSendSuper_typed(sp, _cmd, NULL);
         return;
     }
 #if __has_feature(objc_arc)
 #else
-    [super dealloc];  // kept in to avoid warning
+	if (/* DISABLE CODE */(NO)) {
+		[super dealloc];  // kept in to avoid warning
+	}
 #endif
 }
 
