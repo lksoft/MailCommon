@@ -31,11 +31,13 @@
 #define MCC_RELEASE(x)
 #define MCC_AUTORELEASE(x) (x)
 #define MCC_DEALLOC(x) (x)
+#define MCC_WEAK	weak
 #else
 #define MCC_RETAIN(x) ([(x) retain])
 #define MCC_RELEASE(x) ([(x) release])
 #define MCC_AUTORELEASE(x) ([(x) autorelease])
 #define MCC_DEALLOC(x) ([(x) dealloc])
+#define MCC_WEAK	assign
 #endif
 
 #define MCCLogMailVersion() \
