@@ -31,8 +31,8 @@
 				NSLog( @"Warning: Failed to load nib" );
 			}
 		}
-		else {
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
+		else {
 			if (![NSBundle loadNibNamed:[self nibName] owner:self]) {
 				NSLog( @"Warning: Failed to load nib" );
 			}
