@@ -45,3 +45,19 @@ do { \
 	NSLog (@"%@", pluginVersionInformation); \
 } while (NO);
 
+typedef NS_ENUM(NSInteger, MCC_PREFIXED_NAME(OSVersionValue)) {
+	MCC_PREFIXED_NAME(OSVersionUnknown) = 0,
+	MCC_PREFIXED_NAME(OSVersionLeopard) = 5,
+	MCC_PREFIXED_NAME(OSVersionSnowLeopard),
+	MCC_PREFIXED_NAME(OSVersionLion),
+	MCC_PREFIXED_NAME(OSVersionMountainLion),
+	MCC_PREFIXED_NAME(OSVersionMavericks),
+	MCC_PREFIXED_NAME(OSVersionYosemite)
+};
+
+//	Version information
+MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void);
+#ifndef OSVERSION
+#define OSVERSION MCC_PREFIXED_NAME(OSVersion)()
+#endif
+

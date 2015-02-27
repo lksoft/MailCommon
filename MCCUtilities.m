@@ -156,3 +156,42 @@
 }
 
 @end
+
+#ifndef NSAppKitVersionNumber10_7
+#define NSAppKitVersionNumber10_7 1138
+#endif
+#ifndef NSAppKitVersionNumber10_8
+#define NSAppKitVersionNumber10_8 1187
+#endif
+#ifndef NSAppKitVersionNumber10_9
+#define NSAppKitVersionNumber10_9 1265
+#endif
+
+MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void) {
+	
+	static MCC_PREFIXED_NAME(OSVersionValue) static_osVersion = MCC_PREFIXED_NAME(OSVersionUnknown);
+	if (static_osVersion == MCC_PREFIXED_NAME(OSVersionUnknown)) {
+		
+		if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_5) {
+			static_osVersion  = MCC_PREFIXED_NAME(OSVersionLeopard);
+		}
+		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6) {
+			static_osVersion  = MCC_PREFIXED_NAME(OSVersionSnowLeopard);
+		}
+		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_7) {
+			static_osVersion  = MCC_PREFIXED_NAME(OSVersionLion);
+		}
+		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_8) {
+			static_osVersion = MCC_PREFIXED_NAME(OSVersionMountainLion);
+		}
+		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_9) {
+			static_osVersion = MCC_PREFIXED_NAME(OSVersionMavericks);
+		}
+		else {
+			static_osVersion = MCC_PREFIXED_NAME(OSVersionYosemite);
+		}
+		
+	}
+	return static_osVersion;
+}
+
