@@ -17,7 +17,7 @@ NSString * const MCCDebugReasonGivenNotification = @"MCCDebugReasonGivenNotifica
 	
 	if (!self.sheet) {
 		//Check the myCustomSheet instance variable to make sure the custom sheet does not already exist.
-		[NSBundle loadNibNamed:@"MCCDebugReasonSheet" owner:self];
+		[[NSBundle bundleForClass:[MCCDebugReasonSheet class]] loadNibNamed:@"MCCDebugReasonSheet" owner:self topLevelObjects:NULL];
 	}
  
 	[NSApp beginSheet:self.sheet modalForWindow:aWindow modalDelegate:self didEndSelector:@selector(didEndSheet:returnCode:contextInfo:) contextInfo:nil];

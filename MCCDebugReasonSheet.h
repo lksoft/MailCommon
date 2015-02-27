@@ -15,7 +15,7 @@ extern NSString * const MCCDebugReasonGivenNotification;
 
 @property (strong) NSAttributedString *problemText;
 
-@property (assign) IBOutlet NSWindow *sheet;
+@property (strong) IBOutlet NSWindow *sheet;
 
 - (void)showSheetInWindow:(NSWindow *)aWindow;
 - (IBAction)closeSheet:(id)sender;

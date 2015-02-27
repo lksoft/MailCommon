@@ -8,8 +8,8 @@
 
 #import "MCCSimpleOAuth2.h"
 #import "MCCUtilities.h"
-#import "MCCSSKeychain.h"
 #import "SSKeychain.h"
+#import "MCCSSKeychain.h"
 
 #define URL_ENCODE(stringValue)	[stringValue stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"!*'();:@&=+$,/?%#[]"] invertedSet]]
 
@@ -61,7 +61,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 			NSTimer	*aTimer = [[NSTimer alloc] initWithFireDate:expiresDate interval:1.0 target:self selector:@selector(renewAccessToken:) userInfo:nil repeats:NO];
 			self.refreshTimer = aTimer;
 			[[NSRunLoop mainRunLoop] addTimer:aTimer forMode:NSRunLoopCommonModes];
-			RELEASE(aTimer);
+			MCC_RELEASE(aTimer);
 		}
 	
 	}
