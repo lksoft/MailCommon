@@ -8,8 +8,8 @@
 
 #import "MCCSimpleOAuth2.h"
 #import "MCCUtilities.h"
-#import "SSKeychain.h"
 #import "MCCSSKeychain.h"
+#import "SSKeychain.h"
 
 #define URL_ENCODE(stringValue)	[stringValue stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"!*'();:@&=+$,/?%#[]"] invertedSet]]
 
@@ -96,7 +96,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 	[self.refreshTimer invalidate];
 
 #if !__has_feature(objc_arc)
-	self.accessCode = nil;
+	self.accessToken = nil;
 	self.clientId = nil;
 	self.clientSecret = nil;
 	self.endpointURL = nil;
@@ -115,7 +115,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 	if ((self.webview == nil) || self.accessToken) {
 		if (self.finalizeBlock) {
 			NSError	*error = nil;
-			if (self.webview == nil) {
+			if ((self.webview == nil) && (self.accessToken == nil)) {
 				error = [NSError errorWithDomain:MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) code:MCC_PREFIXED_CONSTANT(SimpleOAuthErrorNoWebView) userInfo:@{}];
 			}
 			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
