@@ -123,9 +123,20 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 	if ([self alreadyHasToken]) {
 		return;
 	}
-	
-	NSURL	*loadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=code%@%@", [self.endpointURL absoluteString], self.clientId, self.encodedRedirectURLString, (self.scope?@"&scope=":@""), self.scope?self.scope:@""]];
-	[[self.webview mainFrame] loadRequest:[NSURLRequest requestWithURL:loadURL]];
+	NSString	*scopeParameter = @"";
+	if (!IS_EMPTY(self.scope)) {
+		NSString	*encodedScope = [self.scope stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		scopeParameter = [NSString stringWithFormat:@"?scope=%@", encodedScope];
+	}
+	NSString	*urlString = [NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=code%@||", [self.endpointURL absoluteString], self.clientId, self.encodedRedirectURLString, scopeParameter];
+	NSURL	*loadURL = [NSURL URLWithString:urlString];
+	if (loadURL) {
+		[[self.webview mainFrame] loadRequest:[NSURLRequest requestWithURL:loadURL]];
+	}
+	else if (aFinalizeBlock) {
+		NSError	*anError = [NSError errorWithDomain:@"MCCSimpleOAuth2" code:101 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"I could not authorize with the URL '%@' - it couldn't be made into a valid URL", urlString]}];
+		aFinalizeBlock(self, anError);
+	}
 }
 
 - (void)authorizeUsingUser:(NSString *)username andPassword:(NSString *)password withFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock {
