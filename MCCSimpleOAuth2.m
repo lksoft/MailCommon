@@ -115,50 +115,8 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults) bundleID:nil];
 }
 
-- (void)dealloc {
-	[self.refreshTimer invalidate];
 
-#if !__has_feature(objc_arc)
-	self.accessToken = nil;
-	self.clientId = nil;
-	self.clientSecret = nil;
-	self.endpointURL = nil;
-	self.tokenURL = nil;
-	self.redirectURL = nil;
-	self.encodedRedirectURLString = nil;
-	self.tokenAccountName = nil;
-	self.refreshAccountName = nil;
-	self.tokenExpiresAccountName = nil;
-	self.refreshTimer = nil;
-	[super dealloc];
-#endif
-}
-
-- (BOOL)alreadyHasToken {
-	if ((self.webview == nil) || self.accessToken) {
-		if (self.finalizeBlock) {
-			NSError	*error = nil;
-			if ((self.webview == nil) && (self.accessToken == nil)) {
-				error = [NSError errorWithDomain:MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) code:MCC_PREFIXED_CONSTANT(SimpleOAuthErrorNoWebView) userInfo:@{}];
-			}
-			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-				self.finalizeBlock(self, error);
-			}];
-		}
-		return YES;
-	}
-	return NO;
-}
-
-- (void)renewAccessToken:(NSTimer *)aTimer {
-	[aTimer invalidate];
-	self.refreshTimer = nil;
-	self.accessToken = nil;
-	NSString	*refreshToken = [self storedTokenForKey:self.refreshAccountName];
-	self.grantType = @"refresh_token";
-	[self retreiveAccessTokenUsingCode:refreshToken];
-	self.grantType = @"authorization_code";
-}
+#pragma mark - Public Methods
 
 - (void)authorizeWithFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock {
 	self.finalizeBlock = aFinalizeBlock;
@@ -205,6 +163,61 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 		}
 		
 	}];
+}
+
+- (void)deauthorize {
+	self.accessToken = nil;
+	[self deleteTokenForKey:self.refreshAccountName];
+	[self deleteTokenForKey:self.tokenAccountName];
+	[self deleteTokenForKey:self.tokenExpiresAccountName];
+}
+
+
+#pragma mark - Internal Methods
+
+- (void)dealloc {
+	[self.refreshTimer invalidate];
+
+#if !__has_feature(objc_arc)
+	self.accessToken = nil;
+	self.clientId = nil;
+	self.clientSecret = nil;
+	self.endpointURL = nil;
+	self.tokenURL = nil;
+	self.redirectURL = nil;
+	self.encodedRedirectURLString = nil;
+	self.tokenAccountName = nil;
+	self.refreshAccountName = nil;
+	self.tokenExpiresAccountName = nil;
+	self.refreshTimer = nil;
+	[super dealloc];
+#endif
+}
+
+- (BOOL)alreadyHasToken {
+	if ((self.webview == nil) || self.accessToken) {
+		if (self.finalizeBlock) {
+			NSError	*error = nil;
+			if ((self.webview == nil) && (self.accessToken == nil)) {
+				error = [NSError errorWithDomain:MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) code:MCC_PREFIXED_CONSTANT(SimpleOAuthErrorNoWebView) userInfo:@{}];
+			}
+			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+				self.finalizeBlock(self, error);
+			}];
+		}
+		return YES;
+	}
+	return NO;
+}
+
+- (void)renewAccessToken:(NSTimer *)aTimer {
+	[aTimer invalidate];
+	self.refreshTimer = nil;
+	self.accessToken = nil;
+	NSString	*refreshToken = [self storedTokenForKey:self.refreshAccountName];
+	self.grantType = @"refresh_token";
+	[self retreiveAccessTokenUsingCode:refreshToken];
+	self.grantType = @"authorization_code";
 }
 
 - (void)retreiveAccessTokenUsingCode:(NSString *)aCode {

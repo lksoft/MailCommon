@@ -64,5 +64,6 @@ extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain);
 
 - (void)authorizeWithFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock;
 - (void)authorizeUsingUser:(NSString *)username andPassword:(NSString *)password withFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock;
+- (void)deauthorize;
 
 @end
