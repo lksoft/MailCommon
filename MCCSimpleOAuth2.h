@@ -38,7 +38,9 @@ extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain);
 					 endpointURL:(NSURL *)anEndpointURL
 						tokenURL:(NSURL *)aTokenURL
 					 redirectURL:(NSURL *)aRedirectURL
-				  forServiceName:(NSString *)aServiceName;
+				  forServiceName:(NSString *)aServiceName
+					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType
+						bundleID:(NSString *)aStorageBundleID;
 - (instancetype)initWithClientId:(NSString *)aClientId
 					clientSecret:(NSString *)aSecret
 					 endpointURL:(NSURL *)anEndpointURL
@@ -46,6 +48,19 @@ extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain);
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName
 					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType;
+- (instancetype)initWithClientId:(NSString *)aClientId
+					clientSecret:(NSString *)aSecret
+					 endpointURL:(NSURL *)anEndpointURL
+						tokenURL:(NSURL *)aTokenURL
+					 redirectURL:(NSURL *)aRedirectURL
+				  forServiceName:(NSString *)aServiceName
+						bundleID:(NSString *)aStorageBundleID;
+- (instancetype)initWithClientId:(NSString *)aClientId
+					clientSecret:(NSString *)aSecret
+					 endpointURL:(NSURL *)anEndpointURL
+						tokenURL:(NSURL *)aTokenURL
+					 redirectURL:(NSURL *)aRedirectURL
+				  forServiceName:(NSString *)aServiceName;
 
 - (void)authorizeWithFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock;
 - (void)authorizeUsingUser:(NSString *)username andPassword:(NSString *)password withFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock;

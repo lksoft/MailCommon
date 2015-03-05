@@ -29,6 +29,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 @property (strong) NSTimer	*refreshTimer;
 @property (strong) NSString	*grantType;
 @property (strong) NSString *serviceName;
+@property (strong) NSString *bundleID;
 @property (assign) MCC_PREFIXED_NAME(SimpleOAuthStorageType) storageType;
 @property (strong) MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock)	finalizeBlock;
 @end
@@ -42,7 +43,8 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 						tokenURL:(NSURL *)aTokenURL
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName
-					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType {
+					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType
+						bundleID:(NSString *)aStorageBundleID {
 	
 	NSAssert(!IS_EMPTY(aClientId), @"The Client ID cannot be empty for SimpleOAuth2");
 	NSAssert(!IS_EMPTY(aSecret), @"The Client Secret cannot be empty for SimpleOAuth2");
@@ -65,6 +67,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 		self.scope = @"all";
 		self.serviceName = aServiceName;
 		self.storageType = aStorageType;
+		self.bundleID = aStorageBundleID;
 		self.tokenAccountName = [NSString stringWithFormat:@"%@: Access Token", aServiceName];
 		self.refreshAccountName = [NSString stringWithFormat:@"%@: Refresh Token", aServiceName];
 		self.tokenExpiresAccountName = [NSString stringWithFormat:@"%@: Date Token Expires", aServiceName];
@@ -88,8 +91,28 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 					 endpointURL:(NSURL *)anEndpointURL
 						tokenURL:(NSURL *)aTokenURL
 					 redirectURL:(NSURL *)aRedirectURL
+				  forServiceName:(NSString *)aServiceName
+					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType {
+	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:aStorageType bundleID:nil];
+}
+
+- (instancetype)initWithClientId:(NSString *)aClientId
+					clientSecret:(NSString *)aSecret
+					 endpointURL:(NSURL *)anEndpointURL
+						tokenURL:(NSURL *)aTokenURL
+					 redirectURL:(NSURL *)aRedirectURL
+				  forServiceName:(NSString *)aServiceName
+						bundleID:(NSString *)aStorageBundleID {
+	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults) bundleID:aStorageBundleID];
+}
+
+- (instancetype)initWithClientId:(NSString *)aClientId
+					clientSecret:(NSString *)aSecret
+					 endpointURL:(NSURL *)anEndpointURL
+						tokenURL:(NSURL *)aTokenURL
+					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName {
-	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults)];
+	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults) bundleID:nil];
 }
 
 - (void)dealloc {
@@ -236,7 +259,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 					//	Store the expiration date in the keychain as well, if there is one
 					if (resultDict[@"expires_in"]) {
 						NSTimeInterval	expireTimeIntervalSinceRefDate = [NSDate timeIntervalSinceReferenceDate] + [resultDict[@"expires_in"] integerValue];
-						NSLog(@"expireTimeInterval = '%@'", [@(expireTimeIntervalSinceRefDate) stringValue]);
+						NSLog(@"ExpireTimeInterval = '%@' aka %@!!!!", [@(expireTimeIntervalSinceRefDate) stringValue], [NSDate dateWithTimeIntervalSinceReferenceDate:expireTimeIntervalSinceRefDate]);
 						[welf setStoredToken:[@(expireTimeIntervalSinceRefDate) stringValue] forKey:welf.tokenExpiresAccountName];
 					}
 					
@@ -264,7 +287,13 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 	id	newValue = nil;
 	switch (self.storageType) {
 		case MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults):
-			newValue = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+			if (self.bundleID == nil) {
+				[[NSUserDefaults standardUserDefaults] objectForKey:key];
+			}
+			else {
+				id	domainDefaults = [[NSUserDefaults standardUserDefaults] persistentDomainForName:self.bundleID];
+				newValue = [domainDefaults objectForKey:key];
+			}
 			break;
 			
 		case MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeKeychain):
@@ -277,7 +306,15 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 - (void)deleteTokenForKey:(NSString *)key {
 	switch (self.storageType) {
 		case MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults):
-			[[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+			if (self.bundleID == nil) {
+				[[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+			}
+			else {
+				NSMutableDictionary		*domainDefaults = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:self.bundleID] mutableCopy];
+				[domainDefaults removeObjectForKey:key];
+				[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionaryWithDictionary:domainDefaults] forName:self.bundleID];
+				[domainDefaults release];
+			}
 			break;
 			
 		case MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeKeychain):
@@ -289,7 +326,15 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 - (void)setStoredToken:(id)newValue forKey:(NSString *)key {
 	switch (self.storageType) {
 		case MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults):
-			[[NSUserDefaults standardUserDefaults] setObject:newValue forKey:key];
+			if (self.bundleID == nil) {
+				[[NSUserDefaults standardUserDefaults] setObject:newValue forKey:key];
+			}
+			else {
+				NSMutableDictionary		*domainDefaults = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:self.bundleID] mutableCopy];
+				[domainDefaults setObject:newValue forKey:key];
+				[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionaryWithDictionary:domainDefaults] forName:self.bundleID];
+				[domainDefaults release];
+			}
 			break;
 			
 		case MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeKeychain):
