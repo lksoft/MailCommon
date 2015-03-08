@@ -126,9 +126,9 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 	NSString	*scopeParameter = @"";
 	if (!IS_EMPTY(self.scope)) {
 		NSString	*encodedScope = [self.scope stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-		scopeParameter = [NSString stringWithFormat:@"?scope=%@", encodedScope];
+		scopeParameter = [NSString stringWithFormat:@"&scope=%@", encodedScope];
 	}
-	NSString	*urlString = [NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=code%@||", [self.endpointURL absoluteString], self.clientId, self.encodedRedirectURLString, scopeParameter];
+	NSString	*urlString = [NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=code%@", [self.endpointURL absoluteString], self.clientId, self.encodedRedirectURLString, scopeParameter];
 	NSURL	*loadURL = [NSURL URLWithString:urlString];
 	if (loadURL) {
 		[[self.webview mainFrame] loadRequest:[NSURLRequest requestWithURL:loadURL]];
