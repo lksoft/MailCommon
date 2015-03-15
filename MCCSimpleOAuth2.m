@@ -12,6 +12,8 @@
 #import "SSKeychain.h"
 
 #define URL_ENCODE(stringValue)	[stringValue stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"!*'();:@&=+$,/?%#[]"] invertedSet]]
+#define STANDARD_GRANT	@"authorization_code"
+#define REFRESH_GRANT	@"refresh_token"
 
 NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2ErrorDomain";
 
@@ -62,7 +64,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 		self.endpointURL = anEndpointURL;
 		self.tokenURL = aTokenURL;
 		self.redirectURL = aRedirectURL;
-		self.grantType = @"authorization_code";
+		self.grantType = STANDARD_GRANT;
 		self.encodedRedirectURLString = URL_ENCODE([self.redirectURL absoluteString]);
 		self.scope = @"all";
 		self.serviceName = aServiceName;
@@ -221,14 +223,84 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 	return NO;
 }
 
+- (void)processResultsOfAuthResponse:(NSURLResponse *)response withData:(NSData *)data error:(NSError *)connectionError {
+	
+	//	Remove any existing accessToken
+	[self deleteTokenForKey:self.tokenAccountName];
+	[self deleteTokenForKey:self.tokenExpiresAccountName];
+	[self.refreshTimer invalidate];
+	self.refreshTimer = nil;
+	
+	NSError		*error = nil;
+	if (connectionError) {
+		error = connectionError;
+	}
+	else {
+		NSDictionary	*resultDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+		if (error == nil) {
+			
+			if (resultDict[@"error"]) {
+				
+				error = [NSError errorWithDomain:MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) code:MCC_PREFIXED_CONSTANT(SimpleOAuthErrorRetrievingToken) userInfo:@{@"IFS_ERROR_INFO": resultDict}];
+				/*	Errors:
+				 invalid_request
+				 invalid_client
+				 invalid_grant
+				 unauthorized_client
+				 unsupported_grant_type
+				 invalid_scope
+				 */
+				
+			}
+			else {
+				self.accessToken = resultDict[@"access_token"];
+				self.scope = resultDict[@"scope"];
+				
+				//	Store the token in the keychain
+				if (self.accessToken) {
+					[self setStoredToken:self.accessToken forKey:self.tokenAccountName];
+				}
+				
+				//	Store the expiration date in the keychain as well, if there is one
+				if (resultDict[@"expires_in"]) {
+					NSTimeInterval	expireTimeIntervalSinceRefDate = [NSDate timeIntervalSinceReferenceDate] + [resultDict[@"expires_in"] integerValue];
+					NSLog(@"ExpireTimeInterval = '%@' aka %@!!!!", [@(expireTimeIntervalSinceRefDate) stringValue], [NSDate dateWithTimeIntervalSinceReferenceDate:expireTimeIntervalSinceRefDate]);
+					[self setStoredToken:[@(expireTimeIntervalSinceRefDate) stringValue] forKey:self.tokenExpiresAccountName];
+				}
+				
+				//	Store the refresh token in the keychain as well, if there is one
+				if (resultDict[@"refresh_token"]) {
+					[self deleteTokenForKey:self.refreshAccountName];
+					[self setStoredToken:resultDict[@"refresh_token"] forKey:self.refreshAccountName];
+				}
+			}
+		}
+	}
+	
+	if (self.finalizeBlock) {
+		self.finalizeBlock(self, error);
+	}
+}
+
 - (void)renewAccessToken:(NSTimer *)aTimer {
 	[aTimer invalidate];
 	self.refreshTimer = nil;
 	self.accessToken = nil;
 	NSString	*refreshToken = [self storedTokenForKey:self.refreshAccountName];
-	self.grantType = @"refresh_token";
-	[self retreiveAccessTokenUsingCode:refreshToken];
-	self.grantType = @"authorization_code";
+	NSString	*postBodyString = [NSString stringWithFormat:@"grant_type=%@&refresh_token=%@", REFRESH_GRANT, refreshToken];
+	NSMutableURLRequest	*accessRequest = [NSMutableURLRequest requestWithURL:self.tokenURL];
+	[accessRequest setHTTPMethod:@"POST"];
+	[accessRequest setHTTPBody:[postBodyString dataUsingEncoding:NSUTF8StringEncoding]];
+	[accessRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+	[accessRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+	[accessRequest addValue:[NSString stringWithFormat:@"%@", @([postBodyString length])] forHTTPHeaderField:@"Content-Length"];
+	NSString	*authValue = [[[NSString stringWithFormat:@"%@:%@", self.clientId, self.clientSecret] dataUsingEncoding:NSUTF8StringEncoding] base64Encoding];
+	[accessRequest addValue:[NSString stringWithFormat:@"Basic %@", authValue] forHTTPHeaderField:@"Authorization"];
+	
+	__block	MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
+	[NSURLConnection sendAsynchronousRequest:accessRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+		[welf processResultsOfAuthResponse:response withData:data error:connectionError];
+	}];
 }
 
 - (void)retreiveAccessTokenUsingCode:(NSString *)aCode {
@@ -243,63 +315,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 	
 	__block	MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
 	[NSURLConnection sendAsynchronousRequest:accessRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-		
-		//	Remove any existing accessToken
-		[welf deleteTokenForKey:welf.tokenAccountName];
-		[welf deleteTokenForKey:welf.tokenExpiresAccountName];
-		[welf.refreshTimer invalidate];
-		welf.refreshTimer = nil;
-		
-		NSError		*error = nil;
-		if (connectionError) {
-			error = connectionError;
-		}
-		else {
-			NSDictionary	*resultDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-			if (error == nil) {
-				
-				if (resultDict[@"error"]) {
-					
-					error = [NSError errorWithDomain:MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) code:MCC_PREFIXED_CONSTANT(SimpleOAuthErrorRetrievingToken) userInfo:@{@"IFS_ERROR_INFO": resultDict}];
-					/*	Errors:
-					 invalid_request
-					 invalid_client
-					 invalid_grant
-					 unauthorized_client
-					 unsupported_grant_type
-					 invalid_scope
-					 */
-					
-				}
-				else {
-					welf.accessToken = resultDict[@"access_token"];
-					welf.scope = resultDict[@"scope"];
-					
-					//	Store the token in the keychain
-					if (welf.accessToken) {
-						[welf setStoredToken:welf.accessToken forKey:welf.tokenAccountName];
-					}
-					
-					//	Store the expiration date in the keychain as well, if there is one
-					if (resultDict[@"expires_in"]) {
-						NSTimeInterval	expireTimeIntervalSinceRefDate = [NSDate timeIntervalSinceReferenceDate] + [resultDict[@"expires_in"] integerValue];
-						NSLog(@"ExpireTimeInterval = '%@' aka %@!!!!", [@(expireTimeIntervalSinceRefDate) stringValue], [NSDate dateWithTimeIntervalSinceReferenceDate:expireTimeIntervalSinceRefDate]);
-						[welf setStoredToken:[@(expireTimeIntervalSinceRefDate) stringValue] forKey:welf.tokenExpiresAccountName];
-					}
-					
-					//	Store the refresh token in the keychain as well, if there is one
-					if (resultDict[@"refresh_token"]) {
-						[welf deleteTokenForKey:welf.refreshAccountName];
-						[welf setStoredToken:resultDict[@"refresh_token"] forKey:welf.refreshAccountName];
-					}
-				}
-			}
-		}
-		
-		if (welf.finalizeBlock) {
-			welf.finalizeBlock(welf, error);
-		}
-		
+		[welf processResultsOfAuthResponse:response withData:data error:connectionError];
 	}];
 	
 }
