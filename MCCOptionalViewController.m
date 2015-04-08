@@ -150,7 +150,7 @@ static	NSMutableDictionary		*MCC_PREFIXED_NAME(_ovc_optionalViewNibs);
 		NSNib	*aNib = [self optionalViewNib];
 		
 		//	if successful in instantiating a new one...
-		if ([aNib instantiateNibWithOwner:owningController
+		if ([aNib instantiateWithOwner:owningController
 						  topLevelObjects:nil]) {
 			
 			id	headerViewAsKey = nil;
