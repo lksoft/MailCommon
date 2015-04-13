@@ -64,6 +64,12 @@ extern int	MCC_PREFIXED_NAME(DDLogBugs);
 #define LOG_C_MAYBE_SEC(async, lvl, flg, ctx, frmt, ...) \
 	LOG_MAYBE_SEC(async, lvl, flg, ctx, __FUNCTION__, frmt, ##__VA_ARGS__)
 
+#define FEATURE_LOGGED(flg) \
+	(MCC_PREFIXED_NAME(DDLogFeatures) & flg)
+
+#define BUG_LOGGED(flg) \
+	(MCC_PREFIXED_NAME(DDLogBugs) & flg)
+
 #define MCCErrS(frmt, ...)						LOG_OBJC_MAYBE_SEC(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
 #define MCCErrCS(frmt, ...)						LOG_C_MAYBE_SEC(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
 #define MCCWarnS(frmt, ...)						LOG_OBJC_MAYBE_SEC(LOG_ASYNC_WARN, LOG_LEVEL_DEF, LOG_FLAG_WARN, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
