@@ -11,7 +11,8 @@
 #import "MCCSSKeychain.h"
 #import "SSKeychain.h"
 
-#define URL_ENCODE(stringValue)	[stringValue stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"!*'();:@&=+$,/?%#[]"] invertedSet]]
+NSString *URLEncodedStringForString(NSString *inputString);
+
 #define STANDARD_GRANT	@"authorization_code"
 #define REFRESH_GRANT	@"refresh_token"
 
@@ -65,7 +66,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 		self.tokenURL = aTokenURL;
 		self.redirectURL = aRedirectURL;
 		self.grantType = STANDARD_GRANT;
-		self.encodedRedirectURLString = URL_ENCODE([self.redirectURL absoluteString]);
+		self.encodedRedirectURLString = URLEncodedStringForString([self.redirectURL absoluteString]);
 		self.scope = @"all";
 		self.serviceName = aServiceName;
 		self.storageType = aStorageType;
@@ -147,7 +148,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 		return;
 	}
 	
-	NSString	*postBodyString = [NSString stringWithFormat:@"grant_type=password&client_id=%@&username=%@&password=%@", self.clientId, URL_ENCODE(username), URL_ENCODE(password)];
+	NSString	*postBodyString = [NSString stringWithFormat:@"grant_type=password&client_id=%@&username=%@&password=%@", self.clientId, URLEncodedStringForString(username), URLEncodedStringForString(password)];
 	NSMutableURLRequest	*accessRequest = [NSMutableURLRequest requestWithURL:self.tokenURL];
 	[accessRequest setHTTPMethod:@"POST"];
 	[accessRequest setHTTPBody:[postBodyString dataUsingEncoding:NSUTF8StringEncoding]];
@@ -436,3 +437,38 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 
 
 @end
+
+NSString *URLEncodedStringForString(NSString *inputString) {
+
+	if (OSVERSION > MCC_PREFIXED_NAME(OSVersionMountainLion)) {
+		return [inputString stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"!*'();:@&=+$,/?%#[]"] invertedSet]];
+	}
+	
+	NSMutableString	*outputString = [[inputString mutableCopy] autorelease];
+	//	Do the percent first outside of the dictionary to ensure it is first
+	[outputString replaceOccurrencesOfString:@"%" withString:@"%25" options:0 range:NSMakeRange(0, [outputString length])];
+	NSDictionary	*mappings = @{@"!": @"%21",
+								  @"*": @"%2A",
+								  @"'": @"%27",
+								  @"(": @"%28",
+								  @")": @"%29",
+								  @";": @"%3B",
+								  @":": @"%3A",
+								  @"@": @"%40",
+								  @"&": @"%26",
+								  @"=": @"%3D",
+								  @"+": @"%2B",
+								  @"$": @"%24",
+								  @",": @"%2C",
+								  @"/": @"%2F",
+								  @"?": @"%3F",
+								  @"#": @"%23",
+								  @"[": @"%5B",
+								  @"]": @"%5D"};
+	[mappings enumerateKeysAndObjectsUsingBlock:^(NSString *charString, NSString *replacement, BOOL *stop) {
+		[outputString replaceOccurrencesOfString:charString withString:replacement options:0 range:NSMakeRange(0, [outputString length])];
+	}];
+	
+	return [NSString stringWithString:outputString];
+}
+
