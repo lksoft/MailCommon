@@ -16,8 +16,9 @@ NSString *URLEncodedStringForString(NSString *inputString);
 #define STANDARD_GRANT	@"authorization_code"
 #define REFRESH_GRANT	@"refresh_token"
 
-NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2ErrorDomain";
+#define EXPIRE_BUFFER_INTERVAL	30.0
 
+NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2ErrorDomain";
 
 @interface MCC_PREFIXED_NAME(SimpleOAuth2) ()
 @property (strong) NSString	*clientId;
@@ -47,7 +48,8 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName
 					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType
-						bundleID:(NSString *)aStorageBundleID {
+						bundleID:(NSString *)aStorageBundleID
+				   finalizeBlock:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock {
 	
 	NSAssert(!IS_EMPTY(aClientId), @"The Client ID cannot be empty for SimpleOAuth2");
 	NSAssert(!IS_EMPTY(aSecret), @"The Client Secret cannot be empty for SimpleOAuth2");
@@ -74,15 +76,21 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 		self.tokenAccountName = [NSString stringWithFormat:@"%@: Access Token", aServiceName];
 		self.refreshAccountName = [NSString stringWithFormat:@"%@: Refresh Token", aServiceName];
 		self.tokenExpiresAccountName = [NSString stringWithFormat:@"%@: Date Token Expires", aServiceName];
+		self.finalizeBlock = aFinalizeBlock;
 		
 		self.accessToken = [self storedTokenForKey:self.tokenAccountName];
 		NSString	*expiresTimeIntervalString = [self storedTokenForKey:self.tokenExpiresAccountName];
 		if (expiresTimeIntervalString) {
-			NSDate	*expiresDate = [NSDate dateWithTimeIntervalSinceReferenceDate:[expiresTimeIntervalString doubleValue] - 11.0];
-			NSTimer	*aTimer = [[NSTimer alloc] initWithFireDate:expiresDate interval:1.0 target:self selector:@selector(renewAccessToken:) userInfo:nil repeats:NO];
-			self.refreshTimer = aTimer;
-			[[NSRunLoop mainRunLoop] addTimer:aTimer forMode:NSRunLoopCommonModes];
-			MCC_RELEASE(aTimer);
+			NSDate	*expiresDate = [NSDate dateWithTimeIntervalSinceReferenceDate:([expiresTimeIntervalString doubleValue] - EXPIRE_BUFFER_INTERVAL)];
+			if ([expiresDate timeIntervalSinceDate:[NSDate date]] < 0) {
+				[self renewAccessToken:nil];
+			}
+			else {
+				NSTimer	*aTimer = [[NSTimer alloc] initWithFireDate:expiresDate interval:1.0 target:self selector:@selector(renewAccessToken:) userInfo:nil repeats:NO];
+				self.refreshTimer = aTimer;
+				[[NSRunLoop mainRunLoop] addTimer:aTimer forMode:NSRunLoopCommonModes];
+				MCC_RELEASE(aTimer);
+			}
 		}
 	
 	}
@@ -95,8 +103,19 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 						tokenURL:(NSURL *)aTokenURL
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName
+					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType
+						bundleID:(NSString *)aStorageBundleID {
+	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:aStorageType bundleID:nil finalizeBlock:nil];
+}
+
+- (instancetype)initWithClientId:(NSString *)aClientId
+					clientSecret:(NSString *)aSecret
+					 endpointURL:(NSURL *)anEndpointURL
+						tokenURL:(NSURL *)aTokenURL
+					 redirectURL:(NSURL *)aRedirectURL
+				  forServiceName:(NSString *)aServiceName
 					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType {
-	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:aStorageType bundleID:nil];
+	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:aStorageType bundleID:nil finalizeBlock:nil];
 }
 
 - (instancetype)initWithClientId:(NSString *)aClientId
@@ -106,7 +125,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName
 						bundleID:(NSString *)aStorageBundleID {
-	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults) bundleID:aStorageBundleID];
+	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults) bundleID:aStorageBundleID finalizeBlock:nil];
 }
 
 - (instancetype)initWithClientId:(NSString *)aClientId
@@ -115,7 +134,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 						tokenURL:(NSURL *)aTokenURL
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName {
-	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults) bundleID:nil];
+	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults) bundleID:nil finalizeBlock:nil];
 }
 
 
@@ -267,6 +286,13 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 					NSTimeInterval	expireTimeIntervalSinceRefDate = [NSDate timeIntervalSinceReferenceDate] + [resultDict[@"expires_in"] integerValue];
 					NSLog(@"ExpireTimeInterval = '%@' aka %@!!!!", [@(expireTimeIntervalSinceRefDate) stringValue], [NSDate dateWithTimeIntervalSinceReferenceDate:expireTimeIntervalSinceRefDate]);
 					[self setStoredToken:[@(expireTimeIntervalSinceRefDate) stringValue] forKey:self.tokenExpiresAccountName];
+
+					//	Re add the timer for the next expiry
+					NSDate	*expiresDate = [NSDate dateWithTimeIntervalSinceReferenceDate:(expireTimeIntervalSinceRefDate - EXPIRE_BUFFER_INTERVAL)];
+					NSTimer	*aTimer = [[NSTimer alloc] initWithFireDate:expiresDate interval:1.0 target:self selector:@selector(renewAccessToken:) userInfo:nil repeats:NO];
+					self.refreshTimer = aTimer;
+					[[NSRunLoop mainRunLoop] addTimer:aTimer forMode:NSRunLoopCommonModes];
+					MCC_RELEASE(aTimer);
 				}
 				
 				//	Store the refresh token in the keychain as well, if there is one
@@ -286,7 +312,6 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 - (void)renewAccessToken:(NSTimer *)aTimer {
 	[aTimer invalidate];
 	self.refreshTimer = nil;
-	self.accessToken = nil;
 	NSString	*refreshToken = [self storedTokenForKey:self.refreshAccountName];
 	NSString	*postBodyString = [NSString stringWithFormat:@"grant_type=%@&refresh_token=%@", REFRESH_GRANT, refreshToken];
 	NSMutableURLRequest	*accessRequest = [NSMutableURLRequest requestWithURL:self.tokenURL];

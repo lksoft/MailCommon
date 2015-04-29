@@ -40,6 +40,15 @@ extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain);
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName
 					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType
+						bundleID:(NSString *)aStorageBundleID
+				   finalizeBlock:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock;
+- (instancetype)initWithClientId:(NSString *)aClientId
+					clientSecret:(NSString *)aSecret
+					 endpointURL:(NSURL *)anEndpointURL
+						tokenURL:(NSURL *)aTokenURL
+					 redirectURL:(NSURL *)aRedirectURL
+				  forServiceName:(NSString *)aServiceName
+					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType
 						bundleID:(NSString *)aStorageBundleID;
 - (instancetype)initWithClientId:(NSString *)aClientId
 					clientSecret:(NSString *)aSecret
