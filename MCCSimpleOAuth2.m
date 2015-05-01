@@ -19,6 +19,8 @@ NSString *URLEncodedStringForString(NSString *inputString);
 #define EXPIRE_BUFFER_INTERVAL	30.0
 
 NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2ErrorDomain";
+NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationNotification) = @"SimpleOAuth2AuthorizationNotification";
+NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotification) = @"SimpleOAuth2AuthorizationFailedNotification";
 
 @interface MCC_PREFIXED_NAME(SimpleOAuth2) ()
 @property (strong) NSString	*clientId;
@@ -35,7 +37,6 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 @property (strong) NSString *serviceName;
 @property (strong) NSString *bundleID;
 @property (assign) MCC_PREFIXED_NAME(SimpleOAuthStorageType) storageType;
-@property (strong) MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock)	finalizeBlock;
 @end
 
 
@@ -48,8 +49,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName
 					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType
-						bundleID:(NSString *)aStorageBundleID
-				   finalizeBlock:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock {
+						bundleID:(NSString *)aStorageBundleID {
 	
 	NSAssert(!IS_EMPTY(aClientId), @"The Client ID cannot be empty for SimpleOAuth2");
 	NSAssert(!IS_EMPTY(aSecret), @"The Client Secret cannot be empty for SimpleOAuth2");
@@ -76,7 +76,6 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 		self.tokenAccountName = [NSString stringWithFormat:@"%@: Access Token", aServiceName];
 		self.refreshAccountName = [NSString stringWithFormat:@"%@: Refresh Token", aServiceName];
 		self.tokenExpiresAccountName = [NSString stringWithFormat:@"%@: Date Token Expires", aServiceName];
-		self.finalizeBlock = aFinalizeBlock;
 		
 		self.accessToken = [self storedTokenForKey:self.tokenAccountName];
 		NSString	*expiresTimeIntervalString = [self storedTokenForKey:self.tokenExpiresAccountName];
@@ -90,6 +89,10 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 				self.refreshTimer = aTimer;
 				[[NSRunLoop mainRunLoop] addTimer:aTimer forMode:NSRunLoopCommonModes];
 				MCC_RELEASE(aTimer);
+				__block MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationNotification) object:welf];
+				});
 			}
 		}
 	
@@ -103,19 +106,8 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 						tokenURL:(NSURL *)aTokenURL
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName
-					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType
-						bundleID:(NSString *)aStorageBundleID {
-	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:aStorageType bundleID:nil finalizeBlock:nil];
-}
-
-- (instancetype)initWithClientId:(NSString *)aClientId
-					clientSecret:(NSString *)aSecret
-					 endpointURL:(NSURL *)anEndpointURL
-						tokenURL:(NSURL *)aTokenURL
-					 redirectURL:(NSURL *)aRedirectURL
-				  forServiceName:(NSString *)aServiceName
 					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType {
-	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:aStorageType bundleID:nil finalizeBlock:nil];
+	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:aStorageType bundleID:nil];
 }
 
 - (instancetype)initWithClientId:(NSString *)aClientId
@@ -125,7 +117,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName
 						bundleID:(NSString *)aStorageBundleID {
-	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults) bundleID:aStorageBundleID finalizeBlock:nil];
+	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults) bundleID:aStorageBundleID];
 }
 
 - (instancetype)initWithClientId:(NSString *)aClientId
@@ -134,14 +126,13 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 						tokenURL:(NSURL *)aTokenURL
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName {
-	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults) bundleID:nil finalizeBlock:nil];
+	return [self initWithClientId:aClientId clientSecret:aSecret endpointURL:anEndpointURL tokenURL:aTokenURL redirectURL:aRedirectURL forServiceName:aServiceName storageType:MCC_PREFIXED_CONSTANT(SimpleOAuthStorageTypeDefaults) bundleID:nil];
 }
 
 
 #pragma mark - Public Methods
 
-- (void)authorizeWithFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock {
-	self.finalizeBlock = aFinalizeBlock;
+- (void)authorize {
 	if ([self alreadyHasToken]) {
 		return;
 	}
@@ -155,47 +146,10 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 	if (loadURL) {
 		[[self.webview mainFrame] loadRequest:[NSURLRequest requestWithURL:loadURL]];
 	}
-	else if (aFinalizeBlock) {
+	else {
 		NSError	*anError = [NSError errorWithDomain:@"MCCSimpleOAuth2" code:101 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"I could not authorize with the URL '%@' - it couldn't be made into a valid URL", urlString]}];
-		aFinalizeBlock(self, anError);
+		[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotification) object:self userInfo:@{@"error": anError}];
 	}
-}
-
-- (void)authorizeUsingUser:(NSString *)username andPassword:(NSString *)password withFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock {
-	self.finalizeBlock = aFinalizeBlock;
-	if ([self alreadyHasToken]) {
-		return;
-	}
-	
-	NSString	*postBodyString = [NSString stringWithFormat:@"grant_type=password&client_id=%@&username=%@&password=%@", self.clientId, URLEncodedStringForString(username), URLEncodedStringForString(password)];
-	NSMutableURLRequest	*accessRequest = [NSMutableURLRequest requestWithURL:self.tokenURL];
-	[accessRequest setHTTPMethod:@"POST"];
-	[accessRequest setHTTPBody:[postBodyString dataUsingEncoding:NSUTF8StringEncoding]];
-	[accessRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-	[accessRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-	[accessRequest addValue:[NSString stringWithFormat:@"%@", @([postBodyString length])] forHTTPHeaderField:@"Content-Length"];
-	
-	__block	MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
-	[NSURLConnection sendAsynchronousRequest:accessRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-		
-		if (connectionError) {
-			NSLog(@"Connection Error is:%@", connectionError);
-		}
-		else {
-			NSError			*error = nil;
-			NSDictionary	*resultDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-			if (error != nil) {
-				NSLog(@"JSON Error is:%@", error);
-			}
-			NSLog(@"Response data is:%@", resultDict);
-			welf.accessToken = resultDict[@"access_token"];
-			welf.scope = resultDict[@"scope"];
-			if (welf.finalizeBlock) {
-				welf.finalizeBlock(welf, nil);
-			}
-		}
-		
-	}];
 }
 
 - (void)deauthorize {
@@ -229,15 +183,20 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 
 - (BOOL)alreadyHasToken {
 	if ((self.webview == nil) || self.accessToken) {
-		if (self.finalizeBlock) {
-			NSError	*error = nil;
-			if ((self.webview == nil) && (self.accessToken == nil)) {
-				error = [NSError errorWithDomain:MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) code:MCC_PREFIXED_CONSTANT(SimpleOAuthErrorNoWebView) userInfo:@{}];
-			}
-			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-				self.finalizeBlock(self, error);
-			}];
+		NSError	*error = nil;
+		if ((self.webview == nil) && (self.accessToken == nil)) {
+			error = [NSError errorWithDomain:MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) code:MCC_PREFIXED_CONSTANT(SimpleOAuthErrorNoWebView) userInfo:@{}];
 		}
+		__block	MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
+		[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+			NSDictionary	*userInfo = nil;
+			NSString		*note = MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationNotification);
+			if (error) {
+				userInfo = @{@"error": error};
+				note = MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotification);
+			}
+			[[NSNotificationCenter defaultCenter] postNotificationName:note object:welf userInfo:userInfo];
+		}];
 		return YES;
 	}
 	return NO;
@@ -304,9 +263,16 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 		}
 	}
 	
-	if (self.finalizeBlock) {
-		self.finalizeBlock(self, error);
-	}
+	__block	MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
+	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+		NSDictionary	*userInfo = nil;
+		NSString		*note = MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationNotification);
+		if (error) {
+			userInfo = @{@"error": error};
+			note = MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotification);
+		}
+		[[NSNotificationCenter defaultCenter] postNotificationName:note object:welf userInfo:userInfo];
+	}];
 }
 
 - (void)renewAccessToken:(NSTimer *)aTimer {
@@ -447,9 +413,11 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2E
 			
 			//	Call the finalize with it
 			self.accessToken = nil;
-			if (self.finalizeBlock) {
-				self.finalizeBlock(self, anError);
-			}
+			
+			__block	MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
+			[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+				[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotification) object:welf userInfo:@{@"error": anError}];
+			}];
 		}
 		else {
 			[self retreiveAccessTokenUsingCode:queryResults[@"code"]];

@@ -23,9 +23,9 @@ typedef NS_ENUM(NSInteger, MCC_PREFIXED_NAME(SimpleOAuthStorageType)) {
 
 @class MCC_PREFIXED_NAME(SimpleOAuth2);
 
-typedef void (^MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))(MCC_PREFIXED_NAME(SimpleOAuth2) *authObject, NSError *anError);
-
 extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain);
+extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationNotification);
+extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotification);
 
 
 @interface MCC_PREFIXED_NAME(SimpleOAuth2) : NSObject
@@ -33,15 +33,6 @@ extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain);
 @property (strong) NSString	*accessToken;
 @property (strong) IBOutlet WebView	*webview;
 
-- (instancetype)initWithClientId:(NSString *)aClientId
-					clientSecret:(NSString *)aSecret
-					 endpointURL:(NSURL *)anEndpointURL
-						tokenURL:(NSURL *)aTokenURL
-					 redirectURL:(NSURL *)aRedirectURL
-				  forServiceName:(NSString *)aServiceName
-					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType
-						bundleID:(NSString *)aStorageBundleID
-				   finalizeBlock:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock;
 - (instancetype)initWithClientId:(NSString *)aClientId
 					clientSecret:(NSString *)aSecret
 					 endpointURL:(NSURL *)anEndpointURL
@@ -71,8 +62,7 @@ extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain);
 					 redirectURL:(NSURL *)aRedirectURL
 				  forServiceName:(NSString *)aServiceName;
 
-- (void)authorizeWithFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock;
-- (void)authorizeUsingUser:(NSString *)username andPassword:(NSString *)password withFinalize:(MCC_PREFIXED_NAME(SimpleOAuth2FinalizeBlock))aFinalizeBlock;
+- (void)authorize;
 - (void)deauthorize;
 
 @end
