@@ -8,6 +8,8 @@
 
 #import "MCCOptionalViewController.h"
 
+#import "DocumentEditor+SISSwizzle.h"
+
 static	NSMutableArray			*MCC_PREFIXED_NAME(_ovc_keys);
 static	NSMutableDictionary		*MCC_PREFIXED_NAME(_ovc_controllers);
 static	NSMutableDictionary		*MCC_PREFIXED_NAME(_ovc_optionalViewNibs);
