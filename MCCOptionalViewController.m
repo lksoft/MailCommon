@@ -8,7 +8,6 @@
 
 #import "MCCOptionalViewController.h"
 
-#import "DocumentEditor+SISSwizzle.h"
 
 static	NSMutableArray			*MCC_PREFIXED_NAME(_ovc_keys);
 static	NSMutableDictionary		*MCC_PREFIXED_NAME(_ovc_controllers);
@@ -162,7 +161,7 @@ static	NSMutableDictionary		*MCC_PREFIXED_NAME(_ovc_optionalViewNibs);
 			if ([identifier isKindOfClass:MCC_PREFIXED_NAME(ClassFromString)(@"DocumentEditor")]) {
 				[self addKeySetForEditor:identifier];
 				headerViewAsKey = [(DocumentEditor *)identifier valueForKey:@"composeHeaderView"];
-				composeBackEndAsKey = ((DocumentEditor *)identifier).backEnd;
+				composeBackEndAsKey = [((DocumentEditor *)identifier) valueForKey:@"backEnd"];
 			}
 			
 			//	store it...
@@ -248,10 +247,11 @@ static	NSMutableDictionary		*MCC_PREFIXED_NAME(_ovc_optionalViewNibs);
 }
 
 + (void)addKeySetForEditor:(DocumentEditor *)editor {
+	id	backend = [editor valueForKey:@"backEnd"];
 	//	make the keys for the editor, back end, and header view
 	NSDictionary	*keySet = [NSDictionary dictionaryWithObjectsAndKeys:
 							   editor, kMCCControllerEditorKey,
-							   editor.backEnd, kMCCControllerBackEndKey,
+							   backend, kMCCControllerBackEndKey,
 							   [editor valueForKey:@"composeHeaderView"], kMCCControllerHeaderViewKey,
 							   nil];
 	[MCC_PREFIXED_NAME(_ovc_keys) addObject:keySet];
