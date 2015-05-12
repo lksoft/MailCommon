@@ -6,12 +6,11 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #include "MCCCommonHeader.h"
 
-extern NSString * const MCCDebugReasonGivenNotification;
+extern NSString * const MCC_PREFIXED_CONSTANT(DebugReasonGivenNotification);
 
-@interface MCCDebugReasonSheet : NSObject
+@interface MCC_PREFIXED_NAME(DebugReasonSheet) : NSObject
 
 @property (strong) NSAttributedString *problemText;
 

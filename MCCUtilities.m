@@ -104,10 +104,10 @@
 	
 	NSAssert(targetView != nil, @"You must pass a view to runDebugInfoScriptUsingView:");
 	
-	MCCDebugReasonSheet	*reasonSheet = [[MCCDebugReasonSheet alloc] init];
+	MCC_PREFIXED_NAME(DebugReasonSheet)	*reasonSheet = [[MCC_PREFIXED_NAME(DebugReasonSheet) alloc] init];
 	[reasonSheet showSheetInWindow:[targetView window]];
 	
-	[[NSNotificationCenter defaultCenter] addObserverForName:MCCDebugReasonGivenNotification object:reasonSheet queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+	[[NSNotificationCenter defaultCenter] addObserverForName:MCC_PREFIXED_CONSTANT(DebugReasonGivenNotification) object:reasonSheet queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
 		
 		NSString	*messageSubject = [NSString stringWithFormat:@"Debug information for %@", [[[[self sharedInstance] bundle] infoDictionary] valueForKey:(NSString *)kCFBundleNameKey]];
 		NSString	*messageProblem = [reasonSheet.problemText string];
