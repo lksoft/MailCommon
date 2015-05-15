@@ -7,7 +7,9 @@
 //
 
 #import "MCCUtilities.h"
+#ifndef MCC_NO_EXTERNAL_OBJECTS
 #import "MCCDebugReasonSheet.h"
+#endif
 
 
 @implementation MCC_PREFIXED_NAME(Utilities)
@@ -102,6 +104,7 @@
 
 + (void)runDebugInfoScriptUsingView:(NSView *)targetView {
 	
+#ifndef MCC_NO_EXTERNAL_OBJECTS
 	NSAssert(targetView != nil, @"You must pass a view to runDebugInfoScriptUsingView:");
 	
 	MCC_PREFIXED_NAME(DebugReasonSheet)	*reasonSheet = [[MCC_PREFIXED_NAME(DebugReasonSheet) alloc] init];
@@ -129,7 +132,9 @@
 		
 		MCC_RELEASE(reasonSheet);
 	}];
-	
+#else
+	NSAssert(NO, @"You have called runDebugInfoScriptUsingView while designating MCC_NO_EXTERNAL_OBJECTS!");
+#endif
 	
 }
 
