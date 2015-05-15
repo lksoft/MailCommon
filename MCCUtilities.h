@@ -34,6 +34,7 @@
 static inline BOOL MCC_PREFIXED_NAME(IsEmpty)(id thing) { return thing == nil || ([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) || ([thing respondsToSelector:@selector(count)] && [(NSArray *)thing count] == 0); }
 
 #define IS_EMPTY(value)	(MCC_PREFIXED_NAME(IsEmpty(value)))
+#define IS_NOT_EMPTY(value)	(!MCC_PREFIXED_NAME(IsEmpty(value)))
 #define NONNIL(x)	((x == nil)?@"":x)
 
 #define THREAD_DICT		([[NSThread currentThread] threadDictionary])

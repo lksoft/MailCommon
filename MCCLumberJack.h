@@ -81,6 +81,16 @@ extern int	MCC_PREFIXED_NAME(DDLogBugs);
 #define MCCLogBugS(bugFlag, frmt, ...)			LOG_OBJC_MAYBE_SEC(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogBugs), bugFlag, (DEFAULT_CONTEXT | MCCBugFormattingContext), frmt, ##__VA_ARGS__)
 
 
+#ifdef DEBUG
+#define MCCAssertLog(s, ...) do {MCCErr(s, ##__VA_ARGS__);[[NSAssertionHandler currentHandler] handleFailureInFunction:[NSString stringWithCString:__PRETTY_FUNCTION__ encoding:NSUTF8StringEncoding] file:[NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding] lineNumber:__LINE__ description:s, ##__VA_ARGS__];} while (0);
+#else
+#define MCCAssertLog(s, ...) MCCErr(s, ##__VA_ARGS__)
+#endif
+
+//	Assertion that will simply log in Production code
+#define MCCAssert(condition, frmt, ...) do { if (!(condition)) { MCCAssertLog(frmt, ##__VA_ARGS__); }} while(0)
+
+
 
 #pragma mark - LumberJack Mappings
 
