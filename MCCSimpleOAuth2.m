@@ -51,14 +51,14 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 					 storageType:(MCC_PREFIXED_NAME(SimpleOAuthStorageType))aStorageType
 						bundleID:(NSString *)aStorageBundleID {
 	
-	NSAssert(!IS_EMPTY(aClientId), @"The Client ID cannot be empty for SimpleOAuth2");
-	NSAssert(!IS_EMPTY(aSecret), @"The Client Secret cannot be empty for SimpleOAuth2");
+	NSAssert(IS_NOT_EMPTY(aClientId), @"The Client ID cannot be empty for SimpleOAuth2");
+	NSAssert(IS_NOT_EMPTY(aSecret), @"The Client Secret cannot be empty for SimpleOAuth2");
 	NSAssert((anEndpointURL != nil), @"The endpoint URL cannot be nil for SimpleOAuth2");
 	NSAssert([[anEndpointURL scheme] isEqualToString:@"https"], @"The endpoint URL for SimpleOAuth2 must be https");
 	NSAssert((aRedirectURL != nil), @"The redirect URL cannot be nil for SimpleOAuth2");
 	NSAssert((aTokenURL != nil), @"The token URL cannot be nil for SimpleOAuth2");
 	NSAssert([[aTokenURL scheme] isEqualToString:@"https"], @"The token URL for SimpleOAuth2 must be https");
-	NSAssert(!IS_EMPTY(aServiceName), @"The Service name cannot be empty for SimpleOAuth2");
+	NSAssert(IS_NOT_EMPTY(aServiceName), @"The Service name cannot be empty for SimpleOAuth2");
 	self = [super init];
 	
 	if (self) {
@@ -137,7 +137,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 		return;
 	}
 	NSString	*scopeParameter = @"";
-	if (!IS_EMPTY(self.scope)) {
+	if (IS_NOT_EMPTY(self.scope)) {
 		NSString	*encodedScope = [self.scope stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		scopeParameter = [NSString stringWithFormat:@"&scope=%@", encodedScope];
 	}

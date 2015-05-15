@@ -82,7 +82,7 @@
 		scriptURL = [scriptURL URLByAppendingPathComponent:@"com.apple.mail"];
 	}
 	
-	if (!IS_EMPTY([[self sharedInstance] scriptPathComponent])) {
+	if (IS_NOT_EMPTY([[self sharedInstance] scriptPathComponent])) {
 		scriptURL = [scriptURL URLByAppendingPathComponent:[[self sharedInstance] scriptPathComponent]];
 	}
 	return scriptURL;
