@@ -1,7 +1,13 @@
 #!/bin/sh
 
 FREQUENCY=""
-if [ "$#" == 3 ]; then
+BETA=""
+if [ "$#" -gt 3 ]; then
+	if [ "$4" == "beta" ]; then
+		BETA="with beta"
+	fi
+fi
+if [ "$#" -gt 2 ]; then
 	FREQUENCY="frequency $3"
 fi
 if [ "$#" -gt 1 ]; then
@@ -30,7 +36,19 @@ if [[ -d "$BUNDLE_PATH" ]]; then
 		;;
 	esac
 	
-	SCRIPT_CONTENT="tell application \"MailPluginTool\" to $ACTION_PHRASE"
+	TOOL_PATH="$BUNDLE_PATH/Contents/Resources/MailPluginTool.app"
+	if [[ ! -d "$TOOL_PATH" ]]; then
+		TOOL_PATH="/Applications/Mail Plugin Manager.app/Contents/Resources/MailPluginTool.app"
+	fi
+	
+	# For development purposes only, should not ever be used in real life
+	#TOOL_PATH="$HOME/Library/Developer/Xcode/DerivedData/MailPluginManager-awzptkybbxtathdbrfwrddbxaebv/Build/Products/Debug/MailPluginTool.app"
+	
+	if [[ ! -d "$TOOL_PATH" ]]; then
+		exit 3;
+	fi
+	
+	SCRIPT_CONTENT="tell application \"$TOOL_PATH\" to $ACTION_PHRASE $BETA"
 	
 	/usr/bin/osascript -e "$SCRIPT_CONTENT"
 
