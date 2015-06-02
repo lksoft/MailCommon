@@ -16,7 +16,8 @@ NSString *URLEncodedStringForString(NSString *inputString);
 #define STANDARD_GRANT	@"authorization_code"
 #define REFRESH_GRANT	@"refresh_token"
 
-#define EXPIRE_BUFFER_INTERVAL	30.0
+//	Expire the token 5 minutes before it should refresh
+#define EXPIRE_BUFFER_INTERVAL	(5.0f * 60.0f)
 
 NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2ErrorDomain) = @"SimpleOAuth2ErrorDomain";
 NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationNotification) = @"SimpleOAuth2AuthorizationNotification";
