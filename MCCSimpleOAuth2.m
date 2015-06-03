@@ -11,6 +11,10 @@
 #import "MCCSSKeychain.h"
 #import "SSKeychain.h"
 
+#ifndef	MCCLog
+#define	MCCLog(frmt, ...)	NSLog(frmt, ##__VA_ARGS__)
+#endif
+
 NSString *URLEncodedStringForString(NSString *inputString);
 
 #define STANDARD_GRANT	@"authorization_code"
@@ -81,22 +85,18 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 		self.accessToken = [self storedTokenForKey:self.tokenAccountName];
 		NSString	*expiresTimeIntervalString = [self storedTokenForKey:self.tokenExpiresAccountName];
 		if (expiresTimeIntervalString) {
-			NSDate	*expiresDate = [NSDate dateWithTimeIntervalSinceReferenceDate:([expiresTimeIntervalString doubleValue] - EXPIRE_BUFFER_INTERVAL)];
-			if ([expiresDate timeIntervalSinceDate:[NSDate date]] < 0) {
-				[self renewAccessToken:nil];
-			}
-			else {
-				NSTimer	*aTimer = [[NSTimer alloc] initWithFireDate:expiresDate interval:1.0 target:self selector:@selector(renewAccessToken:) userInfo:nil repeats:NO];
-				self.refreshTimer = aTimer;
-				[[NSRunLoop mainRunLoop] addTimer:aTimer forMode:NSRunLoopCommonModes];
-				MCC_RELEASE(aTimer);
-				__block MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
+			if ([self resetRefreshTimerWithTimeIntervalSinceReferenceDate:[expiresTimeIntervalString doubleValue]]) {
 				dispatch_async(dispatch_get_main_queue(), ^{
-					[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationNotification) object:welf];
+					[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationNotification) object:self];
 				});
 			}
 		}
-	
+		
+		//	Set to receive notifications for sleep, wake and clock changes in order to adjust the token renewing.
+		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:NSWorkspaceWillSleepNotification object:nil];
+		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:NSWorkspaceDidWakeNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:NSSystemClockDidChangeNotification object:nil];
+		
 	}
 	return self;
 }
@@ -164,8 +164,10 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 #pragma mark - Internal Methods
 
 - (void)dealloc {
+	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[self.refreshTimer invalidate];
-
+	
 #if !__has_feature(objc_arc)
 	self.accessToken = nil;
 	self.clientId = nil;
@@ -208,8 +210,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 	//	Remove any existing accessToken
 	[self deleteTokenForKey:self.tokenAccountName];
 	[self deleteTokenForKey:self.tokenExpiresAccountName];
-	[self.refreshTimer invalidate];
-	self.refreshTimer = nil;
+	[self resetRefreshTimerWithTimeIntervalSinceReferenceDate:0.0f];
 	
 	NSError		*error = nil;
 	if (connectionError) {
@@ -244,15 +245,11 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 				//	Store the expiration date in the keychain as well, if there is one
 				if (resultDict[@"expires_in"]) {
 					NSTimeInterval	expireTimeIntervalSinceRefDate = [NSDate timeIntervalSinceReferenceDate] + [resultDict[@"expires_in"] integerValue];
-					NSLog(@"ExpireTimeInterval = '%@' aka %@!!!!", [@(expireTimeIntervalSinceRefDate) stringValue], [NSDate dateWithTimeIntervalSinceReferenceDate:expireTimeIntervalSinceRefDate]);
+					MCCLog(@"ExpireTimeInterval = '%@' aka %@!!!!", [@(expireTimeIntervalSinceRefDate) stringValue], [NSDate dateWithTimeIntervalSinceReferenceDate:expireTimeIntervalSinceRefDate]);
 					[self setStoredToken:[@(expireTimeIntervalSinceRefDate) stringValue] forKey:self.tokenExpiresAccountName];
 
-					//	Re add the timer for the next expiry
-					NSDate	*expiresDate = [NSDate dateWithTimeIntervalSinceReferenceDate:(expireTimeIntervalSinceRefDate - EXPIRE_BUFFER_INTERVAL)];
-					NSTimer	*aTimer = [[NSTimer alloc] initWithFireDate:expiresDate interval:1.0 target:self selector:@selector(renewAccessToken:) userInfo:nil repeats:NO];
-					self.refreshTimer = aTimer;
-					[[NSRunLoop mainRunLoop] addTimer:aTimer forMode:NSRunLoopCommonModes];
-					MCC_RELEASE(aTimer);
+					//	Reset the timer for the next expiry
+					[self resetRefreshTimerWithTimeIntervalSinceReferenceDate:expireTimeIntervalSinceRefDate];
 				}
 				
 				//	Store the refresh token in the keychain as well, if there is one
@@ -277,8 +274,8 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 }
 
 - (void)renewAccessToken:(NSTimer *)aTimer {
-	[aTimer invalidate];
-	self.refreshTimer = nil;
+	MCCLog(@"Renewing the access token at: %@", [NSDate date]);
+	[self resetRefreshTimerWithTimeIntervalSinceReferenceDate:0.0f];
 	NSString	*refreshToken = [self storedTokenForKey:self.refreshAccountName];
 	NSString	*postBodyString = [NSString stringWithFormat:@"grant_type=%@&refresh_token=%@", REFRESH_GRANT, refreshToken];
 	NSMutableURLRequest	*accessRequest = [NSMutableURLRequest requestWithURL:self.tokenURL];
@@ -311,6 +308,41 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 		[welf processResultsOfAuthResponse:response withData:data error:connectionError];
 	}];
 	
+}
+
+- (BOOL)resetRefreshTimerWithTimeIntervalSinceReferenceDate:(NSTimeInterval)expiresInterval {
+	MCCLog(@"Resetting the refresh timer: %@", @(expiresInterval));
+	[self.refreshTimer invalidate];
+	self.refreshTimer = nil;
+	BOOL	wasReset = NO;
+	if (expiresInterval > 0.1f) {
+		NSDate	*expiresDate = [NSDate dateWithTimeIntervalSinceReferenceDate:(expiresInterval - EXPIRE_BUFFER_INTERVAL)];
+		MCCLog(@"Expires date is:%@", expiresDate);
+		if ([expiresDate timeIntervalSinceDate:[NSDate date]] < 0) {
+			[self renewAccessToken:nil];
+		}
+		else {
+			MCCLog(@"Setting a new timer");
+			NSTimer	*aTimer = [[NSTimer alloc] initWithFireDate:expiresDate interval:1.0 target:self selector:@selector(renewAccessToken:) userInfo:nil repeats:NO];
+			self.refreshTimer = aTimer;
+			[[NSRunLoop mainRunLoop] addTimer:aTimer forMode:NSRunLoopCommonModes];
+			MCC_RELEASE(aTimer);
+			wasReset = YES;
+		}
+	}
+	return wasReset;
+}
+
+- (void)resetTimerFromNotification:(NSNotification *)aNote {
+	MCCLog(@"Received notification to reset timer: %@", aNote);
+	NSTimeInterval	expiresInterval = 0.0f;
+	if (![[aNote name] isEqualToString:NSWorkspaceWillSleepNotification]) {
+		NSString	*expiresTimeIntervalString = [self storedTokenForKey:self.tokenExpiresAccountName];
+		if (expiresTimeIntervalString) {
+			expiresInterval = [expiresTimeIntervalString doubleValue];
+		}
+	}
+	[self resetRefreshTimerWithTimeIntervalSinceReferenceDate:expiresInterval];
 }
 
 
@@ -380,7 +412,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 #pragma mark - WebView Delegate Methods
 
 - (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id<WebPolicyDecisionListener>)listener {
-	NSLog(@"Need to decide policy for navigation of request: %@", request);
+	MCCLog(@"Need to decide policy for navigation of request: %@", request);
 	
 	NSString	*resultBaseURLString = [NSString stringWithFormat:@"%@://%@%@", [[request URL] scheme], [[request URL] host], [[request URL] path]];
 	NSString	*redirectBaseURLString = [NSString stringWithFormat:@"%@://%@%@", [self.redirectURL scheme], [self.redirectURL host], [self.redirectURL path]];
