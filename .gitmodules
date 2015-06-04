@@ -7,3 +7,6 @@
 [submodule "MCCMailCommon/LumberJack"]
 	path = MCCMailCommon/LumberJack
 	url = https://github.com/lksoft/CocoaLumberjack.git
+[submodule "MCCMailCommon/Reachability"]
+	path = MCCMailCommon/Reachability
+	url = git@github.com:lksoft/Reachability.git

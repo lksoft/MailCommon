@@ -9,11 +9,17 @@
 #import <Foundation/Foundation.h>
 #include "MCCCommonHeader.h"
 
+extern NSString *const MCC_PREFIXED_CONSTANT(NetworkAvailableNotification);
+extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
+
 @interface MCC_PREFIXED_NAME(Utilities) : NSObject
 
 @property (strong) NSBundle *bundle;
 @property (strong) NSString *scriptPathComponent;
+@property (atomic) BOOL		hasInternetConnection;
 
++ (BOOL)networkReachable;
++ (void)startTrackingReachabilityUsingHostName:(NSString *)hostName;
 + (BOOL)notifyUserAboutSnitchesForPluginName:(NSString *)pluginName domainList:(NSArray *)domains usingIcon:(NSImage *)iconImage;
 + (instancetype)sharedInstance;
 + (NSURL *)applicationScriptsURL;

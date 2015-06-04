@@ -7,12 +7,47 @@
 //
 
 #import "MCCUtilities.h"
+#import "Reachability.h"
 #ifndef MCC_NO_EXTERNAL_OBJECTS
 #import "MCCDebugReasonSheet.h"
 #endif
 
 
+NSString *const MCC_PREFIXED_CONSTANT(NetworkAvailableNotification) = MCC_NSSTRING(MCC_PLUGIN_PREFIX, _NETWORK_STATUS_AVAILABLE);
+NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSSTRING(MCC_PLUGIN_PREFIX, _NETWORK_STATUS_UNAVAILABLE);
+
 @implementation MCC_PREFIXED_NAME(Utilities)
+
+
+#pragma Class Methods
+
++ (BOOL)networkReachable {
+	return [[self sharedInstance] hasInternetConnection];
+}
+
++ (void)startTrackingReachabilityUsingHostName:(NSString *)hostName {
+	MCC_PREFIXED_NAME(Utilities)	*utils = [self sharedInstance];
+	
+	//	Set up the Reachability stuff
+	// allocate a reachability object
+	Reachability	*reach = [Reachability reachabilityWithHostname:hostName];
+	// set the blocks
+	reach.reachableBlock = ^(Reachability	*theReach) {
+		utils.hasInternetConnection = YES;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(NetworkAvailableNotification) object:nil];
+		});
+	};
+	
+	reach.unreachableBlock = ^(Reachability	*theReach) {
+		utils.hasInternetConnection = NO;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) object:nil];
+		});
+	};
+	// start the notifier which will cause the reachability object to retain itself!
+	[reach startNotifier];
+}
 
 + (BOOL)notifyUserAboutSnitchesForPluginName:(NSString *)pluginName domainList:(NSArray *)domains usingIcon:(NSImage *)iconImage {
 	BOOL	foundSnitcher = NO;

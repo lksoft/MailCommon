@@ -14,6 +14,9 @@
 #ifndef	MCCLog
 #define	MCCLog(frmt, ...)	NSLog(frmt, ##__VA_ARGS__)
 #endif
+#ifndef	MCCErr
+#define	MCCErr(frmt, ...)	NSLog(frmt, ##__VA_ARGS__)
+#endif
 
 NSString *URLEncodedStringForString(NSString *inputString);
 
@@ -94,8 +97,8 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 		
 		//	Set to receive notifications for sleep, wake and clock changes in order to adjust the token renewing.
 		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:NSWorkspaceWillSleepNotification object:nil];
-		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:NSWorkspaceDidWakeNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:NSSystemClockDidChangeNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:MCC_PREFIXED_CONSTANT(NetworkAvailableNotification) object:nil];
 		
 	}
 	return self;
@@ -207,14 +210,17 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 
 - (void)processResultsOfAuthResponse:(NSURLResponse *)response withData:(NSData *)data error:(NSError *)connectionError {
 	
-	//	Remove any existing accessToken
-	[self deleteTokenForKey:self.tokenAccountName];
-	[self deleteTokenForKey:self.tokenExpiresAccountName];
 	[self resetRefreshTimerWithTimeIntervalSinceReferenceDate:0.0f];
 	
 	NSError		*error = nil;
 	if (connectionError) {
-		error = connectionError;
+		if (connectionError.code == kCFURLErrorNotConnectedToInternet) {
+			MCCLog(@"OAuth not complete since the connection to the internet is unavailable");
+		}
+		else {
+			error = connectionError;
+			MCCErr(@"OAuth connection: %@", error);
+		}
 	}
 	else {
 		NSDictionary	*resultDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
