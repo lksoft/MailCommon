@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#include "MCCCommonHeader.h"
+#import "MCCCommonHeader.h"
+#import "MCCReachability.h"
 
 extern NSString *const MCC_PREFIXED_CONSTANT(NetworkAvailableNotification);
 extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
@@ -16,6 +17,7 @@ extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
 
 @property (strong) NSBundle *bundle;
 @property (strong) NSString *scriptPathComponent;
+@property (strong) Reachability *reachability;
 @property (atomic) BOOL		hasInternetConnection;
 
 + (BOOL)networkReachable;

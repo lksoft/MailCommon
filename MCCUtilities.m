@@ -7,7 +7,6 @@
 //
 
 #import "MCCUtilities.h"
-#import "Reachability.h"
 #ifndef MCC_NO_EXTERNAL_OBJECTS
 #import "MCCDebugReasonSheet.h"
 #endif
@@ -40,13 +39,16 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 	};
 	
 	reach.unreachableBlock = ^(Reachability	*theReach) {
-		utils.hasInternetConnection = NO;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) object:nil];
-		});
+		if (utils.hasInternetConnection) {
+			utils.hasInternetConnection = NO;
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) object:nil];
+			});
+		}
 	};
 	// start the notifier which will cause the reachability object to retain itself!
 	[reach startNotifier];
+	utils.reachability = reach;
 }
 
 + (BOOL)notifyUserAboutSnitchesForPluginName:(NSString *)pluginName domainList:(NSArray *)domains usingIcon:(NSImage *)iconImage {

@@ -25,3 +25,5 @@
 //	From Reachability.m (static methods)
 #define	reachabilityFlags					MCC_PREFIXED_NAME(reachabilityFlags)
 #define	TMReachabilityCallback				MCC_PREFIXED_NAME(TMReachabilityCallback)
+
+#import "Reachability.h"
