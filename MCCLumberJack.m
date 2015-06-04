@@ -14,6 +14,13 @@
 #import "MCCBundleFileManager.h"
 
 #ifdef DEBUG
+#define MCC_LOG_VERBOSE
+#endif
+#ifdef BUG_LOGGING
+#define MCC_LOG_VERBOSE
+#endif
+
+#ifdef MCC_LOG_VERBOSE
 	int	MCC_PREFIXED_NAME(DDDebugLevel) = ((int)LOG_LEVEL_VERBOSE);
 #else
 	int	MCC_PREFIXED_NAME(DDDebugLevel) = ((int)LOG_LEVEL_INFO);
