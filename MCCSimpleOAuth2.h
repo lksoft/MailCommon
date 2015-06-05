@@ -64,5 +64,6 @@ extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNoti
 
 - (void)authorize;
 - (void)deauthorize;
+- (void)forceRenewalNow;
 
 @end

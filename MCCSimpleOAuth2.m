@@ -99,6 +99,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:NSWorkspaceWillSleepNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:NSSystemClockDidChangeNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:MCC_PREFIXED_CONSTANT(NetworkAvailableNotification) object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) object:nil];
 		
 	}
 	return self;
@@ -161,6 +162,10 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 	[self deleteTokenForKey:self.refreshAccountName];
 	[self deleteTokenForKey:self.tokenAccountName];
 	[self deleteTokenForKey:self.tokenExpiresAccountName];
+}
+
+- (void)forceRenewalNow {
+	[self renewAccessToken:nil];
 }
 
 
@@ -342,7 +347,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 - (void)resetTimerFromNotification:(NSNotification *)aNote {
 	MCCLog(@"Received notification to reset timer: %@", aNote);
 	NSTimeInterval	expiresInterval = 0.0f;
-	if (![[aNote name] isEqualToString:NSWorkspaceWillSleepNotification]) {
+	if (![[aNote name] isEqualToString:NSWorkspaceWillSleepNotification] && ![[aNote name] isEqualToString:MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification)]) {
 		NSString	*expiresTimeIntervalString = [self storedTokenForKey:self.tokenExpiresAccountName];
 		if (expiresTimeIntervalString) {
 			expiresInterval = [expiresTimeIntervalString doubleValue];
