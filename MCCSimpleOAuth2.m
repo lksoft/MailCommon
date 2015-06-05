@@ -96,7 +96,6 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 		}
 		
 		//	Set to receive notifications for sleep, wake and clock changes in order to adjust the token renewing.
-		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:NSWorkspaceWillSleepNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:NSSystemClockDidChangeNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:MCC_PREFIXED_CONSTANT(NetworkAvailableNotification) object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetTimerFromNotification:) name:MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) object:nil];
@@ -172,7 +171,6 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 #pragma mark - Internal Methods
 
 - (void)dealloc {
-	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[self.refreshTimer invalidate];
 	
@@ -347,7 +345,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 - (void)resetTimerFromNotification:(NSNotification *)aNote {
 	MCCLog(@"Received notification to reset timer: %@", aNote);
 	NSTimeInterval	expiresInterval = 0.0f;
-	if (![[aNote name] isEqualToString:NSWorkspaceWillSleepNotification] && ![[aNote name] isEqualToString:MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification)]) {
+	if (![aNote.name isEqualToString:MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification)]) {
 		NSString	*expiresTimeIntervalString = [self storedTokenForKey:self.tokenExpiresAccountName];
 		if (expiresTimeIntervalString) {
 			expiresInterval = [expiresTimeIntervalString doubleValue];
