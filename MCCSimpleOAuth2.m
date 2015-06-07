@@ -44,6 +44,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 @property (strong) NSString	*grantType;
 @property (strong) NSString *serviceName;
 @property (strong) NSString *bundleID;
+@property (atomic) BOOL		retrievingToken;
 @property (assign) MCC_PREFIXED_NAME(SimpleOAuthStorageType) storageType;
 @end
 
@@ -269,6 +270,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 			}
 		}
 	}
+	self.retrievingToken = NO;
 	
 	__block	MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
 	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -284,6 +286,11 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 
 - (void)renewAccessToken:(NSTimer *)aTimer {
 	MCCLog(@"Renewing the access token at: %@", [NSDate date]);
+	if (self.retrievingToken) {
+		MCCLog(@"Already Renewing the access token");
+		return;
+	}
+	self.retrievingToken = YES;
 	[self resetRefreshTimerWithTimeIntervalSinceReferenceDate:0.0f];
 	NSString	*refreshToken = [self storedTokenForKey:self.refreshAccountName];
 	NSString	*postBodyString = [NSString stringWithFormat:@"grant_type=%@&refresh_token=%@", REFRESH_GRANT, refreshToken];
@@ -304,6 +311,11 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 
 - (void)retreiveAccessTokenUsingCode:(NSString *)aCode {
 	
+	if (self.retrievingToken) {
+		MCCLog(@"Already retrieving the access token");
+		return;
+	}
+	self.retrievingToken = YES;
 	NSString	*postBodyString = [NSString stringWithFormat:@"grant_type=%@&client_id=%@&client_secret=%@&code=%@&redirect_uri=%@", self.grantType, self.clientId, self.clientSecret, aCode, self.encodedRedirectURLString];
 	NSMutableURLRequest	*accessRequest = [NSMutableURLRequest requestWithURL:self.tokenURL];
 	[accessRequest setHTTPMethod:@"POST"];
