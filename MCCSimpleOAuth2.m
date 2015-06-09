@@ -290,6 +290,12 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 		MCCLog(@"Already Renewing the access token");
 		return;
 	}
+	if (![Reachability reachabilityForInternetConnection]) {
+		NSTimeInterval	delayInterval = EXPIRE_BUFFER_INTERVAL + 10.0f;
+		MCCLog(@"Currently no internet connection - will try again in %@ seconds.", @(delayInterval));
+		[self resetRefreshTimerWithTimeIntervalSinceReferenceDate:([NSDate timeIntervalSinceReferenceDate] + delayInterval)];
+		return;
+	}
 	self.retrievingToken = YES;
 	[self resetRefreshTimerWithTimeIntervalSinceReferenceDate:0.0f];
 	NSString	*refreshToken = [self storedTokenForKey:self.refreshAccountName];

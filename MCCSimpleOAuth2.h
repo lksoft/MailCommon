@@ -8,6 +8,7 @@
 
 #import <WebKit/WebKit.h>
 #import "MCCCommonHeader.h"
+#import "MCCReachability.h"
 
 
 typedef NS_ENUM(NSInteger, MCC_PREFIXED_NAME(SimpleOAuthError)) {
