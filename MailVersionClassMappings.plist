@@ -35,6 +35,8 @@
 	<dict>
 		<key>10.10</key>
 		<string>DocumentEditor</string>
+		<key>10.11</key>
+		<string>ComposeViewController</string>
 		<key>10.7</key>
 		<string>MailDocumentEditor</string>
 		<key>10.8</key>
