@@ -30,6 +30,9 @@ extern NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNoti
 
 
 @interface MCC_PREFIXED_NAME(SimpleOAuth2) : NSObject
+#ifdef MAC_OS_X_VERSION_10_11
+<WebPolicyDelegate>
+#endif
 @property (strong) NSString	*scope;
 @property (strong) NSString	*accessToken;
 @property (strong) IBOutlet WebView	*webview;
