@@ -208,6 +208,9 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 #ifndef NSAppKitVersionNumber10_9
 #define NSAppKitVersionNumber10_9 1265
 #endif
+#ifndef NSAppKitVersionNumber10_10
+#define NSAppKitVersionNumber10_10 1343
+#endif
 
 MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void) {
 	
@@ -229,8 +232,11 @@ MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void) {
 		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_9) {
 			static_osVersion = MCC_PREFIXED_NAME(OSVersionMavericks);
 		}
-		else {
+		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_10) {
 			static_osVersion = MCC_PREFIXED_NAME(OSVersionYosemite);
+		}
+		else {
+			static_osVersion = MCC_PREFIXED_NAME(OSVersionElCapitan);
 		}
 		
 	}
