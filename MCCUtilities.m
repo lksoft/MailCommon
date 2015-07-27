@@ -199,46 +199,16 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 
 @end
 
-#ifndef NSAppKitVersionNumber10_7
-#define NSAppKitVersionNumber10_7 1138
-#endif
-#ifndef NSAppKitVersionNumber10_8
-#define NSAppKitVersionNumber10_8 1187
-#endif
-#ifndef NSAppKitVersionNumber10_9
-#define NSAppKitVersionNumber10_9 1265
-#endif
-#ifndef NSAppKitVersionNumber10_10
-#define NSAppKitVersionNumber10_10 1343
-#endif
-
 MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void) {
 	
 	static MCC_PREFIXED_NAME(OSVersionValue) static_osVersion = MCC_PREFIXED_NAME(OSVersionUnknown);
 	if (static_osVersion == MCC_PREFIXED_NAME(OSVersionUnknown)) {
-		
-		if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_5) {
-			static_osVersion  = MCC_PREFIXED_NAME(OSVersionLeopard);
+		NSDictionary	*version = [NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"];
+		NSString		*productVersion = [version objectForKey:@"ProductVersion"];
+		NSArray			*versionItems =  [productVersion componentsSeparatedByString:@"."];
+		if ([versionItems count] >= 2) {
+			static_osVersion = [versionItems[1] integerValue];
 		}
-		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6) {
-			static_osVersion  = MCC_PREFIXED_NAME(OSVersionSnowLeopard);
-		}
-		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_7) {
-			static_osVersion  = MCC_PREFIXED_NAME(OSVersionLion);
-		}
-		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_8) {
-			static_osVersion = MCC_PREFIXED_NAME(OSVersionMountainLion);
-		}
-		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_9) {
-			static_osVersion = MCC_PREFIXED_NAME(OSVersionMavericks);
-		}
-		else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_10) {
-			static_osVersion = MCC_PREFIXED_NAME(OSVersionYosemite);
-		}
-		else {
-			static_osVersion = MCC_PREFIXED_NAME(OSVersionElCapitan);
-		}
-		
 	}
 	return static_osVersion;
 }
