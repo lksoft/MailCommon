@@ -306,7 +306,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 	[accessRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
 	[accessRequest addValue:@"application/json" forHTTPHeaderField:@"Accept"];
 	[accessRequest addValue:[NSString stringWithFormat:@"%@", @([postBodyString length])] forHTTPHeaderField:@"Content-Length"];
-	NSString	*authValue = [[[NSString stringWithFormat:@"%@:%@", self.clientId, self.clientSecret] dataUsingEncoding:NSUTF8StringEncoding] base64Encoding];
+	NSString	*authValue = [[[NSString stringWithFormat:@"%@:%@", self.clientId, self.clientSecret] dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:0];
 	[accessRequest addValue:[NSString stringWithFormat:@"Basic %@", authValue] forHTTPHeaderField:@"Authorization"];
 	
 	__block	MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
