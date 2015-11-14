@@ -70,4 +70,8 @@ MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void);
 #ifndef OSVERSION
 #define OSVERSION MCC_PREFIXED_NAME(OSVersion)()
 #endif
+CGFloat MCC_PREFIXED_NAME(OSVersionFull)(void);
+#ifndef OSVERSIONWITHPOINT
+#define OSVERSIONWITHPOINT MCC_PREFIXED_NAME(OSVersionFull)()
+#endif
 

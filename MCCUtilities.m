@@ -199,6 +199,8 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 
 @end
 
+static CGFloat static_osVersionMinAndPoint = 0.0f;
+
 MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void) {
 	
 	static MCC_PREFIXED_NAME(OSVersionValue) static_osVersion = MCC_PREFIXED_NAME(OSVersionUnknown);
@@ -209,7 +211,18 @@ MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void) {
 		if ([versionItems count] >= 2) {
 			static_osVersion = [versionItems[1] integerValue];
 		}
+		if ([versionItems count] >= 3) {
+			static_osVersionMinAndPoint = (CGFloat)[versionItems[1] integerValue];
+			static_osVersionMinAndPoint += ([versionItems[2] integerValue] / 10.0);
+		}
 	}
 	return static_osVersion;
+}
+
+CGFloat MCC_PREFIXED_NAME(OSVersionFull)(void) {
+	if (static_osVersionMinAndPoint < 0.9) {
+		MCC_PREFIXED_NAME(OSVersion)();
+	}
+	return static_osVersionMinAndPoint;
 }
 
