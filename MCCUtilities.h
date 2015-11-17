@@ -48,10 +48,11 @@ static inline BOOL MCC_PREFIXED_NAME(IsEmpty)(id thing) { return thing == nil ||
 #define THREAD_DICT		([[NSThread currentThread] threadDictionary])
 
 #define MCCLogPluginVersion(pluginInfoDict) \
+NSString	*MCCPluginVersionInformation = nil; \
 do { \
-	NSString	*pluginVersionInformation = [NSString stringWithFormat:@"\n\t\tLoaded ‘%@’ %@ (%@) by %@\n\t\tBuild [%@:%@]", \
+	MCCPluginVersionInformation = [NSString stringWithFormat:@"\n\t\tLoaded ‘%@’ %@ (%@) by %@\n\t\tBuild [%@:%@]", \
 							  pluginInfoDict[@"CFBundleName"], pluginInfoDict[@"CFBundleShortVersionString"], pluginInfoDict[@"CFBundleVersion"], pluginInfoDict[@"MPCCompanyName"], pluginInfoDict[@"LKSBuildBranch"], pluginInfoDict[@"LKSBuildSHA"]]; \
-	NSLog (@"%@", pluginVersionInformation); \
+	NSLog (@"%@", MCCPluginVersionInformation); \
 } while (NO);
 
 typedef NS_ENUM(NSInteger, MCC_PREFIXED_NAME(OSVersionValue)) {
