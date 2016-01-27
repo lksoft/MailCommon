@@ -287,12 +287,10 @@ on run (argv)
 		end tell
 		repeat with logFile in logFileList
 			if (logFile ends with "log") then
-				repeat with pluginName in lksPluginList
-					if (logFile contains pluginName) then
+					if (logFile contains ".littleknownsoftware.") then
 						set attachmentList to attachmentList & ((reportPathAlias as string) & logFile as alias)
 						set found to true
 					end if
-				end repeat
 			end if
 		end repeat
 	on error err

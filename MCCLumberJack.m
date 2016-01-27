@@ -12,6 +12,7 @@
 #import "MCCFeatureFormatter.h"
 #import "MCCBugFormatter.h"
 #import "MCCBundleFileManager.h"
+#import "MCCFixedMailFileManager.h"
 
 #ifdef DEBUG
 #define MCC_LOG_VERBOSE
@@ -24,6 +25,12 @@
 	int	MCC_PREFIXED_NAME(DDDebugLevel) = ((int)LOG_LEVEL_VERBOSE);
 #else
 	int	MCC_PREFIXED_NAME(DDDebugLevel) = ((int)LOG_LEVEL_INFO);
+#endif
+
+#ifdef MCC_BFM_FIXED_MAIL
+#define MyFileManager	FixedMailFileManager
+#else
+#define MyFileManager	BundleFileManager
 #endif
 
 int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
@@ -47,7 +54,7 @@ int	MCC_PREFIXED_NAME(DDLogBugs) = 0;
 + (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict forBundleId:(NSString *)aBundleId {
 	
 	//	Set up the logging
-	MCC_PREFIXED_NAME(BundleFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(BundleFileManager) alloc] initWithBundleId:aBundleId];
+	MCC_PREFIXED_NAME(MyFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(MyFileManager) alloc] initWithBundleId:aBundleId];
 	DDFileLogger		*fileLogger = [[DDFileLogger alloc] initWithLogFileManager:bundleFileManager];
 	MCC_PREFIXED_NAME(LumberJack)	*jack = [self defaultInstance];
 	jack.featureFormatter.featureMappings = featureDict;
