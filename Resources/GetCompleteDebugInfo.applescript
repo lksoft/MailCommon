@@ -13,7 +13,7 @@ on run (argv)
 	set lksPluginList to {"MailTags", "Mail Act-On", "MailPerspectives", "SignatureProfiler", "Tealeaves"}
 	set pluginDefaultOne to "LKSBuildBranch"
 	set pluginDefaultTwo to "LKSBuildSHA"
-	set supportName to "Little Known Support"
+	set supportName to "SmallCubed Support"
 	set supportEmail to "support@smallcubed.com"
 	set homeFolder to do shell script "cd ~;pwd"
 	
