@@ -10,11 +10,11 @@ on run (argv)
 		end if
 	end if
 	
-	set lksPluginList to {"SignatureProfiler", "Sidebar For Infusionsoft", "Tealeaves"}
+	set lksPluginList to {"MailTags", "Mail Act-On", "MailPerspectives", "SignatureProfiler", "Tealeaves"}
 	set pluginDefaultOne to "LKSBuildBranch"
 	set pluginDefaultTwo to "LKSBuildSHA"
 	set supportName to "Little Known Support"
-	set supportEmail to "support@littleknownsoftware.com"
+	set supportEmail to "support@smallcubed.com"
 	set homeFolder to do shell script "cd ~;pwd"
 	
 	--	Determine the plugins available
@@ -38,7 +38,7 @@ on run (argv)
 	
 	log myPluginList
 	
-	set msgContent to bodyStart & return & return & "Here is the version information that you requesting for support purposes." & return & "=========================================================" & return & return
+	set msgContent to bodyStart & return & return & "Here is the version information that you requesting for support purposes." & return & "  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" & return & return
 	set mailIsRunning to false
 	
 	tell application "System Events"
@@ -65,7 +65,7 @@ on run (argv)
 	set msgContent to msgContent & "Mail Version: " & mailVersion & " (" & mailBuild & ") UUID: " & mailUUID & return
 	
 	--	Add the list of plugins installed
-	set msgContent to msgContent & return & "Installed Plugins:" & return & "====================" & return
+	set msgContent to msgContent & return & "Installed Plugins:" & return & "  ++++++++++++++++++++++" & return
 	try
 		set pluginList to do shell script ("cd " & homeFolder & "/Library/Mail/Bundles;ls -nod *.mailbundle")
 		set msgContent to msgContent & return & "User Plugins:" & return & pluginList & return
@@ -83,7 +83,7 @@ on run (argv)
 		set msgContent to msgContent & return & "**NONE**" & return
 	end try
 	
-	set msgContent to msgContent & return & "Disabled Plugins:" & return & "====================" & return
+	set msgContent to msgContent & return & "Disabled Plugins:" & return & "  ++++++++++++++++++++++" & return
 	set msgContent to msgContent & return & "User Plugins:"
 	set userMailPath to homeFolder & "/Library/Mail"
 	try
@@ -128,7 +128,7 @@ on run (argv)
 		set msgContent to msgContent & return & "**NONE**" & return
 	end try
 	
-	set msgContent to msgContent & return & "Preferences:" & return & "====================" & return
+	set msgContent to msgContent & return & "Preferences:" & return & "  ++++++++++++++++++++++" & return
 	
 	--	Then try to determine the status of LaunchAgents and preferences
 	try
@@ -147,7 +147,7 @@ on run (argv)
 		set msgContent to msgContent & return & "**NO** Container Prefs Files" & return
 	end try
 	
-	set msgContent to msgContent & return & "Other Info:" & return & "====================" & return
+	set msgContent to msgContent & return & "Other Info:" & return & "  ++++++++++++++++++++++" & return
 	
 	set msgContent to msgContent & return & "Mail Scripts:"
 	set mailScriptPath to homeFolder & "/Library/Application Scripts/com.apple.mail/LKS"
@@ -204,7 +204,7 @@ on run (argv)
 	end if
 	
 	
-	set msgContent to msgContent & return & return & "Little Known Plugins:" & return & "====================" & return
+	set msgContent to msgContent & return & return & "Little Known Plugins:" & return & "  ++++++++++++++++++++++" & return
 	
 	--	Loop for each plugin
 	repeat with pluginName in myPluginList
@@ -287,10 +287,10 @@ on run (argv)
 		end tell
 		repeat with logFile in logFileList
 			if (logFile ends with "log") then
-					if (logFile contains ".littleknownsoftware.") then
-						set attachmentList to attachmentList & ((reportPathAlias as string) & logFile as alias)
-						set found to true
-					end if
+				if (logFile contains ".littleknownsoftware.") then
+					set attachmentList to attachmentList & ((reportPathAlias as string) & logFile as alias)
+					set found to true
+				end if
 			end if
 		end repeat
 	on error err
@@ -298,7 +298,7 @@ on run (argv)
 	end try
 	
 	if found then
-		set msgContent to msgContent & return & "Possibly Relevant Crash Reports or Log Files:" & return & "======================================" & return & return
+		set msgContent to msgContent & return & "Possibly Relevant Crash Reports or Log Files:" & return & "  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" & return & return
 	else
 		set msgContent to msgContent & return & "There are no relevant Crash Reports or Log Files" & return
 	end if
