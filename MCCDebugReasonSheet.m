@@ -20,17 +20,14 @@ NSString * const MCC_PREFIXED_CONSTANT(DebugReasonGivenNotification) = MCC_NSSTR
 		//Check the myCustomSheet instance variable to make sure the custom sheet does not already exist.
 		[[NSBundle bundleForClass:[MCC_PREFIXED_NAME(DebugReasonSheet) class]] loadNibNamed:@"MCCDebugReasonSheet" owner:self topLevelObjects:NULL];
 	}
+	
+	[aWindow beginSheet:self.sheet completionHandler:nil];
  
-	[NSApp beginSheet:self.sheet modalForWindow:aWindow modalDelegate:self didEndSelector:@selector(didEndSheet:returnCode:contextInfo:) contextInfo:nil];
-}
-
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-	[sheet orderOut:self];
 }
 
 - (void)closeSheet:(id)sender {
-	[NSApp endSheet:self.sheet];
-	
+	[self.sheet orderOut:nil];
+
 	if ([sender tag] == 0) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(DebugReasonGivenNotification) object:self];
 	}
