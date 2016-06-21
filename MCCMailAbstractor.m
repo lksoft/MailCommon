@@ -30,6 +30,11 @@
 	return self;
 }
 
+- (void)dealloc {
+	self.mappings = nil;
+	[super dealloc];
+}
+
 - (void)rebuildCurrentMappings {
 
 	//	This array could be a plist file that we read in
