@@ -18,6 +18,15 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 @implementation MCC_PREFIXED_NAME(Utilities)
 
 
+- (void)dealloc {
+	self.bundle = nil;
+	self.scriptPathComponent = nil;
+	self.reachability = nil;
+#if !__has_feature(objc_arc)
+	[super dealloc];
+#endif
+}
+
 #pragma Class Methods
 
 + (BOOL)networkReachable {
