@@ -32,7 +32,9 @@
 
 - (void)dealloc {
 	self.mappings = nil;
+#if !__has_feature(objc_arc)
 	[super dealloc];
+#endif
 }
 
 - (void)rebuildCurrentMappings {
