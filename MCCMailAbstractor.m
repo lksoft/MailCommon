@@ -74,7 +74,7 @@
 			mappedClassName = currentMappings[previousOsName];
 		}
 		NSAssert(mappedClassName != nil, @"Could not find a mapping for %@ or lower in %@", osName, translationArray);
-		if (![mappingKey isEqualToString:mappedClassName]) {
+		if (mappedClassName && ![mappingKey isEqualToString:mappedClassName]) {
 			[trimmedMappings setObject:mappedClassName forKey:mappingKey];
 		}
 	}
