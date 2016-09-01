@@ -12,6 +12,9 @@
 
 @class MCC_PREFIXED_NAME(WebScriptPageController);
 @interface MCC_PREFIXED_NAME(WebScriptWindowController) : NSWindowController
+#ifdef MAC_OS_X_VERSION_10_11
+<WebUIDelegate, WebResourceLoadDelegate, WebFrameLoadDelegate>
+#endif
 
 @property (retain) MCC_PREFIXED_NAME(WebScriptPageController) *pageController;
 

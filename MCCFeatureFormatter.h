@@ -7,16 +7,10 @@
 //
 
 #import "MCCCommonHeader.h"
-#import "MCCLumberJack.h"
 
 
 @interface MCC_PREFIXED_NAME(FeatureFormatter) : NSObject <DDLogFormatter>
 @property (strong) NSDateFormatter	*dateFormatter;
 @property (strong) NSDictionary *featureMappings;
-@end
-
-
-@interface MCC_PREFIXED_NAME(LumberJack) (FeatureFormatter)
-+ (void)addLogFeature:(int)newFeature;
 @end
 

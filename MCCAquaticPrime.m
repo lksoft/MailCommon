@@ -631,9 +631,9 @@
 
 - (void)setAqError:(NSString *)aqError {
     _aqError = aqError;
-#ifndef NDEBUG
-    NSLog(@"AquaticPrime error: %@", _aqError);
-#endif
+	if (aqError) {
+		NSLog(@"AquaticPrime error: %@", _aqError);
+	}
 }
 
 - (NSString*)getLastError {

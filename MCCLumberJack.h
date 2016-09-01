@@ -14,13 +14,18 @@
 extern int	MCC_PREFIXED_NAME(DDDebugLevel);
 #define	LOG_LEVEL_DEF	MCC_PREFIXED_NAME(DDDebugLevel)
 extern int	MCC_PREFIXED_NAME(DDLogFeatures);
+extern int	MCC_PREFIXED_NAME(DDLogBugs);
 
 
 @interface MCC_PREFIXED_NAME(LumberJack) : NSObject
 
 + (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict;
++ (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict forBundleId:(NSString *)aBundleId;
++ (void)addBugLoggerWithDict:(NSDictionary *)bugDict forBundleId:(NSString *)aBundleId;
 + (int)debugLevel;
 + (void)setDebugLevel:(int)newLevel;
++ (void)addLogFeature:(int)newFeature;
++ (void)addLogBug:(int)newBug;
 
 @end
 
@@ -29,14 +34,17 @@ extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 
 #define MCCSecureFormattingContext	(1 << 1)
 #define MCCFeatureFormattingContext	(1 << 2)
+#define MCCBugFormattingContext	(1 << 3)
 
 #define MCCErr(frmt, ...)						LOG_OBJC_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, 0, frmt, ##__VA_ARGS__)
 #define MCCErrC(frmt, ...)						LOG_C_MAYBE(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, 0, frmt, ##__VA_ARGS__)
 #define MCCWarn(frmt, ...)						LOG_OBJC_MAYBE(LOG_ASYNC_WARN, LOG_LEVEL_DEF, LOG_FLAG_WARN, 0, frmt, ##__VA_ARGS__)
 #define MCCInfo(frmt, ...)						LOG_OBJC_MAYBE(LOG_ASYNC_INFO, LOG_LEVEL_DEF, LOG_FLAG_INFO, 0, frmt, ##__VA_ARGS__)
 #define MCCDebug(frmt, ...)						LOG_OBJC_MAYBE(LOG_ASYNC_DEBUG, LOG_LEVEL_DEF, LOG_FLAG_DEBUG, 0, frmt, ##__VA_ARGS__)
+#define MCCLogC(frmt, ...)						LOG_C_MAYBE(LOG_ASYNC_VERBOSE, LOG_LEVEL_DEF, LOG_FLAG_VERBOSE, 0, frmt, ##__VA_ARGS__)
 #define MCCLog(frmt, ...)						LOG_OBJC_MAYBE(LOG_ASYNC_VERBOSE, LOG_LEVEL_DEF, LOG_FLAG_VERBOSE, 0, frmt, ##__VA_ARGS__)
 #define MCCLogFeature(featureFlag, frmt, ...)	LOG_OBJC_MAYBE(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, MCCFeatureFormattingContext, frmt, ##__VA_ARGS__)
+#define MCCLogBug(bugFlag, frmt, ...)			LOG_OBJC_MAYBE(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogBugs), bugFlag, MCCBugFormattingContext, frmt, ##__VA_ARGS__)
 
 
 #ifdef MCC_INSECURE_LOGS
@@ -57,6 +65,12 @@ extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 #define LOG_C_MAYBE_SEC(async, lvl, flg, ctx, frmt, ...) \
 	LOG_MAYBE_SEC(async, lvl, flg, ctx, __FUNCTION__, frmt, ##__VA_ARGS__)
 
+#define FEATURE_LOGGED(flg) \
+	(MCC_PREFIXED_NAME(DDLogFeatures) & flg)
+
+#define BUG_LOGGED(flg) \
+	(MCC_PREFIXED_NAME(DDLogBugs) & flg)
+
 #define MCCErrS(frmt, ...)						LOG_OBJC_MAYBE_SEC(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
 #define MCCErrCS(frmt, ...)						LOG_C_MAYBE_SEC(LOG_ASYNC_ERROR, LOG_LEVEL_DEF, LOG_FLAG_ERROR, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
 #define MCCWarnS(frmt, ...)						LOG_OBJC_MAYBE_SEC(LOG_ASYNC_WARN, LOG_LEVEL_DEF, LOG_FLAG_WARN, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
@@ -64,6 +78,17 @@ extern int	MCC_PREFIXED_NAME(DDLogFeatures);
 #define MCCDebugS(frmt, ...)					LOG_OBJC_MAYBE_SEC(LOG_ASYNC_DEBUG, LOG_LEVEL_DEF, LOG_FLAG_DEBUG, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
 #define MCCLogS(frmt, ...)						LOG_OBJC_MAYBE_SEC(LOG_ASYNC_VERBOSE, LOG_LEVEL_DEF, LOG_FLAG_VERBOSE, DEFAULT_CONTEXT, frmt, ##__VA_ARGS__)
 #define MCCLogFeatureS(featureFlag, frmt, ...)	LOG_OBJC_MAYBE_SEC(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogFeatures), featureFlag, (DEFAULT_CONTEXT | MCCFeatureFormattingContext), frmt, ##__VA_ARGS__)
+#define MCCLogBugS(bugFlag, frmt, ...)			LOG_OBJC_MAYBE_SEC(LOG_ASYNC_VERBOSE, MCC_PREFIXED_NAME(DDLogBugs), bugFlag, (DEFAULT_CONTEXT | MCCBugFormattingContext), frmt, ##__VA_ARGS__)
+
+
+#ifdef DEBUG
+#define MCCAssertLog(s, ...) do {MCCErr(s, ##__VA_ARGS__);[[NSAssertionHandler currentHandler] handleFailureInFunction:[NSString stringWithCString:__PRETTY_FUNCTION__ encoding:NSUTF8StringEncoding] file:[NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding] lineNumber:__LINE__ description:s, ##__VA_ARGS__];} while (0);
+#else
+#define MCCAssertLog(s, ...) MCCErr(s, ##__VA_ARGS__)
+#endif
+
+//	Assertion that will simply log in Production code
+#define MCCAssert(condition, frmt, ...) do { if (!(condition)) { MCCAssertLog(frmt, ##__VA_ARGS__); }} while(0)
 
 
 

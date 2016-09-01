@@ -29,6 +29,18 @@
 	MCCAssertFirstFeatureLogEquals(@"This here is a log", @"FeatureName");
 }
 
+- (void)testFeatureNameLevelInfoLog {
+	
+	int	featureFlag = (1 << 1);
+	
+	[LBJLumberJack addStandardLoggersWithFeatureDict:@{@(featureFlag): @"FeatureName"}];
+	[LBJLumberJack setDebugLevel:LOG_LEVEL_INFO];
+	[LBJLumberJack addLogFeature:featureFlag];
+	MCCLogFeature(featureFlag, @"This here is a log");
+	
+	MCCAssertFirstFeatureLogEquals(@"This here is a log", @"FeatureName");
+}
+
 - (void)testFeatureNotOn {
 	
 	int	featureFlag = (1 << 0);

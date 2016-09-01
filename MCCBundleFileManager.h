@@ -9,6 +9,7 @@
 #import "MCCCommonHeader.h"
 #import "DDFileLogger.h"
 
-@interface MCC_PREFIXED_NAME(BundleFileManager) : DDLogFileManagerDefault
 
+@interface MCC_PREFIXED_NAME(BundleFileManager) : DDLogFileManagerDefault
+- (instancetype)initWithBundleId:(NSString *)aBundleId;
 @end

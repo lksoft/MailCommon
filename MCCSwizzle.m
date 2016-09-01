@@ -12,6 +12,7 @@
 #import "MCCSwizzle.h"
 #import "MCCMailAbstractor.h"
 #import <objc/objc-runtime.h>
+#import <objc/message.h>
 typedef struct objc_super * super_pointer;
 
 
@@ -91,6 +92,42 @@ typedef struct objc_super * super_pointer;
 	[self addAllMethodsToClass:targetClass usingPrefix:prefix];
 	
 	[self swizzlePropertiesToClass:targetClass];
+}
+
++ (void)swizzleWithMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock {
+	
+	NSRange		separatorRange = [[self className] rangeOfString:MCC_CLASSNAME_SUFFIX_SEPARATOR];
+	if (separatorRange.location == NSNotFound) {
+		NSLog(@"Could not swizzle class %@ - it has no suffix", [self className]);
+		return;
+	}
+	NSString	*targetClassName = [[self className] substringToIndex:separatorRange.location];
+	NSString	*prefix = [NSString stringWithFormat:@"%@%@", [[self className] substringFromIndex:separatorRange.location + [MCC_CLASSNAME_SUFFIX_SEPARATOR length]], MCC_CLASSNAME_PREFIX_APPENDOR];
+	
+	Class	targetClass = MCC_PREFIXED_NAME(ClassFromString)(targetClassName);
+	if (!targetClass) {
+		NSLog(@"Class %@ was not found to swizzle", targetClassName);
+		return;
+	}
+	
+	unsigned int	methodCount = 0;
+	Method			*methods = nil;
+	
+	// Extend instance Methods
+	methods = class_copyMethodList(self, &methodCount);
+	[self processMethods:methods count:(NSInteger)methodCount passingTest:testBlock toClass:targetClass usingPrefix:prefix withDebugging:DEFAULT_DEBUGGING isClassMethod:NO];
+	
+	free(methods);
+	
+	// Extend Class Methods
+	methods = class_copyMethodList(object_getClass(self), &methodCount);
+	[self processMethods:methods count:(NSInteger)methodCount passingTest:testBlock toClass:targetClass usingPrefix:prefix withDebugging:DEFAULT_DEBUGGING isClassMethod:YES];
+	free(methods);
+	
+	methods = NULL;
+	
+	[self swizzlePropertiesToClass:targetClass];
+	
 }
 
 + (void)addAllMethodsToClass:(Class)targetClass usingPrefix:(NSString*)prefix {
@@ -177,12 +214,15 @@ typedef struct objc_super * super_pointer;
     Class runtimeSuper = class_getSuperclass([self class]);
     if (runtimeSuper){
         super_pointer  sp = &(struct objc_super){self, runtimeSuper};
-        objc_msgSendSuper(sp,  _cmd);
+		id (*objc_msgSendSuper_typed)(struct objc_super *, SEL, va_list) = (void *)&objc_msgSendSuper;
+        objc_msgSendSuper_typed(sp, _cmd, NULL);
         return;
     }
 #if __has_feature(objc_arc)
 #else
-    [super dealloc];  // kept in to avoid warning
+	if (/* DISABLE CODE */(NO)) {
+		[super dealloc];  // kept in to avoid warning
+	}
 #endif
 }
 
@@ -499,7 +539,7 @@ typedef struct objc_super * super_pointer;
         case '@': {  //NSObject
             if (!hasGetter){
                 id (*getter)(id, SEL) = (void*)imp_implementationWithBlock(^(id _self){
-                    id result =  AUTORELEASE(RETAIN(objc_getAssociatedObject(_self,propertyNameKey)));
+                    id result =  MCC_AUTORELEASE(MCC_RETAIN(objc_getAssociatedObject(_self,propertyNameKey)));
                     return result;
                 });
                 class_addMethod(targetClass,NSSelectorFromString(getterName),(IMP)getter,"@@:");
@@ -923,32 +963,4 @@ typedef struct objc_super * super_pointer;
     
 }
 @end
-
-MCC_PREFIXED_NAME(OSVersionValue) MCC_PREFIXED_NAME(OSVersion)(void) {
-    
-    static MCC_PREFIXED_NAME(OSVersionValue) static_osVersion = MCC_PREFIXED_NAME(OSVersionUnknown);
-	if (static_osVersion == MCC_PREFIXED_NAME(OSVersionUnknown)) {
-		
-        if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_5) {
-            static_osVersion  = MCC_PREFIXED_NAME(OSVersionLeopard);
-		}
-        else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6) {
-            static_osVersion  = MCC_PREFIXED_NAME(OSVersionSnowLeopard);
-		}
-        else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_7) {
-            static_osVersion  = MCC_PREFIXED_NAME(OSVersionLion);
-		}
-        else if ( floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_8) {
-            static_osVersion = MCC_PREFIXED_NAME(OSVersionMountainLion);
-		}
-        else {
-            static_osVersion = MCC_PREFIXED_NAME(OSVersionMavericks);
-		}
-		
-	}
-    return static_osVersion;
-}
-
-
-
 

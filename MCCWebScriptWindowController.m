@@ -31,11 +31,13 @@
 				NSLog( @"Warning: Failed to load nib" );
 			}
 		}
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
 		else {
 			if (![NSBundle loadNibNamed:[self nibName] owner:self]) {
 				NSLog( @"Warning: Failed to load nib" );
 			}
 		}
+#endif
 	}
 	return self;
 }
@@ -80,7 +82,7 @@
 			NSLog(@"ERROR Class %@ does not inherit from %@!", controllerClassName, [MCC_PREFIXED_NAME(WebScriptPageController) class]);
 			
 		}
-        RELEASE(controllerObject);
+        MCC_RELEASE(controllerObject);
 	}
 	else{
 		NSLog(@"ERROR cannot find Class %@!",controllerClassName);

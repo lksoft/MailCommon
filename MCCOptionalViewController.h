@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #include "MCCCommonHeader.h"
 
+#import "OptionalView.h"
+
 typedef NS_ENUM(NSInteger, MCC_PREFIXED_NAME(OptionalViewPosition)) {
 	MCC_PREFIXED_NAME(OptionalViewPositionHiddenAcctShown),
 	MCC_PREFIXED_NAME(OptionalViewPositionHiddenAcctHidden),

@@ -30,6 +30,13 @@
 	return self;
 }
 
+- (void)dealloc {
+	self.mappings = nil;
+#if !__has_feature(objc_arc)
+	[super dealloc];
+#endif
+}
+
 - (void)rebuildCurrentMappings {
 
 	//	This array could be a plist file that we read in
@@ -54,21 +61,23 @@
 	}
 
 	//	Trim them down to ones that are relevant on this OS version
-	NSString	*osName = [[NSString alloc] initWithFormat:@"10.%ld", (long)[self osMinorVersion]];
-	NSString	*previousOsName = [[NSString alloc] initWithFormat:@"10.%ld", (long)([self osMinorVersion] - 1)];
+	NSString	*osName = [NSString stringWithFormat:@"10.%@", @([self osMinorVersion])];
 	NSMutableDictionary	*trimmedMappings = [NSMutableDictionary dictionary];
 	for (NSString *mappingKey in [newMappings allKeys]) {
 		//	Get the mapping for this OS version
-		NSString	*mappedClassName = [[newMappings objectForKey:mappingKey] objectForKey:osName];
-		if (mappedClassName == nil) {
-			mappedClassName = [[newMappings objectForKey:mappingKey] objectForKey:previousOsName];
+		NSDictionary * currentMappings = newMappings[mappingKey];
+		NSString * mappedClassName = currentMappings[osName];
+		NSInteger previousVersion = [self osMinorVersion];
+		while ((mappedClassName == nil) && (previousVersion > 7)) {
+			previousVersion--;
+			NSString * previousOsName = [NSString stringWithFormat:@"10.%@", @(previousVersion)];
+			mappedClassName = currentMappings[previousOsName];
 		}
-		NSAssert(mappedClassName != nil, @"Could not find a mapping for %@ or %@ in %@", osName, previousOsName, translationArray);
-		if (![mappingKey isEqualToString:mappedClassName]) {
+		NSAssert(mappedClassName != nil, @"Could not find a mapping for %@ or lower in %@", osName, translationArray);
+		if (mappedClassName && ![mappingKey isEqualToString:mappedClassName]) {
 			[trimmedMappings setObject:mappedClassName forKey:mappingKey];
 		}
 	}
-	RELEASE(osName);
 	
 	self.mappings = [NSDictionary dictionaryWithDictionary:trimmedMappings];
 }
@@ -162,7 +171,7 @@ Class MCC_PREFIXED_NAME(ClassFromString)(NSString *aClassName) {
 			dispatch_barrier_async(classNameDictAccessQueue, ^{
 				[classNameLookup setObject:newClass forKey:newClassName];
 			});
-			RELEASE(newClassName);
+			MCC_RELEASE(newClassName);
 		}
 		// NSLog(@"found class %@ -->%@",className,resultClass);
 		

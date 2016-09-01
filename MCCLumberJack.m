@@ -10,14 +10,37 @@
 #import "DDFileLogger.h"
 #import "DDTTYLogger.h"
 #import "MCCFeatureFormatter.h"
+#import "MCCBugFormatter.h"
 #import "MCCBundleFileManager.h"
+#import "MCCFixedMailFileManager.h"
 
 #ifdef DEBUG
+#define MCC_LOG_VERBOSE
+#endif
+#ifdef BUG_LOGGING
+#define MCC_LOG_VERBOSE
+#endif
+
+#ifdef MCC_LOG_VERBOSE
 	int	MCC_PREFIXED_NAME(DDDebugLevel) = ((int)LOG_LEVEL_VERBOSE);
 #else
 	int	MCC_PREFIXED_NAME(DDDebugLevel) = ((int)LOG_LEVEL_INFO);
 #endif
 
+#ifdef MCC_BFM_FIXED_MAIL
+#define MyFileManager	FixedMailFileManager
+#else
+#define MyFileManager	BundleFileManager
+#endif
+
+int	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
+int	MCC_PREFIXED_NAME(DDLogBugs) = 0;
+
+
+@interface MCC_PREFIXED_NAME(LumberJack) ()
+@property (strong) MCC_PREFIXED_NAME(FeatureFormatter) *featureFormatter;
+@property (strong) MCC_PREFIXED_NAME(BugFormatter) *bugFormatter;
+@end
 
 @implementation MCC_PREFIXED_NAME(LumberJack)
 
@@ -25,19 +48,48 @@
 #pragma mark - Helper Creation
 
 + (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict {
+	[self addStandardLoggersWithFeatureDict:featureDict forBundleId:nil];
+}
 
++ (void)addStandardLoggersWithFeatureDict:(NSDictionary *)featureDict forBundleId:(NSString *)aBundleId {
+	
 	//	Set up the logging
-	MCC_PREFIXED_NAME(BundleFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(BundleFileManager) alloc] init];
+	MCC_PREFIXED_NAME(MyFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(MyFileManager) alloc] initWithBundleId:aBundleId];
 	DDFileLogger		*fileLogger = [[DDFileLogger alloc] initWithLogFileManager:bundleFileManager];
-	MCC_PREFIXED_NAME(FeatureFormatter)	*featureFormatter = [[MCC_PREFIXED_NAME(FeatureFormatter) alloc] init];
-	featureFormatter.featureMappings = featureDict;
-	[fileLogger setLogFormatter:featureFormatter];
+	MCC_PREFIXED_NAME(LumberJack)	*jack = [self defaultInstance];
+	jack.featureFormatter.featureMappings = featureDict;
+	[fileLogger setLogFormatter:jack.featureFormatter];
 	[DDLog addLogger:fileLogger withLogLevel:INT32_MAX];
 #ifdef DEBUG
 	//	Will log everything to Xcode console
 	[DDLog addLogger:[DDTTYLogger sharedInstance] withLogLevel:INT32_MAX];
 #endif
 
+}
+
++ (void)addBugLoggerWithDict:(NSDictionary *)bugDict forBundleId:(NSString *)aBundleId {
+	
+	NSString	*bundleId = [@"bugs." stringByAppendingString:aBundleId];
+	//	Set up the logging
+	MCC_PREFIXED_NAME(BundleFileManager)	*bundleFileManager = [[MCC_PREFIXED_NAME(BundleFileManager) alloc] initWithBundleId:bundleId];
+	DDFileLogger		*fileLogger = [[DDFileLogger alloc] initWithLogFileManager:bundleFileManager];
+	MCC_PREFIXED_NAME(LumberJack)	*jack = [self defaultInstance];
+	jack.bugFormatter = [[MCC_PREFIXED_NAME(BugFormatter) alloc] init];
+	jack.bugFormatter.featureMappings = bugDict;
+	[fileLogger setLogFormatter:jack.bugFormatter];
+	[DDLog addLogger:fileLogger withLogLevel:INT32_MAX];
+}
+
++ (instancetype)defaultInstance {
+	static MCC_PREFIXED_NAME(LumberJack) *defaultLumberJack = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		defaultLumberJack = [[self alloc] init];
+		defaultLumberJack.featureFormatter = [[MCC_PREFIXED_NAME(FeatureFormatter) alloc] init];
+		defaultLumberJack.bugFormatter = nil;
+	});
+	
+	return defaultLumberJack;
 }
 
 
@@ -51,12 +103,32 @@
 	MCC_PREFIXED_NAME(DDDebugLevel) = newLevel;
 }
 
+
+#pragma mark - Feature Settings
+
++ (void)addLogFeature:(int)newFeature {
+	MCC_PREFIXED_NAME(DDLogFeatures) = (MCC_PREFIXED_NAME(DDLogFeatures) | newFeature);
+}
+
++ (void)resetLogFeature {
+	MCC_PREFIXED_NAME(DDLogFeatures) = 0;
+}
+
++ (void)addLogBug:(int)newBug {
+	MCC_PREFIXED_NAME(DDLogBugs) = (MCC_PREFIXED_NAME(DDLogBugs) | newBug);
+}
+
++ (void)resetLogBug {
+	MCC_PREFIXED_NAME(DDLogBugs) = 0;
+}
+
 @end
 
 
 @interface DDLog (MCCLumberJackInternal)
 + (void)queueLogMessage:(DDLogMessage *)logMessage asynchronously:(BOOL)asyncFlag;
 @end
+
 
 @implementation DDLog (MCCLumberJack)
 
