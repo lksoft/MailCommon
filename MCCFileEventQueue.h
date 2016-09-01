@@ -78,7 +78,7 @@ typedef void (^MCC_PREFIXED_NAME(ProcessQuitBlock))(MCC_PREFIXED_NAME(FileEventQ
 
 @interface MCC_PREFIXED_NAME(FileEventQueue) : NSObject
 
-@property (weak) id<MCC_PREFIXED_NAME(FileEventDelegate)> delegate;
+@property (MCC_WEAK) id<MCC_PREFIXED_NAME(FileEventDelegate)> delegate;
 @property (assign) BOOL shouldAlwaysPostNotifications;
 
 //

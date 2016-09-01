@@ -53,7 +53,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 @property (strong) NSMutableDictionary	*watchedPathEntries;
 @property (strong) NSMutableArray		*watchedAtomicEntries;
 @property (strong) NSMutableArray		*watchedProcessEntries;
-@property (assign) dispatch_queue_t		modifyEventQueue;
+@property (strong) dispatch_queue_t		modifyEventQueue;
 @property (assign) int					coreQueueFD;
 @property (assign) BOOL					keepWatcherThreadRunning;
 @end
@@ -386,6 +386,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 	if (self) {
 		self.coreQueueFD = kqueue();
 		if (self.coreQueueFD == -1) {
+			MCC_RELEASE(self);
 			return nil;
 		}
 		
@@ -393,13 +394,13 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 		self.watchedPathEntries = [NSMutableDictionary dictionary];
 		self.watchedAtomicEntries = [NSMutableArray array];
 		self.watchedProcessEntries = [NSMutableArray array];
-		NSString	*queueName = [NSString stringWithFormat:@"%@.modifyEventQueue", [self className]];
-		self.modifyEventQueue = dispatch_queue_create([queueName UTF8String], 0);
+		NSString * queueName = [NSString stringWithFormat:@"%@.modifyEventQueue", [self className]];
+		self.modifyEventQueue = MCC_AUTORELEASE(dispatch_queue_create([queueName UTF8String], 0));
 	}
 	return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
     // Shut down the thread that's scanning for kQueue events
     self.keepWatcherThreadRunning = NO;
     
@@ -408,9 +409,9 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
     
     self.watchedPathEntries = nil;
 	self.watchedProcessEntries = nil;
-	dispatch_release(self.modifyEventQueue);
+	self.modifyEventQueue = nil;
 	
-	MCC_DEALLOC(super);
+	MCC_DEALLOC();
     
 }
 
@@ -446,7 +447,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 	if (self.watchedFD >= 0) close((int)self.watchedFD);
 	self.watchedFD = -1;
 	
-	MCC_DEALLOC(super);
+	MCC_DEALLOC();
 }
 
 @end
@@ -485,6 +486,13 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 
 - (id)initWithProcessID:(pid_t)processIdentifier block:(MCC_PREFIXED_NAME(ProcessQuitBlock))aBlock {
 	return [self initWithRunningApplication:[NSRunningApplication runningApplicationWithProcessIdentifier:processIdentifier] block:aBlock];
+}
+
+- (void)dealloc {
+	self.name = nil;
+	self.bundleID = nil;
+	self.block = nil;
+	MCC_DEALLOC();
 }
 
 @end

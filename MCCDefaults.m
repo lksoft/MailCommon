@@ -25,6 +25,15 @@
 
 @implementation MCC_PREFIXED_NAME(Defaults)
 
+- (void)dealloc {
+	self.defaultDictionary = nil;
+	self.defaultsURL = nil;
+	self.prefsAccessQueue = nil;
+	self.fileEventQueue = nil;
+	self.prefsChangeBlock = nil;
+	MCC_DEALLOC();
+}
+
 - (instancetype)initWithDelegate:(id)aDelegate {
 	self = [super init];
 	if (self) {
