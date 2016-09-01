@@ -186,6 +186,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		491EF36C1D78613F00159A14 /* OptionalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OptionalView.h; path = ../OptionalView.h; sourceTree = "<group>"; };
+		491EF36D1D78616700159A14 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Reachability/Reachability.h; sourceTree = SOURCE_ROOT; };
+		491EF36E1D78616700159A14 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Reachability/Reachability.m; sourceTree = SOURCE_ROOT; };
 		D23CF676176C855800301165 /* MCCMailCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCCMailCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D23CF679176C855800301165 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D23CF67C176C855800301165 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -424,9 +427,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		491EF36B1D78608100159A14 /* HeadersForCompiling */ = {
+			isa = PBXGroup;
+			children = (
+				491EF36C1D78613F00159A14 /* OptionalView.h */,
+			);
+			name = HeadersForCompiling;
+			sourceTree = "<group>";
+		};
 		D23CF66C176C855800301165 = {
 			isa = PBXGroup;
 			children = (
+				491EF36B1D78608100159A14 /* HeadersForCompiling */,
 				D23CF67F176C855800301165 /* MCCMailCommon */,
 				D23CF694176C855800301165 /* MCCMailCommonTests */,
 				D26674FB17E71406004B4869 /* MCCSuperTests */,
@@ -505,6 +517,8 @@
 				D2703CE218B860230002D1A8 /* MCCDefaults.m */,
 				D2703CEA18BA4A2B0002D1A8 /* MCCFileEventQueue.h */,
 				D2703CEB18BA4A2B0002D1A8 /* MCCFileEventQueue.m */,
+				491EF36D1D78616700159A14 /* Reachability.h */,
+				491EF36E1D78616700159A14 /* Reachability.m */,
 				D23CF6AB176C88D100301165 /* Resources */,
 				D23CF680176C855800301165 /* Project */,
 			);
@@ -527,12 +541,12 @@
 				D23CF69A176C855800301165 /* MCCMailCommonTests.m */,
 				D2E2E95F188C90D9000F1E76 /* MCCClassAbstractorLionTests.m */,
 				D25DEED3193E039600837BE8 /* MCCClassAbstractorNoMappingTests.m */,
-				D2703CDC18B844D10002D1A8 /* LionObjects */,
 				D2703C7D18B77A150002D1A8 /* MCCUtilitiesTests.m */,
 				D2703CEE18BAA1130002D1A8 /* MCCFileEventTests.m */,
 				D2703CDA18B844C20002D1A8 /* MCCClassAbstractorContentionTests.m */,
 				D26674CA17E5E010004B4869 /* ContentionObjects */,
 				D23CF695176C855800301165 /* Supporting Files */,
+				D2703CDC18B844D10002D1A8 /* LionObjects */,
 			);
 			path = MCCMailCommonTests;
 			sourceTree = "<group>";

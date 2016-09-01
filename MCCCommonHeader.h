@@ -28,7 +28,7 @@
 #define MCC_RETAIN(x) (x)
 #define MCC_RELEASE(x)
 #define MCC_AUTORELEASE(x) (x)
-#define MCC_DEALLOC(x) (x)
+#define MCC_DEALLOC(x)
 #define MCC_WEAK	weak
 #else
 #define MCC_RETAIN(x) ([(x) retain])

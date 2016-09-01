@@ -65,11 +65,11 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 #pragma mark Public Methods
 
 - (void)executeBlock:(MCC_PREFIXED_NAME(ProcessQuitBlock))processBlock forProcessIDOnExit:(pid_t)processID {
-	[self watchForExitOfProcessEntry:AUTORELEASE([[MCC_PREFIXED_NAME(ProcessEntry) alloc] initWithProcessID:processID block:processBlock])];
+	[self watchForExitOfProcessEntry:MCC_AUTORELEASE([[MCC_PREFIXED_NAME(ProcessEntry) alloc] initWithProcessID:processID block:processBlock])];
 }
 
 - (void)executeBlock:(MCC_PREFIXED_NAME(ProcessQuitBlock))processBlock forBundleIDOnExit:(NSString *)bundleID {
-	[self watchForExitOfProcessEntry:AUTORELEASE([[MCC_PREFIXED_NAME(ProcessEntry) alloc] initWithBundleID:bundleID block:processBlock])];
+	[self watchForExitOfProcessEntry:MCC_AUTORELEASE([[MCC_PREFIXED_NAME(ProcessEntry) alloc] initWithBundleID:bundleID block:processBlock])];
 }
 
 
@@ -185,8 +185,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 	}
 	
 	if (!pathEntry) {
-		pathEntry = [[MCC_PREFIXED_NAME(PathEntry) alloc] initWithPath:aPath block:aBlock subscriptionFlags:blockFlags atomically:isAtomic];
-		AUTORELEASE(pathEntry);
+		pathEntry = MCC_AUTORELEASE([[MCC_PREFIXED_NAME(PathEntry) alloc] initWithPath:aPath block:aBlock subscriptionFlags:blockFlags atomically:isAtomic]);
 	}
 	
 	if (pathEntry) {
@@ -411,7 +410,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 	self.watchedProcessEntries = nil;
 	dispatch_release(self.modifyEventQueue);
 	
-	DEALLOC();
+	MCC_DEALLOC(super);
     
 }
 
@@ -429,7 +428,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 	if (self) {
 		self.watchedFD = open([aPath fileSystemRepresentation], O_EVTONLY, 0);
 		if (self.watchedFD < 0) {
-			RELEASE(self);
+			MCC_RELEASE(self);
 			return nil;
 		}
 		self.path = aPath;
@@ -447,7 +446,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 	if (self.watchedFD >= 0) close((int)self.watchedFD);
 	self.watchedFD = -1;
 	
-	DEALLOC();
+	MCC_DEALLOC(super);
 }
 
 @end
@@ -468,7 +467,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 - (id)initWithRunningApplication:(NSRunningApplication *)runningApp block:(MCC_PREFIXED_NAME(ProcessQuitBlock))aBlock {
 	self = [super init];
 	if (runningApp == nil) {
-		RELEASE(self);
+		MCC_RELEASE(self);
 		return nil;
 	}
 	if (self) {

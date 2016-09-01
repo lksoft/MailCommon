@@ -24,7 +24,7 @@ static NSMutableDictionary	*lkBundleConfigurations = nil;
 }
 
 - (void)dealloc {
-	[super dealloc];
+	MCC_DEALLOC(super);
 }
 
 
@@ -76,7 +76,7 @@ static NSMutableDictionary	*lkBundleConfigurations = nil;
 - (NSMutableDictionary *)logDictForID:(NSString *)aBundleID {
 
 	//	if no id is passed then ignore
-	if (IsEmpty(aBundleID)) {
+	if ((aBundleID == nil) || [aBundleID isEqualToString:@""]) {
 		NSLog(@"[MCCLogHelper ERROR] no bundleID was passed to logDictForID");
 		return nil;
 	}
@@ -84,8 +84,8 @@ static NSMutableDictionary	*lkBundleConfigurations = nil;
 	//	get any existing set and create a new one if there isn't any
 	NSMutableDictionary	*logDict = (NSMutableDictionary *)[lkBundleConfigurations objectForKey:aBundleID];
 	if (logDict == nil) {
-		logDict = [[NSMutableDictionary alloc] init];
-		[lkBundleConfigurations setObject:[logDict autorelease] forKey:aBundleID];
+		logDict = MCC_AUTORELEASE([[NSMutableDictionary alloc] init]);
+		[lkBundleConfigurations setObject:logDict forKey:aBundleID];
 	}
 	
 	return logDict;

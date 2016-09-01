@@ -36,6 +36,7 @@
 #define myself ((TSTObject *)self)
 
 - (id)init {
+	__unused id ignore = MCC_AUTORELEASE([super init]);
 	self = [myself TST_init];
 	if (self) {
 		self.addedProp = @"One More PropValue";

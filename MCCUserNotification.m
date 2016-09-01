@@ -60,7 +60,7 @@
 		[self.subtextField setTextColor:[NSColor colorWithCalibratedWhite:0.35 alpha:1.0]];
 		[self.subtextField setDrawsBackground:NO];
 		[self.subtextField setBordered:NO];
-		NSImageView	*iconView = [[[NSImageView alloc] initWithFrame:NSMakeRect(10.0f, 10.0f, 40.0f, 40.0f)] autorelease];
+		NSImageView	*iconView = MCC_AUTORELEASE([[NSImageView alloc] initWithFrame:NSMakeRect(10.0f, 10.0f, 40.0f, 40.0f)]);
 		iconView.image = [[NSBundle bundleForClass:[self class]] imageForResource:@"notification-icon"];
 		[[self.window contentView] addSubview:self.textField];
 		[[self.window contentView] addSubview:self.subtextField];
@@ -68,7 +68,7 @@
 		[self.window setBackgroundColor:[NSColor colorWithCalibratedWhite:0.75f alpha:1.0f]];
 		[self.window setHasShadow:YES];
 
-		self.notificationQueue = [[[NSOperationQueue alloc] init] autorelease];
+		self.notificationQueue = MCC_AUTORELEASE([[NSOperationQueue alloc] init]);
 		self.notificationQueue.name = @"com.littleknownsoftware.Tealeaves.UserNotificationQueue";
 		self.notificationQueue.maxConcurrentOperationCount = 1;
 		[self.notificationQueue setSuspended:NO];
@@ -82,7 +82,7 @@
 	[self.notificationQueue cancelAllOperations];
 	self.notificationQueue = nil;
 	self.window = nil;
-	[super dealloc];
+	MCC_DEALLOC(super);
 }
 
 #pragma mark - Class Methods

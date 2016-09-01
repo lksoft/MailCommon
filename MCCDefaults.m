@@ -13,13 +13,13 @@
 
 
 @interface MCC_PREFIXED_NAME(Defaults) ()
-@property (assign) BOOL					delegateWantsBackups;
-@property (strong, atomic) NSDictionary	*defaultDictionary;
-@property (strong) NSURL				*defaultsURL;
-@property (strong) NSOperationQueue		*prefsAccessQueue;
-@property (assign) id<MCC_PREFIXED_NAME(DefaultsDelegate)>	delegate;
-@property (strong) MCC_PREFIXED_NAME(FileEventQueue)		*fileEventQueue;
-@property (copy) MCC_PREFIXED_NAME(PathBlock)				prefsChangeBlock;
+@property (assign) BOOL delegateWantsBackups;
+@property (strong, atomic) NSDictionary * defaultDictionary;
+@property (strong) NSURL * defaultsURL;
+@property (strong) NSOperationQueue * prefsAccessQueue;
+@property (assign) id<MCC_PREFIXED_NAME(DefaultsDelegate)> delegate;
+@property (strong) MCC_PREFIXED_NAME(FileEventQueue) * fileEventQueue;
+@property (strong) MCC_PREFIXED_NAME(PathBlock) prefsChangeBlock;
 @end
 
 
@@ -32,25 +32,25 @@
 		self.delegate = aDelegate;
 		self.delegateWantsBackups = [aDelegate respondsToSelector:@selector(backupCurrentDefaultsBeforeWriteAtURL:)];
 		
-		NSBundle	*bundle = [NSBundle bundleForClass:[self class]];
+		NSBundle * bundle = [NSBundle bundleForClass:[self class]];
 		
-		NSFileManager	*manager = [NSFileManager defaultManager];
-		NSArray	*libraryURLs = [manager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
+		NSFileManager * manager = [NSFileManager defaultManager];
+		NSArray * libraryURLs = [manager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
 		if ([libraryURLs count]) {
-			NSURL	*tempURL = [[libraryURLs lastObject] URLByAppendingPathComponent:@"Preferences"];
+			NSURL * tempURL = [[libraryURLs lastObject] URLByAppendingPathComponent:@"Preferences"];
 			self.defaultsURL = [[tempURL URLByAppendingPathComponent:[bundle bundleIdentifier]] URLByAppendingPathExtension:@"plist"];
 		}
 		
 		//	Load up initial values and current ones
-		NSMutableDictionary *defaults = nil;
-		NSURL	*initialDefaultsURL = [bundle URLForResource:@"InitialDefaults" withExtension:@"plist"];
+		NSMutableDictionary * defaults = nil;
+		NSURL * initialDefaultsURL = [bundle URLForResource:@"InitialDefaults" withExtension:@"plist"];
 		if ([manager fileExistsAtPath:initialDefaultsURL.path]) {
 			defaults = [[NSDictionary dictionaryWithContentsOfURL:initialDefaultsURL] mutableCopy];
 		}
 		else {
 			defaults = [[NSMutableDictionary alloc] init];
 		}
-		NSDictionary	*storedDefaults = [self readFromFile];
+		NSDictionary * storedDefaults = [self readFromFile];
 		if (storedDefaults) {
 			[defaults addEntriesFromDictionary:storedDefaults];
 		}
@@ -66,11 +66,11 @@
 		if (![self.defaultDictionary isEqualToDictionary:storedDefaults]){
 			[self writeToFile];
 		}
-		RELEASE(defaults);
+		MCC_RELEASE(defaults);
 		
-		self.fileEventQueue = AUTORELEASE([[MCC_PREFIXED_NAME(FileEventQueue) alloc] init]);
-		MCC_PREFIXED_NAME(Defaults)	*blockSelf = self;
-		self.prefsChangeBlock = ^(MCC_PREFIXED_NAME(FileEventQueue) *anEventQueue, NSString *aNote, NSString *anAffectedPath) {
+		self.fileEventQueue = MCC_AUTORELEASE([[MCC_PREFIXED_NAME(FileEventQueue) alloc] init]);
+		MCC_PREFIXED_NAME(Defaults) * blockSelf = self;
+		self.prefsChangeBlock = ^(MCC_PREFIXED_NAME(FileEventQueue) *anEventQueue, NSString * aNote, NSString * anAffectedPath) {
 			if ([anAffectedPath isEqualToString:initialDefaultsURL.path]) {
 				[blockSelf updateFromFileEvent];
 			}
@@ -78,7 +78,7 @@
 		[self.fileEventQueue addAtomicPath:initialDefaultsURL.path withBlock:self.prefsChangeBlock notifyingAbout:PREF_FILE_NOTIFICATIONS];
 		
 		//	Create a serial queue to use
-		self.prefsAccessQueue = AUTORELEASE([[NSOperationQueue alloc] init]);
+		self.prefsAccessQueue = MCC_AUTORELEASE([[NSOperationQueue alloc] init]);
 		[self.prefsAccessQueue setMaxConcurrentOperationCount:1];
 
 	}
@@ -86,7 +86,7 @@
 }
 
 - (NSDictionary *)allDefaults {
-	return AUTORELEASE([self.defaultDictionary copy]);
+	return MCC_AUTORELEASE([self.defaultDictionary copy]);
 }
 
 
@@ -148,9 +148,8 @@
 
 #pragma mark - Internal Methods
 
-
 - (NSDictionary *)readFromFile {
-    NSDictionary	*storedDefaults = nil;
+    NSDictionary * storedDefaults = nil;
     if (self.defaultsURL) {
         storedDefaults = [NSDictionary dictionaryWithContentsOfURL:self.defaultsURL];
     }
@@ -160,18 +159,18 @@
 - (void)updateFromFileEvent {
 
 	//	Read the file using our queue
-	MCC_PREFIXED_NAME(Defaults)	*blockSelf = self;
-	NSDictionary	__block	*fileDefaults = nil;
+	MCC_PREFIXED_NAME(Defaults) * blockSelf = self;
+	NSDictionary __block * fileDefaults = nil;
 	[self.prefsAccessQueue addOperations:@[[NSBlockOperation blockOperationWithBlock:^{
 		fileDefaults = [blockSelf readFromFile];
 	}]] waitUntilFinished:YES];
 
 	//	Then set the value using the main queue for the KVO stuff
-	NSDictionary	*currentDefaults = [self.defaultDictionary copy];
+	NSDictionary * currentDefaults = [self.defaultDictionary copy];
 	[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-		NSMutableArray	*changedKeys = [NSMutableArray array];
+		NSMutableArray * changedKeys = [NSMutableArray array];
 		
-		NSSet	*allKeySet = [[NSSet setWithArray:[fileDefaults allKeys]] setByAddingObjectsFromArray:[currentDefaults allKeys]];
+		NSSet * allKeySet = [[NSSet setWithArray:[fileDefaults allKeys]] setByAddingObjectsFromArray:[currentDefaults allKeys]];
 		for (id key in allKeySet) {
 			id value = [fileDefaults objectForKey:key];
 			
@@ -196,11 +195,11 @@
 
 - (void)writeToFile {
     if (self.defaultsURL && self.defaultDictionary) {
-		BOOL			wantsBackups = self.delegateWantsBackups;
-		id<MCC_PREFIXED_NAME(DefaultsDelegate)>	theDelegate = self.delegate;
-		NSURL			*theURL = self.defaultsURL;
-		NSDictionary	*theDict = self.defaultDictionary;
-		MCC_PREFIXED_NAME(FileEventQueue)	*eventQueue = self.fileEventQueue;
+		BOOL wantsBackups = self.delegateWantsBackups;
+		id<MCC_PREFIXED_NAME(DefaultsDelegate)> theDelegate = self.delegate;
+		NSURL * theURL = self.defaultsURL;
+		NSDictionary * theDict = self.defaultDictionary;
+		MCC_PREFIXED_NAME(FileEventQueue) * eventQueue = self.fileEventQueue;
 		[self.prefsAccessQueue addOperationWithBlock:^{
 			if (wantsBackups) {
 				[theDelegate backupCurrentDefaultsBeforeWriteAtURL:theURL];
@@ -219,7 +218,7 @@
 		return;
 	}
 	
-	NSMutableDictionary *plugInDefaults = AUTORELEASE([self.defaultDictionary mutableCopy]);
+	NSMutableDictionary * plugInDefaults = MCC_AUTORELEASE([self.defaultDictionary mutableCopy]);
 	if (!plugInDefaults) {
 		NSLog(@"Defaults is empty -- this should not happen");
 		// do not register these defaults -- just return.
@@ -246,14 +245,14 @@
 		return;
 	}
 	
-	NSMutableDictionary *plugInDefaults = AUTORELEASE([self.defaultDictionary mutableCopy]);
+	NSMutableDictionary * plugInDefaults = MCC_AUTORELEASE([self.defaultDictionary mutableCopy]);
 	if (!plugInDefaults) {
 		NSLog(@"Defaults is empty -- this should not happen");
 		// do not register these defaults -- just return.
 		return;
 	}
 	
-	NSMutableArray	*changedKeys = [NSMutableArray array];
+	NSMutableArray * changedKeys = [NSMutableArray array];
 	for (id key in [dictionary allKeys]) {
 		id value = [dictionary objectForKey:key];
 		
@@ -279,9 +278,9 @@
 }
 
 - (NSDictionary *)_defaultsForKeys:(NSArray *)keys {
-    NSMutableDictionary __block *result = [NSMutableDictionary dictionaryWithCapacity:[keys count]];
-	NSDictionary		*blockDefaults = self.defaultDictionary;
-	NSOperation			*theReadBlock = [NSBlockOperation blockOperationWithBlock:^{
+    NSMutableDictionary __block * result = [NSMutableDictionary dictionaryWithCapacity:[keys count]];
+	NSDictionary * blockDefaults = self.defaultDictionary;
+	NSOperation * theReadBlock = [NSBlockOperation blockOperationWithBlock:^{
 		for (id aKey in keys){
 			id value = [blockDefaults objectForKey:aKey];
 			if (value) {
@@ -299,8 +298,8 @@
 
 - (id)_defaultForKey:(NSString *)key {
 	id	__block result = nil;
-	NSDictionary		*blockDefaults = self.defaultDictionary;
-	NSOperation			*theReadBlock = [NSBlockOperation blockOperationWithBlock:^{
+	NSDictionary * blockDefaults = self.defaultDictionary;
+	NSOperation * theReadBlock = [NSBlockOperation blockOperationWithBlock:^{
 		result = [blockDefaults objectForKey:key];
 	}];
 	
@@ -318,10 +317,10 @@
 }
 
 + (instancetype)makeSharedDefaultsWithDelegate:(id<MCC_PREFIXED_NAME(DefaultsDelegate)>)aDelegate {
-	static	MCC_PREFIXED_NAME(Defaults)	*theDefaults = nil;
+	static MCC_PREFIXED_NAME(Defaults) * theDefaults = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		theDefaults = RETAIN([[self alloc] initWithDelegate:aDelegate]);
+		theDefaults = MCC_RETAIN([[self alloc] initWithDelegate:aDelegate]);
 	});
 	return theDefaults;
 }

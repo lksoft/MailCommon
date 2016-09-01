@@ -1,0 +1,58 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "744526A92602C123B875B6EB8116EEE5311E8EE4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "DF9B6A31D9D5AAF8A9284D592E3B68F50731A564" : 9223372036854775807,
+    "1B6FE545B8D3EC80F41806ED22174EE41CBC43A0" : 9223372036854775807,
+    "35B5C9A93714EC9BEB56BAE809C5551E5C66E52D" : 9223372036854775807,
+    "7070BA961BCA286ED2393408B1E3D78393C99B33" : 9223372036854775807,
+    "744526A92602C123B875B6EB8116EEE5311E8EE4" : 9223372036854775807,
+    "D44743C30B4F122BFD8B3E2A16BEA122F931F30D" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D6873A6A-16CA-429B-8C50-60B4A01A5105",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "DF9B6A31D9D5AAF8A9284D592E3B68F50731A564" : "MailCommon\/LKConfigs\/",
+    "1B6FE545B8D3EC80F41806ED22174EE41CBC43A0" : "MailCommon\/MCCMailCommon\/AsyncTests\/",
+    "35B5C9A93714EC9BEB56BAE809C5551E5C66E52D" : "MailCommon\/MCCMailCommon\/LumberJack\/",
+    "7070BA961BCA286ED2393408B1E3D78393C99B33" : "MailCommon\/MCCMailCommon\/Reachability\/",
+    "744526A92602C123B875B6EB8116EEE5311E8EE4" : "MailCommon\/",
+    "D44743C30B4F122BFD8B3E2A16BEA122F931F30D" : "MailCommon\/MCCMailCommon\/DLIntrospection\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "MCCMailCommon",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "MCCMailCommon\/MCCMailCommon.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/iheartradio\/xctest-additions.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1B6FE545B8D3EC80F41806ED22174EE41CBC43A0"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/lksoft\/CocoaLumberjack.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "35B5C9A93714EC9BEB56BAE809C5551E5C66E52D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:lksoft\/Reachability.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7070BA961BCA286ED2393408B1E3D78393C99B33"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:lksoft\/MailCommon.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "744526A92602C123B875B6EB8116EEE5311E8EE4"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/lksoft\/DLIntrospection.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D44743C30B4F122BFD8B3E2A16BEA122F931F30D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/lksoft\/LKConfigs.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DF9B6A31D9D5AAF8A9284D592E3B68F50731A564"
+    }
+  ]
+}
