@@ -17,7 +17,7 @@
 @property (strong, atomic) NSDictionary * defaultDictionary;
 @property (strong) NSURL * defaultsURL;
 @property (strong) NSOperationQueue * prefsAccessQueue;
-@property (assign) id<MCC_PREFIXED_NAME(DefaultsDelegate)> delegate;
+@property (MCC_WEAK) id<MCC_PREFIXED_NAME(DefaultsDelegate)> delegate;
 @property (strong) MCC_PREFIXED_NAME(FileEventQueue) * fileEventQueue;
 @property (strong) MCC_PREFIXED_NAME(PathBlock) prefsChangeBlock;
 @end
@@ -26,11 +26,13 @@
 @implementation MCC_PREFIXED_NAME(Defaults)
 
 - (void)dealloc {
+#if !__has_feature(objc_arc)
 	self.defaultDictionary = nil;
 	self.defaultsURL = nil;
 	self.prefsAccessQueue = nil;
 	self.fileEventQueue = nil;
 	self.prefsChangeBlock = nil;
+#endif
 	MCC_DEALLOC();
 }
 
@@ -287,7 +289,7 @@
 }
 
 - (NSDictionary *)_defaultsForKeys:(NSArray *)keys {
-    NSMutableDictionary __block * result = [NSMutableDictionary dictionaryWithCapacity:[keys count]];
+    NSMutableDictionary MCC_WEAK_BLOCK * result = [NSMutableDictionary dictionaryWithCapacity:[keys count]];
 	NSDictionary * blockDefaults = self.defaultDictionary;
 	NSOperation * theReadBlock = [NSBlockOperation blockOperationWithBlock:^{
 		for (id aKey in keys){

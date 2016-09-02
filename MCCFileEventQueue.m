@@ -288,8 +288,8 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
                             NSArray *notes = [[NSArray alloc] initWithArray:notesToPost];   // notesToPost will be changed in the next loop iteration, which will likely occur before the block below runs.
 							
                             // Post the notifications (or call the delegate method) on the main thread.
-							MCC_PREFIXED_NAME(FileEventQueue)				__block	*blockSelf = self;
-							id<MCC_PREFIXED_NAME(FileEventDelegate)>	__block	myDelegate = self.delegate;
+							MCC_PREFIXED_NAME(FileEventQueue) MCC_WEAK_BLOCK * blockSelf = self;
+							id<MCC_PREFIXED_NAME(FileEventDelegate)> MCC_WEAK_BLOCK myDelegate = self.delegate;
 							BOOL	forceNotifications = self.shouldAlwaysPostNotifications;
                             dispatch_async(dispatch_get_main_queue(),^{
 								for (NSString *note in notes) {
@@ -315,8 +315,8 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 				else if (ev.filter == EVFILT_PROC) {
 					id pe = (__bridge id)(ev.udata);
 					if (pe && [pe respondsToSelector:@selector(bundleID)]) {
-						MCC_PREFIXED_NAME(FileEventQueue)	__block	*blockSelf = self;
-						MCC_PREFIXED_NAME(ProcessEntry)			*processEntry = (MCC_PREFIXED_NAME(ProcessEntry) *)pe;
+						MCC_PREFIXED_NAME(FileEventQueue) MCC_WEAK_BLOCK * blockSelf = self;
+						MCC_PREFIXED_NAME(ProcessEntry) * processEntry = (MCC_PREFIXED_NAME(ProcessEntry) *)pe;
 						if (processEntry.block) {
 							dispatch_async(dispatch_get_main_queue(), ^{
 								processEntry.block(blockSelf, processEntry.name, processEntry.bundleID, processEntry.processID);
@@ -324,7 +324,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 						}
 						
 						int	theFileDescriptor = self.coreQueueFD;
-						NSMutableArray	__block	*processEntries = self.watchedProcessEntries;
+						NSMutableArray MCC_WEAK_BLOCK * processEntries = self.watchedProcessEntries;
 						dispatch_async(self.modifyEventQueue, ^{
 							//	Remove the event from the queue
 							//	Remove the kevent for this path
@@ -364,7 +364,7 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 	}
 	
 	int	theFileDescriptor = self.coreQueueFD;
-	NSMutableArray	__block	*processEntries = self.watchedProcessEntries;
+	NSMutableArray MCC_WEAK_BLOCK * processEntries = self.watchedProcessEntries;
 	dispatch_async(self.modifyEventQueue, ^{
 		//	Add the kevent for this process
 		struct timespec		nullts = { 0, 0 };
@@ -403,13 +403,15 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 - (void)dealloc {
     // Shut down the thread that's scanning for kQueue events
     self.keepWatcherThreadRunning = NO;
-    
+	
+#if !__has_feature(objc_arc)
+	self.watchedPathEntries = nil;
+	self.watchedProcessEntries = nil;
+	self.modifyEventQueue = nil;
+#endif
     // Do this to close all the open file descriptors for files we're watching
     [self removeAllPaths];
     
-    self.watchedPathEntries = nil;
-	self.watchedProcessEntries = nil;
-	self.modifyEventQueue = nil;
 	
 	MCC_DEALLOC();
     
@@ -441,12 +443,13 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 }
 
 - (void)dealloc {
-	self.path = nil;
-	self.block = nil;
     
 	if (self.watchedFD >= 0) close((int)self.watchedFD);
 	self.watchedFD = -1;
-	
+#if !__has_feature(objc_arc)
+	self.path = nil;
+	self.block = nil;
+#endif
 	MCC_DEALLOC();
 }
 
@@ -489,9 +492,11 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 }
 
 - (void)dealloc {
+#if !__has_feature(objc_Arc)
 	self.name = nil;
 	self.bundleID = nil;
 	self.block = nil;
+#endif
 	MCC_DEALLOC();
 }
 
