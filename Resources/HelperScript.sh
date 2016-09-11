@@ -26,7 +26,7 @@ logger -s -t $logName "Called with arguments: '$@'" 2>> $currentLogFile
 toolType="$1"
 
 # Test for debugging info
-if [ "${toolType}" == "-debug" ]; then
+if [[ "${toolType}" == "-debug" ]]; then
 	MY_DIR=`dirname "$0"`
 	/usr/bin/osascript "${MY_DIR}/GetCompleteDebugInfo.applescript" "${@:2}"
 	exit 0;
@@ -34,7 +34,7 @@ fi
 
 
 # Test for Mail
-if [ "${toolType}" == "-mail" ]; then
+if [[ "${toolType}" == "-mail" ]]; then
 	logger -s -t $logName "Relaunching Mail" 2>> $currentLogFile
 	currentUser=$(whoami)
 	pkill -U "${currentUser}" Mail
@@ -46,7 +46,7 @@ fi
 command="$2"
 
 # Test for SPARKLE action
-if [ "${toolType}" == "-sparkle" ]; then
+if [[ "${toolType}" == "-sparkle" ]]; then
 	sparkleHelper="$3"
 	logger -s -t $logName "Doing Sparkle" 2>> $currentLogFile
 	if [ "${command}" == "quit" ]; then
@@ -64,7 +64,7 @@ fi
 
 
 # Test for LoadFile actions
-if [ "${toolType}" == "-loadfile" ]; then
+if [[ "${toolType}" == "-loadfile" ]]; then
 	command="$2"
 	if [[ "$command" == "script-result" ]]; then
 		scriptPath="$3"
