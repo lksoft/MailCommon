@@ -21,7 +21,93 @@ else
 fi
 
 logger -s -t $logName " " 2>> $currentLogFile
+logger -s -t $logName "Called with arguments: '$@'" 2>> $currentLogFile
 
+toolType="$1"
+
+# Test for debugging info
+if [ "${toolType}" == "-debug" ]; then
+	MY_DIR=`dirname "$0"`
+	/usr/bin/osascript "${MY_DIR}/GetCompleteDebugInfo.applescript" "${@:2}"
+	exit 0;
+fi
+
+
+# Test for Mail
+if [ "${toolType}" == "-mail" ]; then
+	logger -s -t $logName "Relaunching Mail" 2>> $currentLogFile
+	currentUser=$(whoami)
+	pkill -U "${currentUser}" Mail
+	sleep 2
+	open -b com.apple.mail
+	exit 0
+fi
+
+command="$2"
+
+# Test for SPARKLE action
+if [ "${toolType}" == "-sparkle" ]; then
+	sparkleHelper="$3"
+	logger -s -t $logName "Doing Sparkle" 2>> $currentLogFile
+	if [ "${command}" == "quit" ]; then
+		logger -s -t $logName "Trying to quit ${sparkleHelper} with pkill" 2>> $currentLogFile
+		currentUser=$(whoami)
+		pkill -U "${currentUser}" -x "${sparkleHelper}"
+	elif [ -d "${sparkleHelper}" ]; then
+		logger -s -t $logName "Trying to open ${sparkleHelper}" 2>> $currentLogFile
+		open "${sparkleHelper}" --args "${@:4}"
+	else
+		logger -s -t $logName "Could Not find Sparkle Helper App at ${sparkleHelper}" 2>> $currentLogFile
+	fi
+	exit 0
+fi
+
+
+# Test for LoadFile actions
+if [ "${toolType}" == "-loadfile" ]; then
+	command="$2"
+	if [[ "$command" == "script-result" ]]; then
+		scriptPath="$3"
+		isApplescript=false
+		scriptExtension=`echo "$scriptPath" | sed 's/.*\.//'`
+		if [[ "$scriptExtension" == "scpt" || "$scriptExtension" == "applescript" ]]; then
+			isApplescript=true
+		fi
+
+		logger -s -t $logName "  Running a script '$scriptPath'" 2>> $currentLogFile
+		logger -s -t $logName "  ...with Arguments '${@:5}'" 2>> $currentLogFile
+		if [ $isApplescript == true ]; then
+			/usr/bin/osascript "$scriptPath" "${@:5}" > "$4"
+		else
+			"$scriptPath" "${@:5}" > "$4"
+		fi
+	
+		exit 0
+	fi
+
+
+	currentUser=$(whoami)
+	loadFileProcess=$(pgrep -U $currentUser -x LoadFileHelper)
+	logger -s -t $logName "LoadFileHelper process ID is $loadFileProcess." 2>> $currentLogFile
+	if [[ "$loadFileProcess" == "" ]]; then
+		logger -s -t $logName "LoadFileHelper is not running yet." 2>> $currentLogFile
+		if [[ "$command" == "start" ]]; then
+			logger -s -t $logName "Trying to launch LoadFileHelper using bundle ID" 2>> $currentLogFile
+			open -g -b "com.littleknownsoftware.SigProTool.LoadFileHelper"
+		fi
+	else
+		logger -s -t $logName "LoadFileHelper is already running $loadFileProcess." 2>> $currentLogFile
+		if [[ "$command" == "quit" ]]; then
+			logger -s -t $logName "Trying to quit LoadFileHelper using pkill" 2>> $currentLogFile
+			pkill -U $currentUser -x LoadFileHelper
+		fi
+	fi
+
+	exit 0
+fi
+
+
+# Assume older formats
 FREQUENCY=""
 BETA=""
 if [ "$#" -gt 3 ]; then
@@ -37,33 +123,6 @@ if [ "$#" -gt 1 ]; then
 	BUNDLE_PATH="$2"
 else
 	exit 1;
-fi
-
-
-if [ "$ACTION" == "-debug" ]; then
-	MY_DIR=`dirname "$0"`
-	/usr/bin/osascript "$MY_DIR/GetCompleteDebugInfo.applescript" "$2" "$3"
-	exit 0;
-fi
-
-
-
-# Test for SPARKLE action
-logger -s -t $logName "Script called for action: '$ACTION'" 2>> $currentLogFile
-if [ "$ACTION" == "SPARKLE" ]; then
-	sparkleHelper="$2"
-	logger -s -t $logName "Doing Sparkle – arguments are '$@'" 2>> $currentLogFile
-	if [ "$3" == "quit" ]; then
-		logger -s -t $logName "Trying to quit $sparkleHelper with pkill" 2>> $currentLogFile
-		currentUser=$(whoami)
-		pkill -U $currentUser -x $sparkleHelper
-	elif [ -d "$sparkleHelper" ]; then
-		logger -s -t $logName "Trying to open $sparkleHelper" 2>> $currentLogFile
-		open "$sparkleHelper" --args "${@:3}"
-	else
-		logger -s -t $logName "Could Not find Sparkle Helper App at $sparklePath" 2>> $currentLogFile
-	fi
-	exit 0
 fi
 
 # Test to see if the bundle path is valid

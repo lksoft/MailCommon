@@ -26,6 +26,7 @@ extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
 + (instancetype)sharedInstance;
 + (NSURL *)applicationScriptsURL;
 + (NSURL *)helperScriptURL;
++ (void)runHelperScriptWithArguments:(NSArray <NSString *> *)arguments;
 + (BOOL)helperScriptIsAvailable;
 + (BOOL)debugInfoScriptIsAvailable;
 + (void)runDebugInfoScriptUsingView:(NSView *)targetView;

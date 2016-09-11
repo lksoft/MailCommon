@@ -148,6 +148,22 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 	return [scriptURL filePathURL];
 }
 
++ (void)runHelperScriptWithArguments:(NSArray <NSString *> *)arguments {
+	NSURL * pathURL = [self helperScriptURL];
+	if (pathURL) {
+		NSError * myError = nil;
+		NSUserUnixTask * aTask = [[NSUserUnixTask alloc] initWithURL:pathURL error:&myError];
+		[aTask executeWithArguments:arguments completionHandler:^(NSError *error) {
+			if (error) {
+				MCCErr(@"Error executing script:%@", error);
+			}
+		}];
+	}
+	else {
+		MCCErr(@"HelperScript was not found!!!");
+	}
+}
+
 + (void)runDebugInfoScriptUsingView:(NSView *)targetView {
 	
 #ifndef MCC_NO_EXTERNAL_OBJECTS
