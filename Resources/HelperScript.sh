@@ -35,9 +35,8 @@ fi
 # Test for Mail
 if [[ "${toolType}" == "-mail" ]]; then
 	logger -s -t $logName "Relaunching Mail" 2>> $currentLogFile
-	currentUser=$(whoami)
-	pkill -U "${currentUser}" Mail
-	sleep 2
+	/usr/bin/osascript -e "tell application \"Mail\" to quit"
+	sleep 1
 	open -b com.apple.mail
 	exit 0
 fi
