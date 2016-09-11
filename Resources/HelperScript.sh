@@ -1,7 +1,6 @@
 #!/bin/sh
 
 logFolder="$HOME/Library/Containers/com.apple.mail/Data/Library/Logs/Mail"
-logFolder="$HOME/Downloads/log"
 logName="HelperScript"
 logFile="com.littleknownsoftware.$logName.log"
 currentLogFile="$logFolder/$logFile"
