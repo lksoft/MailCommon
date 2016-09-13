@@ -148,14 +148,18 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 	return [scriptURL filePathURL];
 }
 
-+ (void)runHelperScriptWithArguments:(NSArray <NSString *> *)arguments {
++ (void)runHelperScriptWithArguments:(NSArray <NSString *> *)arguments completionHandler:(NSUserUnixTaskCompletionHandler)handler {
 	NSURL * pathURL = [self helperScriptURL];
 	if (pathURL) {
 		NSError * myError = nil;
 		NSUserUnixTask * aTask = [[NSUserUnixTask alloc] initWithURL:pathURL error:&myError];
+		
 		[aTask executeWithArguments:arguments completionHandler:^(NSError *error) {
 			if (error) {
 				MCCErr(@"Error executing script:%@", error);
+			}
+			if (handler) {
+				handler(error);
 			}
 		}];
 	}
