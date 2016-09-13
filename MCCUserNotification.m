@@ -82,7 +82,7 @@
 	[self.notificationQueue cancelAllOperations];
 	self.notificationQueue = nil;
 	self.window = nil;
-	MCC_DEALLOC(super);
+	MCC_DEALLOC();
 }
 
 #pragma mark - Class Methods
