@@ -74,7 +74,7 @@
 
 
 
--(void)localizeElementID:(NSString*)elementID withString:(NSString*)unlocalizedString fromTable:(NSString*)table{
+- (void)localizeElementID:(NSString*)elementID withString:(NSString*)unlocalizedString fromTable:(NSString*)table {
     static NSBundle * bundle = nil;
     if (!bundle) bundle =[NSBundle bundleForClass:[self class]];
     
@@ -82,8 +82,29 @@
     [self setContentOfElementId:elementID toString:localizedString];
 }
 
--(void)localizeElementID:(NSString*)elementID usingStringsTable:(NSString*)table{
+- (void)localizeElementID:(NSString*)elementID usingStringsTable:(NSString*)table {
     [self localizeElementID:elementID withString:elementID fromTable:table];
+}
+
+- (void)localizePrefixedElementsWithStringsFromTable:(NSString *)table {
+	static NSBundle * bundle = nil;
+	if (!bundle) bundle =[NSBundle bundleForClass:[self class]];
+	
+	WebScriptObject    *scriptObject = [self.webView windowScriptObject];
+	DOMNodeList * nodeList = nil;
+	if (scriptObject) {
+		nodeList = [scriptObject evaluateWebScript:@"document.getElementsByTagName('*')"];
+		NSUInteger idx = [nodeList length];
+		while (idx--) {
+			DOMElement * element = (DOMElement *)[nodeList item:(unsigned int)idx];
+			NSString * elementId = [element getAttribute:@"id"];
+			if ([elementId hasPrefix:@"@"]){
+				NSString * localizationKey = [elementId substringFromIndex:1];
+				NSString * localizedString = [bundle localizedStringForKey:localizationKey value:localizationKey table:table];
+				[self setContentOfElementId:elementId toString:localizedString];
+			}
+		}
+	}
 }
 
 - (NSString *)contentOfElementId:(NSString*)pageObjectID {
@@ -235,8 +256,13 @@
 }
 
 
--(void)initPage{
+-(void)initPage {
     
+}
+
+- (void)dealloc {
+	self.webView = nil;
+	MCC_DEALLOC();
 }
 
 @end

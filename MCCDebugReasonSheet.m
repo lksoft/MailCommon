@@ -33,4 +33,10 @@ NSString * const MCC_PREFIXED_CONSTANT(DebugReasonGivenNotification) = MCC_NSSTR
 	}
 }
 
+- (void)dealloc {
+	self.problemText = nil;
+	self.sheet = nil;
+	MCC_DEALLOC();
+}
+
 @end

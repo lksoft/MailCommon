@@ -53,8 +53,11 @@ static	NSMutableDictionary		*MCC_PREFIXED_NAME(_ovc_optionalViewNibs);
 }
 
 - (void)dealloc {
+	self.optionalView = nil;
+	self.visibleCheckbox = nil;
+	self.switchView = nil;
 	
-	[super dealloc];
+	MCC_DEALLOC();
 }
 
 
