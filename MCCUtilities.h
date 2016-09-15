@@ -30,6 +30,8 @@ extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
 + (BOOL)helperScriptIsAvailable;
 + (BOOL)debugInfoScriptIsAvailable;
 + (void)runDebugInfoScriptUsingView:(NSView *)targetView;
++ (void)addPluginMenu:(NSArray <NSDictionary <NSString*, NSString*> *> *)menuInfo toMailMenuWithTitle:(NSString *)pluginName target:(id)target;
+
 @end
 
 
