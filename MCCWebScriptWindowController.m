@@ -45,7 +45,8 @@
 #if !__has_feature(objc_arc)
 - (void)dealloc {
 	self.filePath = nil;
-	[super dealloc];
+	self.pageController = nil;
+	MCC_DEALLOC();
 }
 #endif
 

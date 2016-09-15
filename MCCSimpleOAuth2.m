@@ -175,7 +175,6 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[self.refreshTimer invalidate];
 	
-#if !__has_feature(objc_arc)
 	self.accessToken = nil;
 	self.clientId = nil;
 	self.clientSecret = nil;
@@ -187,8 +186,12 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 	self.refreshAccountName = nil;
 	self.tokenExpiresAccountName = nil;
 	self.refreshTimer = nil;
-	[super dealloc];
-#endif
+	self.grantType = nil;
+	self.scope = nil;
+	self.webview = nil;
+	self.serviceName = nil;
+	self.bundleID = nil;
+	MCC_DEALLOC();
 }
 
 - (BOOL)alreadyHasToken {
