@@ -113,7 +113,6 @@
 	
 	if (!self.filePath){
 		self.filePath = [contentPath stringByAppendingFormat:@"/en.lproj/%@.%@",fileName,type];
-        self.filePath = [contentPath stringByAppendingFormat:@"/en.lproj/%@.%@",fileName,type];
         if (![[NSFileManager defaultManager] fileExistsAtPath:self.filePath]) {
             self.filePath =[contentPath stringByAppendingFormat:@"/%@.%@",fileName,type];
         }
