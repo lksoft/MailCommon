@@ -17,6 +17,7 @@
 @property (readonly) MCC_PREFIXED_NAME(WebScriptWindowController)* windowController;
 @property (readonly) NSWindow * window;
 
+- (void)localizePrefixedElementsWithStringsFromTable:(NSString *)table;
 -(void)localizeElementID:(NSString*)elementID usingStringsTable:(NSString*)table;
 -(void)localizeElementID:(NSString*)elementID withString:(NSString*)unlocalizedString fromTable:(NSString*)table;
 
