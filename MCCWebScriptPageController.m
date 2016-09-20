@@ -73,7 +73,6 @@
 #pragma mark - Getting/Setting Page Content
 
 
-
 - (void)localizeElementID:(NSString*)elementID withString:(NSString*)unlocalizedString fromTable:(NSString*)table {
     static NSBundle * bundle = nil;
     if (!bundle) bundle =[NSBundle bundleForClass:[self class]];
