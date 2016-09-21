@@ -631,7 +631,7 @@
 
 - (void)setAqError:(NSString *)aqError {
     _aqError = aqError;
-	if (aqError) {
+	if (aqError.length > 0) {
 		NSLog(@"AquaticPrime error: %@", _aqError);
 	}
 }
