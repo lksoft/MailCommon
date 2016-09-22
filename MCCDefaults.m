@@ -136,6 +136,14 @@
 	}
 }
 
++ (id)launchDefaultForKey:(NSString *)key {
+	return [[self sharedDefaults] _launchDefaultForKey:key];
+}
+
++ (BOOL)launchBoolForKey:(NSString *)key {
+	return [[[self sharedDefaults] _launchDefaultForKey:key] boolValue];
+}
+
 + (void)setObject:(id)value forKey:(NSString *)key {
 	[self setDefault:value forKey:key];
 }
@@ -318,6 +326,19 @@
 	[self.prefsAccessQueue addOperations:@[theReadBlock] waitUntilFinished:YES];
 	
     return result;
+}
+
+- (id)_launchDefaultForKey:(NSString *)key {
+	return [[self launchDefaults] objectForKey:key];
+}
+
+- (NSDictionary *)launchDefaults {
+	static NSDictionary * launchArgs = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		launchArgs = [[NSUserDefaults standardUserDefaults] volatileDomainForName:NSArgumentDomain];
+	});
+	return launchArgs;
 }
 
 

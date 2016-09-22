@@ -32,6 +32,9 @@
 + (CGFloat)floatForKey:(NSString *)key;
 + (NSDictionary *)defaultsForKeys:(NSArray *)keys;
 
++ (id)launchDefaultForKey:(NSString *)key;
++ (BOOL)launchBoolForKey:(NSString *)key;
+
 + (void)setDefault:(id)value forKey:(NSString *)keys;
 + (void)setObject:(id)value forKey:(NSString*)key;
 + (void)setBool:(BOOL)value forKey:(NSString *)key;
