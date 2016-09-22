@@ -5,6 +5,10 @@
 	<dict>
 		<key>10.10</key>
 		<string>MFMessageDeliverer</string>
+		<key>10.11</key>
+		<string>MFMessageDeliverer</string>
+		<key>10.12</key>
+		<string>MFMessageDeliverer</string>
 		<key>10.7</key>
 		<string>MailDelivery</string>
 		<key>10.8</key>
@@ -15,6 +19,10 @@
 	<dict>
 		<key>10.10</key>
 		<string>MFSMTPDeliverer</string>
+		<key>10.11</key>
+		<string>MFSMTPDeliverer</string>
+		<key>10.12</key>
+		<string>MFSMTPDeliverer</string>
 		<key>10.7</key>
 		<string>SMTPDelivery</string>
 		<key>10.8</key>
@@ -24,6 +32,10 @@
 	</dict>
 	<dict>
 		<key>10.10</key>
+		<string>MFEWSDeliverer</string>
+		<key>10.11</key>
+		<string>MFEWSDeliverer</string>
+		<key>10.12</key>
 		<string>MFEWSDeliverer</string>
 		<key>10.7</key>
 		<string>EWSDelivery</string>
@@ -37,6 +49,8 @@
 		<string>DocumentEditor</string>
 		<key>10.11</key>
 		<string>ComposeViewController</string>
+		<key>10.12</key>
+		<string>ComposeViewController</string>
 		<key>10.7</key>
 		<string>MailDocumentEditor</string>
 		<key>10.8</key>
@@ -47,6 +61,10 @@
 	<dict>
 		<key>10.10</key>
 		<string>MFMailbox</string>
+		<key>10.11</key>
+		<string>MFMailbox</string>
+		<key>10.12</key>
+		<string>MFMailbox</string>
 		<key>10.7</key>
 		<string>MailboxUid</string>
 		<key>10.8</key>
@@ -56,6 +74,10 @@
 	</dict>
 	<dict>
 		<key>10.10</key>
+		<string>RulesPreferences</string>
+		<key>10.11</key>
+		<string>RulesPreferences</string>
+		<key>10.12</key>
 		<string>RulesPreferences</string>
 		<key>10.7</key>
 		<string>MailSorterPreferences</string>
@@ -77,6 +99,10 @@
 	<dict>
 		<key>10.10</key>
 		<string>_MCOutgoingMessageBody</string>
+		<key>10.11</key>
+		<string>_MCOutgoingMessageBody</string>
+		<key>10.12</key>
+		<string>_MCOutgoingMimeBody</string>
 		<key>10.7</key>
 		<string>_OutgoingMessageBody</string>
 		<key>10.8</key>
@@ -87,6 +113,10 @@
 	<dict>
 		<key>10.10</key>
 		<string>MCMimeBody</string>
+		<key>10.11</key>
+		<string>MCMimeBody</string>
+		<key>10.12</key>
+		<string>MCMimeBody</string>
 		<key>10.7</key>
 		<string>MimeBody</string>
 		<key>10.8</key>
@@ -97,6 +127,8 @@
 	<dict>
 		<key>10.10</key>
 		<string>MCStringRenderContext</string>
+		<key>10.11</key>
+		<string>MCStringRenderContext</string>
 		<key>10.7</key>
 		<string>MessageStringRenderContext</string>
 		<key>10.8</key>
@@ -107,6 +139,10 @@
 	<dict>
 		<key>10.10</key>
 		<string>MCMessage</string>
+		<key>10.11</key>
+		<string>MCMessage</string>
+		<key>10.12</key>
+		<string>MCMessage</string>
 		<key>10.7</key>
 		<string>Message</string>
 		<key>10.8</key>
@@ -117,6 +153,10 @@
 	<dict>
 		<key>10.10</key>
 		<string>MFLibrary</string>
+		<key>10.11</key>
+		<string>MFLibrary</string>
+		<key>10.12</key>
+		<string>MFLibrary</string>
 		<key>10.7</key>
 		<string>Library</string>
 		<key>10.8</key>
@@ -127,12 +167,28 @@
 	<dict>
 		<key>10.10</key>
 		<string>MFMailAccount</string>
+		<key>10.11</key>
+		<string>MFMailAccount</string>
+		<key>10.12</key>
+		<string>MFMailAccount</string>
 		<key>10.7</key>
 		<string>MailAccount</string>
 		<key>10.8</key>
 		<string>MailAccount</string>
 		<key>10.9</key>
 		<string>MFMailAccount</string>
+	</dict>
+	<dict>
+		<key>10.11</key>
+		<string>SignatureBundle</string>
+		<key>10.12</key>
+		<string>MFSignatureManager</string>
+	</dict>
+	<dict>
+		<key>10.11</key>
+		<string>Signature</string>
+		<key>10.12</key>
+		<string>MFSignature</string>
 	</dict>
 </array>
 </plist>
