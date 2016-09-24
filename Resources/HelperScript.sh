@@ -23,6 +23,7 @@ logger -s -t $logName " " 2>> $currentLogFile
 logger -s -t $logName "Called with arguments: '$@'" 2>> $currentLogFile
 
 toolType="$1"
+currentUser=$(whoami)
 
 # Test for debugging info
 if [[ "${toolType}" == "-debug" ]]; then
@@ -37,6 +38,8 @@ if [[ "${toolType}" == "-mail" ]]; then
 	logger -s -t $logName "Relaunching Mail" 2>> $currentLogFile
 	/usr/bin/osascript -e "tell application \"Mail\" to quit"
 	sleep 1
+	pkill -U "${currentUser}" -x "Mail"
+	sleep 1
 	open -b com.apple.mail
 	exit 0
 fi
@@ -49,7 +52,6 @@ if [[ "${toolType}" == "-sparkle" ]]; then
 	logger -s -t $logName "Doing Sparkle" 2>> $currentLogFile
 	if [ "${command}" == "quit" ]; then
 		logger -s -t $logName "Trying to quit ${sparkleHelper} with pkill" 2>> $currentLogFile
-		currentUser=$(whoami)
 		pkill -U "${currentUser}" -x "${sparkleHelper}"
 	elif [ -d "${sparkleHelper}" ]; then
 		logger -s -t $logName "Trying to open ${sparkleHelper}" 2>> $currentLogFile

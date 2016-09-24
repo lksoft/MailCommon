@@ -9,8 +9,11 @@
 #import "MCCDebugReasonSheet.h"
 
 NSString * const MCC_PREFIXED_CONSTANT(DebugReasonGivenNotification) = MCC_NSSTRING(MCC_PLUGIN_PREFIX, DebugReasonGivenNotification);
-//@"MCCDebugReasonGivenNotification";
 
+
+@interface MCC_PREFIXED_NAME(DebugReasonSheet) ()
+@property (MCC_WEAK) NSWindow * parentWindow;
+@end
 
 @implementation MCC_PREFIXED_NAME(DebugReasonSheet)
 
@@ -21,16 +24,18 @@ NSString * const MCC_PREFIXED_CONSTANT(DebugReasonGivenNotification) = MCC_NSSTR
 		[[NSBundle bundleForClass:[MCC_PREFIXED_NAME(DebugReasonSheet) class]] loadNibNamed:@"MCCDebugReasonSheet" owner:self topLevelObjects:NULL];
 	}
 	
-	[aWindow beginSheet:self.sheet completionHandler:nil];
+	self.parentWindow = aWindow;
+	
+	[aWindow beginSheet:self.sheet completionHandler:^(NSModalResponse returnCode) {
+		if (returnCode == 0) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(DebugReasonGivenNotification) object:self];
+		}
+	}];
  
 }
 
-- (void)closeSheet:(id)sender {
-	[self.sheet orderOut:nil];
-
-	if ([sender tag] == 0) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(DebugReasonGivenNotification) object:self];
-	}
+- (void)closeSheet:(NSButton *)sender {
+	[self.parentWindow endSheet:self.sheet returnCode:sender.tag];
 }
 
 - (void)dealloc {
