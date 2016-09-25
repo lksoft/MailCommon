@@ -135,17 +135,19 @@
 				NSSize	winContentSize = [[self.window contentView] frame].size;
 				CGFloat	chromeHeightDifference = winFrame.size.height - winContentSize.height;
 				CGFloat	newWindowHeight = size.height + chromeHeightDifference;
+				//	Don't get taller than the main screen
+				CGFloat menuBarHeight = [NSApp mainMenu].menuBarHeight;
+				CGFloat maxHeight = [NSScreen mainScreen].frame.size.height - menuBarHeight;
+				if (newWindowHeight > maxHeight) {
+					newWindowHeight = maxHeight;
+				}
 				winFrame.origin.x -= floorf((size.width - winFrame.size.width) / 2.0f);
 				winFrame.size.width = size.width;
 				winFrame.origin.y -= newWindowHeight - winFrame.size.height;
 				winFrame.size.height = newWindowHeight;
 				//	Stay below the menu
-				if (winFrame.origin.y < 40){
-					winFrame.origin.y = 40;
-				}
-				//	Don't get taller than MBA 11" content area
-				if (winFrame.size.height > 655) {
-					winFrame.size.height = 655;
+				if (winFrame.origin.y < menuBarHeight) {
+					winFrame.origin.y = menuBarHeight;
 				}
                 if ([window isVisible]){
                     [window setFrame:winFrame display:YES animate:YES];
