@@ -30,6 +30,7 @@
 - (NSString*)htmlOfElementId:(NSString*)pageObjectID;
 - (void)setHtmlOfElementId:(NSString*)pageObjectID toString:(NSString*)string;
 - (void)setHtmlOfElementId:(NSString*)pageObjectID toNode:(DOMHTMLElement*)element;
+- (void)replaceElementId:(NSString *)objectID withHTML:(NSString *)html;
 
 - (void)setDisabled:(BOOL)enabled onElementId:(NSString *)pageObjectID;
 - (BOOL)disabledOnElementId:(NSString *)pageObjectID;

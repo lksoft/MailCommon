@@ -210,6 +210,16 @@
     }
 }
 
+- (void)replaceElementId:(NSString *)objectID withHTML:(NSString *)html {
+	WebScriptObject * scriptObject = [self.webView windowScriptObject];
+	if (scriptObject) {
+		id result = [scriptObject evaluateWebScript:[NSString stringWithFormat:@"document.getElementById('%@')", objectID]];
+		if (result && [result isKindOfClass:[DOMHTMLElement class]]) {
+			[result setOuterHTML:html];
+		}
+	}
+}
+
 
 #pragma mark - Attributes
 
