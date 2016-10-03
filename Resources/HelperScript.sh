@@ -92,8 +92,11 @@ if [[ "${toolType}" == "-loadfile" ]]; then
 	if [[ "$loadFileProcess" == "" ]]; then
 		logger -s -t $logName "LoadFileHelper is not running yet." 2>> $currentLogFile
 		if [[ "$command" == "start" ]]; then
-			logger -s -t $logName "Trying to launch LoadFileHelper using bundle ID" 2>> $currentLogFile
-			open -g -b "com.littleknownsoftware.SigProTool.LoadFileHelper"
+# 			logger -s -t $logName "Trying to launch LoadFileHelper using bundle ID" 2>> $currentLogFile
+# 			open -g -b "com.littleknownsoftware.SigProTool.LoadFileHelper"
+			MY_PATH="$3/Contents/Resources/LoadFileHelper.app"
+			logger -s -t $logName "Trying to launch with Path: $MY_PATH" 2>> $currentLogFile
+			open -g "$MY_PATH"
 		fi
 	else
 		logger -s -t $logName "LoadFileHelper is already running $loadFileProcess." 2>> $currentLogFile
