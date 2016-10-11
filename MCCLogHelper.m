@@ -24,7 +24,7 @@ static NSMutableDictionary	*lkBundleConfigurations = nil;
 }
 
 - (void)dealloc {
-	MCC_DEALLOC(super);
+	MCC_DEALLOC();
 }
 
 
