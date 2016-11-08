@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MCCDebugReasonSheet">
+            <connections>
+                <outlet property="sheet" destination="QvC-M9-y7g" id="gzY-DE-T6J"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Fenster" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" unifiedTitleAndToolbar="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="440" height="189"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <view key="contentView" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="440" height="189"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="n7i-lC-JhR">
+                        <rect key="frame" x="232" y="13" width="194" height="32"/>
+                        <buttonCell key="cell" type="push" title="Fehlermitteilung erstellen" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QA3-68-T3o">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="closeSheet:" target="-2" id="3It-bJ-sH5"/>
+                            <binding destination="-2" name="enabled" keyPath="self.problemText" id="PCD-Sc-WFi">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSIsNotNil</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="rlf-Y4-gHe">
+                        <rect key="frame" x="125" y="13" width="107" height="32"/>
+                        <buttonCell key="cell" type="push" title="Abbrechen" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eex-LO-oNu">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="closeSheet:" target="-2" id="7cS-yJ-LR1"/>
+                        </connections>
+                    </button>
+                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K1c-03-LOw">
+                        <rect key="frame" x="20" y="61" width="400" height="83"/>
+                        <clipView key="contentView" id="0LZ-Mt-T2Y">
+                            <rect key="frame" x="1" y="1" width="398" height="81"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1EL-sY-w0p">
+                                    <rect key="frame" x="0.0" y="0.0" width="398" height="81"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="398" height="81"/>
+                                    <size key="maxSize" width="463" height="10000000"/>
+                                    <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <connections>
+                                        <binding destination="-2" name="attributedString" keyPath="self.problemText" id="WHe-oA-y7z">
+                                            <dictionary key="options">
+                                                <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="CkM-ET-RfL">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="I5J-gi-Zcd">
+                            <rect key="frame" x="383" y="1" width="16" height="81"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6wa-AZ-c29">
+                        <rect key="frame" x="18" y="152" width="341" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Beschreiben Sie das Problem, das Sie melden möchten:" id="AoL-At-jiL">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="rlf-Y4-gHe" firstAttribute="centerY" secondItem="n7i-lC-JhR" secondAttribute="centerY" id="CLH-yD-i3i"/>
+                    <constraint firstAttribute="trailing" secondItem="n7i-lC-JhR" secondAttribute="trailing" constant="20" id="FZs-vt-w3v"/>
+                    <constraint firstItem="n7i-lC-JhR" firstAttribute="top" secondItem="K1c-03-LOw" secondAttribute="bottom" constant="20" id="GhZ-QW-8kp"/>
+                    <constraint firstItem="K1c-03-LOw" firstAttribute="top" secondItem="6wa-AZ-c29" secondAttribute="bottom" constant="8" id="Rg0-MG-hIf"/>
+                    <constraint firstItem="K1c-03-LOw" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="btf-4O-JMG"/>
+                    <constraint firstItem="6wa-AZ-c29" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="c1r-ZX-Gf5"/>
+                    <constraint firstItem="6wa-AZ-c29" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="i4v-fD-RuK"/>
+                    <constraint firstItem="n7i-lC-JhR" firstAttribute="leading" secondItem="rlf-Y4-gHe" secondAttribute="trailing" constant="12" id="phm-Eo-hSW"/>
+                    <constraint firstAttribute="trailing" secondItem="K1c-03-LOw" secondAttribute="trailing" constant="20" id="vp0-VW-ust"/>
+                    <constraint firstAttribute="bottom" secondItem="n7i-lC-JhR" secondAttribute="bottom" constant="20" id="w1i-td-gnE"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="264" y="219.5"/>
+        </window>
+    </objects>
+</document>
