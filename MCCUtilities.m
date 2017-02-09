@@ -123,6 +123,11 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 		if ([applicationScripts count] > 0) {
 			scriptURL = [applicationScripts objectAtIndex:0];
 		}
+#ifdef DEBUG
+		if ([[scriptURL lastPathComponent] isEqualToString:@"com.apple.xctest"]) {
+			scriptURL = [[scriptURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"com.apple.mail"];
+		}
+#endif
 	}
 	else {
 		scriptURL = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
