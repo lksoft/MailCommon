@@ -10,33 +10,13 @@ on run (argv)
 		end if
 	end if
 	
-	set lksPluginList to {"MailTags", "Mail Act-On", "MailPerspectives", "SignatureProfiler", "Tealeaves"}
 	set pluginDefaultOne to "LKSBuildBranch"
 	set pluginDefaultTwo to "LKSBuildSHA"
+	set pluginBranchIndev to "LKSBuildBranch"
+	set pluginSHAIndev to "LKSBuildSHA"
 	set supportName to "SmallCubed Support"
 	set supportEmail to "support@smallcubed.com"
 	set homeFolder to do shell script "cd ~;pwd"
-	
-	--	Determine the plugins available
-	set bundlePath to homeFolder & "/Library/Mail/Bundles"
-	set myPluginList to {}
-	try
-		set bundleAlias to POSIX file bundlePath as alias
-		tell application "System Events"
-			set bundleItems to the name of every disk item of bundleAlias
-		end tell
-		repeat with foundBundle in bundleItems
-			repeat with aPluginName in lksPluginList
-				if (foundBundle starts with aPluginName) then
-					set myPluginList to myPluginList & aPluginName
-				end if
-			end repeat
-		end repeat
-	on error err
-		log err
-	end try
-	
-	log myPluginList
 	
 	set msgContent to bodyStart & return & return & "Here is the version information that you requesting for support purposes." & return & "  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" & return & return
 	set mailIsRunning to false
@@ -204,59 +184,57 @@ on run (argv)
 	end if
 	
 	
-	set msgContent to msgContent & return & return & "Little Known Plugins:" & return & "  ++++++++++++++++++++++" & return
+	set msgContent to msgContent & return & return & "Mail Plugins:" & return & "  ++++++++++++++++++++++" & return
 	
-	--	Loop for each plugin
-	repeat with pluginName in myPluginList
-		
-		--	Ensure that the plugin is installed
-		set pluginPath to homeFolder & "/Library/Mail/Bundles/" & pluginName & ".mailbundle/Contents"
-		set pluginInstalled to false
-		try
-			set test to POSIX file pluginPath as alias
-			set pluginInstalled to true
-		on error err
-			log err
-			-- do nothing
-		end try
-		
-		log pluginPath
-		
-		set pluginPath to quote & pluginPath & "/Info" & quote
-		
-		--	Add header for this plugin	
-		set msgContent to msgContent & return & "**** " & pluginName & " INFORMATION ****" & return
-		
-		--	Only bother with all of this part if the plugin is where we expect it
-		if (pluginInstalled is true) then
-			-- Try to see if we should get the version of the plugin
-			if (pluginPath is not "") then
-				set pluginBuild to do shell script "defaults read " & pluginPath & " CFBundleVersion"
-				set pluginVersion to do shell script "defaults read " & pluginPath & " CFBundleShortVersionString"
-				set pluginKeys to do shell script "defaults read " & pluginPath & " SupportedPluginCompatibilityUUIDs"
-				set msgContent to msgContent & return & "Plugin Version: " & pluginVersion & "(" & pluginBuild & ")" & return
-				set msgContent to msgContent & return & "Plugin UUID List: " & pluginKeys & return
+	set localBundlePath to homeFolder & "/Library/Mail/Bundles/"
+	set test to POSIX file localBundlePath as alias
+	set localContent to ""
+	tell application "System Events"
+		set folderContents to every item of folder localBundlePath
+		repeat with folderItem in folderContents
+			set pluginPath to POSIX path of folderItem
+			if (pluginPath ends with "mailbundle") then
+				
+				-- Get plugin name
+				set oldDelims to AppleScript's text item delimiters
+				set AppleScript's text item delimiters to "/"
+				set tempText to last text item of pluginPath
+				set AppleScript's text item delimiters to "."
+				set pluginName to first text item of tempText
+				set AppleScript's text item delimiters to oldDelims
+				
+				set pluginPath to quote & pluginPath & "/Contents/Info" & quote
+				
+				--	Add header for this plugin	
+				set msgContent to msgContent & return & "**** " & pluginName & " INFORMATION ****" & return
+				
+				-- Try to see if we should get the version of the plugin
+				if (pluginPath is not "") then
+					set pluginBuild to do shell script "defaults read " & pluginPath & " CFBundleVersion"
+					set pluginVersion to do shell script "defaults read " & pluginPath & " CFBundleShortVersionString"
+					set pluginKeys to do shell script "defaults read " & pluginPath & " SupportedPluginCompatibilityUUIDs"
+					set pluginKeys to pluginKeys & (do shell script "defaults read " & pluginPath & " Supported10.12PluginCompatibilityUUIDs")
+					try
+						set pluginKeys to pluginKeys & (do shell script "defaults read " & pluginPath & " Supported10.13PluginCompatibilityUUIDs")
+					on error err
+					end try
+					set msgContent to msgContent & return & "Plugin Version: " & pluginVersion & "(" & pluginBuild & ")" & return
+					set msgContent to msgContent & return & "Plugin UUID List: " & pluginKeys & return
+				end if
+				
+				try
+					set pluginDefault1Value to do shell script "defaults read " & pluginPath & " " & "\"" & pluginDefaultOne & "\""
+					set pluginDefault2Value to do shell script "defaults read " & pluginPath & " " & "\"" & pluginDefaultTwo & "\""
+					set msgContent to msgContent & return & "Plugin Extra Info: " & pluginDefault1Value & "  --  " & pluginDefault2Value & return
+					set pluginDefault1Value to do shell script "defaults read " & pluginPath & " " & "\"" & pluginBranchIndev & "\""
+					set pluginDefault2Value to do shell script "defaults read " & pluginPath & " " & "\"" & pluginBranchSHA & "\""
+					set msgContent to msgContent & return & "Plugin Extra Info: " & pluginDefault1Value & "  --  " & pluginDefault2Value & return
+				on error err
+				end try
+				
 			end if
-			
-			if (pluginDefaultOne is not "") then
-				set pluginDefault1Value to do shell script "defaults read " & pluginPath & " " & "\"" & pluginDefaultOne & "\""
-				set pluginDefault2Value to do shell script "defaults read " & pluginPath & " " & "\"" & pluginDefaultTwo & "\""
-				set msgContent to msgContent & return & "Plugin Extra Info: " & pluginDefault1Value & "  --  " & pluginDefault2Value & return
-			end if
-		else
-			set msgContent to msgContent & return & "There is no plugin installed" & return
-		end if
-		
-	end repeat
-	
-	--	If there were no plugins found add that to the message and set a valid value for the subject
-	set pluginCount to (count of myPluginList)
-	if (pluginCount is 0) then
-		set msgContent to msgContent & return & "There are no LKS plugins installed" & return
-	end if
-	if (pluginCount is not 1) then
-		set pluginName to "LKS Mail Bundles"
-	end if
+		end repeat
+	end tell
 	
 	
 	--	See if there are any crash reports to send us
