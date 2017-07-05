@@ -94,7 +94,7 @@ if [[ "${toolType}" == "-loadfile" ]]; then
 		if [[ "$command" == "start" ]]; then
 # 			logger -s -t $logName "Trying to launch LoadFileHelper using bundle ID" 2>> $currentLogFile
 # 			open -g -b "com.littleknownsoftware.SigProTool.LoadFileHelper"
-			MY_PATH="$3/Contents/Resources/LoadFileHelper.app"
+			MY_PATH="$3/Contents/Resources/LoadFileHelper.app/Contents/MacOS/LoadFileHelper"
 			logger -s -t $logName "Trying to launch with Path: $MY_PATH" 2>> $currentLogFile
 			open -g "$MY_PATH"
 		fi
