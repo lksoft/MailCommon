@@ -22,6 +22,31 @@ fi
 logger -s -t $logName " " 2>> $currentLogFile
 logger -s -t $logName "Called with arguments: '$@'" 2>> $currentLogFile
 
+
+UpdateLoadFileHelper() {
+	logger -s -t $logName "Trying to update helper app" 2>> $currentLogFile
+	srcHelperPath="$1"
+	destHelperPath="$2"
+	logger -s -t $logName "Source Path is: '$srcHelperPath'" 2>> $currentLogFile
+	logger -s -t $logName "Destination Path is: '$destHelperPath'" 2>> $currentLogFile
+    if [ -d "$destHelperPath" ]; then
+		logger -s -t $logName "Updating LoadFileHelper" 2>> $currentLogFile
+        existingVersion=`defaults read "${destHelperPath}/Contents/Info.plist" CFBundleVersion`
+        bundleVersion=`defaults read "${srcHelperPath}/Contents/Info.plist" CFBundleVersion`
+		logger -s -t $logName "ExistingVersion ${existingVersion}  bundleVersion: ${bundleVersion}" 2>> $currentLogFile
+        if [ $existingVersion != $bundleVersion ]; then
+            debugLog "Replacing existing version $existingVersion with bundle version $bundleVersion"
+            rm -Rf "$destHelperPath"
+            cp -R "$srcHelperPath" "$destHelperPath"
+        fi
+    else
+	    # helper App is missing from Application Support
+		logger -s -t $logName "Copying LoadFileHelper" 2>> $currentLogFile
+        cp -R "$srcHelperPath" "$destHelperPath"
+    fi
+}
+
+
 toolType="$1"
 currentUser=$(whoami)
 
@@ -62,11 +87,9 @@ if [[ "${toolType}" == "-sparkle" ]]; then
 	exit 0
 fi
 
-
 # Test for LoadFile actions
 if [[ "${toolType}" == "-loadfile" ]]; then
-	command="$2"
-	if [[ "$command" == "script-result" ]]; then
+	if [[ "${command}" == "script-result" ]]; then
 		scriptPath="$3"
 		isApplescript=false
 		scriptExtension=`echo "$scriptPath" | sed 's/.*\.//'`
@@ -91,16 +114,21 @@ if [[ "${toolType}" == "-loadfile" ]]; then
 	logger -s -t $logName "LoadFileHelper process ID is $loadFileProcess." 2>> $currentLogFile
 	if [[ "$loadFileProcess" == "" ]]; then
 		logger -s -t $logName "LoadFileHelper is not running yet." 2>> $currentLogFile
-		if [[ "$command" == "start" ]]; then
-# 			logger -s -t $logName "Trying to launch LoadFileHelper using bundle ID" 2>> $currentLogFile
-# 			open -g -b "com.littleknownsoftware.SigProTool.LoadFileHelper"
-			MY_PATH="$3/Contents/Resources/LoadFileHelper.app/Contents/MacOS/LoadFileHelper"
-			logger -s -t $logName "Trying to launch with Path: $MY_PATH" 2>> $currentLogFile
-			open -g "$MY_PATH"
+		if [[ "${command}" == "start" ]]; then
+			SRC_PATH="$3/Contents/Resources/LoadFileHelper.app"
+			DEST_PATH="${HOME}/Library/Application Support/LKS"
+			DEST_FILE_PATH="${DEST_PATH}/LoadFileHelper.app"
+			if [ ! -d "$DEST_PATH" ]; then
+				logger -s -t $logName "Creating the LKS App Support folder." 2>> $currentLogFile
+				mkdir "$DEST_PATH"
+			fi
+			UpdateLoadFileHelper "$SRC_PATH" "$DEST_FILE_PATH"
+			logger -s -t $logName "Trying to launch with Path: $DEST_FILE_PATH" 2>> $currentLogFile
+			open -g "$DEST_FILE_PATH"
 		fi
 	else
 		logger -s -t $logName "LoadFileHelper is already running $loadFileProcess." 2>> $currentLogFile
-		if [[ "$command" == "quit" ]]; then
+		if [[ "${command}" == "quit" ]]; then
 			logger -s -t $logName "Trying to quit LoadFileHelper using pkill" 2>> $currentLogFile
 			pkill -U $currentUser -x LoadFileHelper
 		fi
