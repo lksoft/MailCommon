@@ -179,16 +179,24 @@
 		<string>MFMailAccount</string>
 	</dict>
 	<dict>
+		<key>10.10</key>
+		<string>SignatureBundle</string>
 		<key>10.11</key>
 		<string>SignatureBundle</string>
 		<key>10.12</key>
 		<string>MFSignatureManager</string>
+		<key>10.9</key>
+		<string>SignatureBundle</string>
 	</dict>
 	<dict>
+		<key>10.10</key>
+		<string>Signature</string>
 		<key>10.11</key>
 		<string>Signature</string>
 		<key>10.12</key>
 		<string>MFSignature</string>
+		<key>10.9</key>
+		<string>Signature</string>
 	</dict>
 </array>
 </plist>
