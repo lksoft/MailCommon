@@ -42,7 +42,7 @@ extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
 
 
 //	Simple way to test most objects for emptyness
-static inline BOOL MCC_PREFIXED_NAME(IsEmpty)(id thing) { return thing == nil || ([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) || ([thing respondsToSelector:@selector(count)] && [(NSArray *)thing count] == 0); }
+static inline BOOL MCC_PREFIXED_NAME(IsEmpty)(id thing) { return thing == nil || [thing isEqual:[NSNull null]] || ([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) || ([thing respondsToSelector:@selector(count)] && [(NSArray *)thing count] == 0); }
 
 #define IS_EMPTY(value)	(MCC_PREFIXED_NAME(IsEmpty(value)))
 #define IS_NOT_EMPTY(value)	(!MCC_PREFIXED_NAME(IsEmpty(value)))
