@@ -116,9 +116,11 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 }
 
 + (NSURL *)applicationScriptsURL {
-	NSURL	*scriptURL = nil;
+	static NSURL	*scriptURL = nil;
 	
-	if (OSVERSION >= MCC_PREFIXED_NAME(OSVersionMountainLion)) {
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		
 		NSArray	*applicationScripts = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationScriptsDirectory inDomains:NSUserDomainMask];
 		if ([applicationScripts count] > 0) {
 			scriptURL = [applicationScripts objectAtIndex:0];
@@ -128,16 +130,11 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 			scriptURL = [[scriptURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"com.apple.mail"];
 		}
 #endif
-	}
-	else {
-		scriptURL = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
-		scriptURL = [scriptURL URLByAppendingPathComponent:@"Application Scripts"];
-		scriptURL = [scriptURL URLByAppendingPathComponent:@"com.apple.mail"];
-	}
-	
-	if (IS_NOT_EMPTY([[self sharedInstance] scriptPathComponent])) {
-		scriptURL = [scriptURL URLByAppendingPathComponent:[[self sharedInstance] scriptPathComponent]];
-	}
+		
+		if (IS_NOT_EMPTY([[self sharedInstance] scriptPathComponent])) {
+			scriptURL = [scriptURL URLByAppendingPathComponent:[[self sharedInstance] scriptPathComponent]];
+		}
+	});
 	return scriptURL;
 }
 
