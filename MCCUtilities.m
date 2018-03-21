@@ -134,6 +134,7 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 		if (IS_NOT_EMPTY([[self sharedInstance] scriptPathComponent])) {
 			scriptURL = [scriptURL URLByAppendingPathComponent:[[self sharedInstance] scriptPathComponent]];
 		}
+		MCC_RETAIN(scriptURL);
 	});
 	return scriptURL;
 }
