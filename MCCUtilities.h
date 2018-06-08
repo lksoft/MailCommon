@@ -68,7 +68,8 @@ typedef NS_ENUM(NSInteger, MCC_PREFIXED_NAME(OSVersionValue)) {
 	MCC_PREFIXED_NAME(OSVersionYosemite),
 	MCC_PREFIXED_NAME(OSVersionElCapitan),
 	MCC_PREFIXED_NAME(OSVersionSierra),
-	MCC_PREFIXED_NAME(OSVersionHighSierra)
+	MCC_PREFIXED_NAME(OSVersionHighSierra),
+	MCC_PREFIXED_NAME(OSVersionMojave)
 };
 
 //	Version information
