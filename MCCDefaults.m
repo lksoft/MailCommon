@@ -79,7 +79,8 @@
 		}
 		MCC_RELEASE(defaults);
 		
-		self.fileEventQueue = MCC_AUTORELEASE([[MCC_PREFIXED_NAME(FileEventQueue) alloc] init]);
+		self.fileEventQueue = [[MCC_PREFIXED_NAME(FileEventQueue) alloc] init];
+		MCC_AUTORELEASE(self.fileEventQueue);
 		MCC_PREFIXED_NAME(Defaults) * blockSelf = self;
 		self.prefsChangeBlock = ^(MCC_PREFIXED_NAME(FileEventQueue) *anEventQueue, NSString * aNote, NSString * anAffectedPath) {
 			if ([anAffectedPath isEqualToString:initialDefaultsURL.path]) {
@@ -89,7 +90,8 @@
 		[self.fileEventQueue addAtomicPath:initialDefaultsURL.path withBlock:self.prefsChangeBlock notifyingAbout:PREF_FILE_NOTIFICATIONS];
 		
 		//	Create a serial queue to use
-		self.prefsAccessQueue = MCC_AUTORELEASE([[NSOperationQueue alloc] init]);
+		self.prefsAccessQueue = [[NSOperationQueue alloc] init];
+		MCC_AUTORELEASE(self.prefsAccessQueue);
 		[self.prefsAccessQueue setMaxConcurrentOperationCount:1];
 
 	}
@@ -97,7 +99,9 @@
 }
 
 - (NSDictionary *)allDefaults {
-	return MCC_AUTORELEASE([self.defaultDictionary copy]);
+	NSDictionary * dict = [self.defaultDictionary copy];
+	MCC_AUTORELEASE(dict);
+	return dict;
 }
 
 
@@ -237,7 +241,8 @@
 		return;
 	}
 	
-	NSMutableDictionary * plugInDefaults = MCC_AUTORELEASE([self.defaultDictionary mutableCopy]);
+	NSMutableDictionary * plugInDefaults = [self.defaultDictionary mutableCopy];
+	MCC_AUTORELEASE(plugInDefaults);
 	if (!plugInDefaults) {
 		NSLog(@"Defaults is empty -- this should not happen");
 		// do not register these defaults -- just return.
@@ -264,7 +269,8 @@
 		return;
 	}
 	
-	NSMutableDictionary * plugInDefaults = MCC_AUTORELEASE([self.defaultDictionary mutableCopy]);
+	NSMutableDictionary * plugInDefaults = [self.defaultDictionary mutableCopy];
+	MCC_AUTORELEASE(plugInDefaults);
 	if (!plugInDefaults) {
 		NSLog(@"Defaults is empty -- this should not happen");
 		// do not register these defaults -- just return.
@@ -352,7 +358,8 @@
 	static MCC_PREFIXED_NAME(Defaults) * theDefaults = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		theDefaults = MCC_RETAIN([[self alloc] initWithDelegate:aDelegate]);
+		theDefaults = [[self alloc] initWithDelegate:aDelegate];
+		MCC_RETAIN(theDefaults);
 	});
 	return theDefaults;
 }

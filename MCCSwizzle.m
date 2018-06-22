@@ -539,7 +539,9 @@ typedef struct objc_super * super_pointer;
         case '@': {  //NSObject
             if (!hasGetter){
                 id (*getter)(id, SEL) = (void*)imp_implementationWithBlock(^(id _self){
-                    id result =  MCC_AUTORELEASE(MCC_RETAIN(objc_getAssociatedObject(_self,propertyNameKey)));
+					id result =  objc_getAssociatedObject(_self,propertyNameKey);
+					MCC_RETAIN(result);
+					MCC_AUTORELEASE(result);
                     return result;
                 });
                 class_addMethod(targetClass,NSSelectorFromString(getterName),(IMP)getter,"@@:");

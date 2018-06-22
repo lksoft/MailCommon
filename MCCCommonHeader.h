@@ -25,9 +25,9 @@
 
 //	ARC compatibility
 #if __has_feature(objc_arc)
-#define MCC_RETAIN(x) (x)
+#define MCC_RETAIN(x)
 #define MCC_RELEASE(x)
-#define MCC_AUTORELEASE(x) (x)
+#define MCC_AUTORELEASE(x)
 #define MCC_DEALLOC()
 #define MCC_WEAK	weak
 #define MCC_WEAK_BLOCK	__weak

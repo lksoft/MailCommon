@@ -218,7 +218,8 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 + (void)addPluginMenu:(NSArray <NSDictionary <NSString*, NSString*> *> *)menuInfo toMailMenuWithTitle:(NSString *)pluginName target:(id)target {
 	
 	NSMenu * mailMenu = [[[[[NSApplication sharedApplication] mainMenu] itemArray] objectAtIndex:0] submenu];
-	NSMenu * pluginSubMenu = MCC_AUTORELEASE([[NSMenu alloc] init]);
+	NSMenu * pluginSubMenu = [[NSMenu alloc] init];
+	MCC_AUTORELEASE(pluginSubMenu);
 	
 	[menuInfo enumerateObjectsUsingBlock:^(NSDictionary <NSString *, NSString*> * _Nonnull menuDesc, NSUInteger idx, BOOL * _Nonnull stop) {
 		
@@ -228,7 +229,8 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 		}
 		else {
 			MCCLog(@"Localization for title [%@] is: %@", menuDesc[@"title_key"], LOCALIZED(menuDesc[@"title_key"]));
-			NSMenuItem * menuItem = MCC_AUTORELEASE([[NSMenuItem alloc] initWithTitle:LOCALIZED(menuDesc[@"title_key"]) action:NSSelectorFromString(selectorString) keyEquivalent:@""]);
+			NSMenuItem * menuItem = [[NSMenuItem alloc] initWithTitle:LOCALIZED(menuDesc[@"title_key"]) action:NSSelectorFromString(selectorString) keyEquivalent:@""];
+			MCC_AUTORELEASE(menuItem);
 			[menuItem setTarget:target];
 			[pluginSubMenu addItem:menuItem];
 		}
@@ -237,7 +239,8 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 	
 	NSMenuItem * pluginMenu = [mailMenu itemWithTitle:pluginName];
 	if (!pluginMenu) {
-		pluginMenu = MCC_AUTORELEASE([[NSMenuItem alloc] initWithTitle:LOCALIZED(pluginName) action:nil keyEquivalent:@""]);
+		pluginMenu = [[NSMenuItem alloc] initWithTitle:LOCALIZED(pluginName) action:nil keyEquivalent:@""];
+		MCC_AUTORELEASE(pluginMenu);
 		[pluginMenu setSubmenu:pluginSubMenu];
 	}
 	[mailMenu insertItem:pluginMenu atIndex:1];

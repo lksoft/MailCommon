@@ -65,11 +65,15 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 #pragma mark Public Methods
 
 - (void)executeBlock:(MCC_PREFIXED_NAME(ProcessQuitBlock))processBlock forProcessIDOnExit:(pid_t)processID {
-	[self watchForExitOfProcessEntry:MCC_AUTORELEASE([[MCC_PREFIXED_NAME(ProcessEntry) alloc] initWithProcessID:processID block:processBlock])];
+	id pe = [[MCC_PREFIXED_NAME(ProcessEntry) alloc] initWithProcessID:processID block:processBlock];
+	MCC_AUTORELEASE(pe);
+	[self watchForExitOfProcessEntry:pe];
 }
 
 - (void)executeBlock:(MCC_PREFIXED_NAME(ProcessQuitBlock))processBlock forBundleIDOnExit:(NSString *)bundleID {
-	[self watchForExitOfProcessEntry:MCC_AUTORELEASE([[MCC_PREFIXED_NAME(ProcessEntry) alloc] initWithBundleID:bundleID block:processBlock])];
+	id pe = [[MCC_PREFIXED_NAME(ProcessEntry) alloc] initWithBundleID:bundleID block:processBlock];
+	MCC_AUTORELEASE(pe);
+	[self watchForExitOfProcessEntry:pe];
 }
 
 
@@ -185,7 +189,8 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 	}
 	
 	if (!pathEntry) {
-		pathEntry = MCC_AUTORELEASE([[MCC_PREFIXED_NAME(PathEntry) alloc] initWithPath:aPath block:aBlock subscriptionFlags:blockFlags atomically:isAtomic]);
+		pathEntry = [[MCC_PREFIXED_NAME(PathEntry) alloc] initWithPath:aPath block:aBlock subscriptionFlags:blockFlags atomically:isAtomic];
+		MCC_AUTORELEASE(pathEntry);
 	}
 	
 	if (pathEntry) {
@@ -395,7 +400,8 @@ NSString	*MCC_PREFIXED_NAME(FileEventAccessRevocationNotification) = @"MCCFileEv
 		self.watchedAtomicEntries = [NSMutableArray array];
 		self.watchedProcessEntries = [NSMutableArray array];
 		NSString * queueName = [NSString stringWithFormat:@"%@.modifyEventQueue", [self className]];
-		self.modifyEventQueue = MCC_AUTORELEASE(dispatch_queue_create([queueName UTF8String], 0));
+		self.modifyEventQueue = dispatch_queue_create([queueName UTF8String], 0);
+		MCC_AUTORELEASE(self.modifyEventQueue);
 	}
 	return self;
 }
