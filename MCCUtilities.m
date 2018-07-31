@@ -99,7 +99,7 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 			NSAlert *alert = [[NSAlert alloc] init];
 			alert.messageText = messageText;
 			alert.informativeText = informationalText;
-			alert.alertStyle = NSWarningAlertStyle;
+			alert.alertStyle = NSAlertStyleWarning;
 			alert.icon = iconImage;
 			
 			[alert runModal];
