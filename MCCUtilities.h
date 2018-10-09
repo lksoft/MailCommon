@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "MCCCommonHeader.h"
-#import "MCCReachability.h"
 
 extern NSString *const MCC_PREFIXED_CONSTANT(NetworkAvailableNotification);
 extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
@@ -17,11 +16,6 @@ extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
 
 @property (strong) NSBundle *bundle;
 @property (strong) NSString *scriptPathComponent;
-@property (strong) Reachability *reachability;
-@property (atomic) BOOL		hasInternetConnection;
-
-+ (BOOL)networkReachable;
-+ (void)startTrackingReachabilityUsingHostName:(NSString *)hostName;
 + (BOOL)notifyUserAboutSnitchesForPluginName:(NSString *)pluginName domainList:(NSArray *)domains usingIcon:(NSImage *)iconImage;
 + (instancetype)sharedInstance;
 + (NSURL *)applicationScriptsURL;
@@ -29,8 +23,18 @@ extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
 + (void)runHelperScriptWithArguments:(NSArray <NSString *> *)arguments completionHandler:(NSUserUnixTaskCompletionHandler)handler;
 + (BOOL)helperScriptIsAvailable;
 + (BOOL)debugInfoScriptIsAvailable;
-+ (void)runDebugInfoScriptUsingView:(NSView *)targetView;
 + (void)addPluginMenu:(NSArray <NSDictionary <NSString*, NSString*> *> *)menuInfo toMailMenuWithTitle:(NSString *)pluginName target:(id)target;
+
+#ifndef MCC_NO_EXTERNAL_OBJECTS
+#import "MCCReachability.h"
+
+@property (strong) Reachability *reachability;
+@property (atomic) BOOL		hasInternetConnection;
+
++ (BOOL)networkReachable;
++ (void)startTrackingReachabilityUsingHostName:(NSString *)hostName;
++ (void)runDebugInfoScriptUsingView:(NSView *)targetView;
+#endif
 
 @end
 

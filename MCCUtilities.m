@@ -29,37 +29,6 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 
 #pragma Class Methods
 
-+ (BOOL)networkReachable {
-	return [[self sharedInstance] hasInternetConnection];
-}
-
-+ (void)startTrackingReachabilityUsingHostName:(NSString *)hostName {
-	MCC_PREFIXED_NAME(Utilities)	*utils = [self sharedInstance];
-	
-	//	Set up the Reachability stuff
-	// allocate a reachability object
-	Reachability	*reach = [Reachability reachabilityWithHostname:hostName];
-	// set the blocks
-	reach.reachableBlock = ^(Reachability	*theReach) {
-		utils.hasInternetConnection = YES;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(NetworkAvailableNotification) object:nil];
-		});
-	};
-	
-	reach.unreachableBlock = ^(Reachability	*theReach) {
-		if (utils.hasInternetConnection) {
-			utils.hasInternetConnection = NO;
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) object:nil];
-			});
-		}
-	};
-	// start the notifier which will cause the reachability object to retain itself!
-	[reach startNotifier];
-	utils.reachability = reach;
-}
-
 + (BOOL)notifyUserAboutSnitchesForPluginName:(NSString *)pluginName domainList:(NSArray *)domains usingIcon:(NSImage *)iconImage {
 	BOOL	foundSnitcher = NO;
 	
@@ -171,42 +140,6 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 	}
 }
 
-+ (void)runDebugInfoScriptUsingView:(NSView *)targetView {
-	
-#ifndef MCC_NO_EXTERNAL_OBJECTS
-	NSAssert(targetView != nil, @"You must pass a view to runDebugInfoScriptUsingView:");
-	
-	MCC_PREFIXED_NAME(DebugReasonSheet)	*reasonSheet = [[MCC_PREFIXED_NAME(DebugReasonSheet) alloc] init];
-	[reasonSheet showSheetInWindow:[targetView window]];
-	
-	[[NSNotificationCenter defaultCenter] addObserverForName:MCC_PREFIXED_CONSTANT(DebugReasonGivenNotification) object:reasonSheet queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-		
-		NSString	*messageSubject = [NSString stringWithFormat:@"Debug information for %@", [[[[self sharedInstance] bundle] infoDictionary] valueForKey:(NSString *)kCFBundleNameKey]];
-		NSString	*messageProblem = [reasonSheet.problemText string];
-		
-		NSURL	*pathURL = [MCC_PREFIXED_NAME(Utilities) helperScriptURL];
-		if ([[NSFileManager defaultManager] fileExistsAtPath:[pathURL path]]) {
-			NSArray	*scriptArguments = @[@"-debug", messageSubject, messageProblem];
-			
-			NSError			*scriptError = nil;
-			NSUserUnixTask	*scriptTask = [[NSUserUnixTask alloc] initWithURL:pathURL error:&scriptError];
-			[scriptTask executeWithArguments:scriptArguments completionHandler:^(NSError *executeError) {
-				if (executeError) {
-					[targetView presentError:executeError modalForWindow:[targetView window] delegate:nil didPresentSelector:nil contextInfo:NULL];
-					NSLog(@"Error executing uninstall script:%@", executeError);
-				}
-			}];
-			
-		}
-		
-		MCC_RELEASE(reasonSheet);
-	}];
-#else
-	NSAssert(NO, @"You have called runDebugInfoScriptUsingView while designating MCC_NO_EXTERNAL_OBJECTS!");
-#endif
-	
-}
-
 + (BOOL)debugInfoScriptIsAvailable {
 	return ([[self debugInfoScriptURL] checkResourceIsReachableAndReturnError:nil] && [[self helperScriptURL] checkResourceIsReachableAndReturnError:nil]);
 }
@@ -259,6 +192,76 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 	
 	return mccInstance;
 }
+
+
+#pragma mark - External Code Links
+
+#ifndef MCC_NO_EXTERNAL_OBJECTS
+
++ (BOOL)networkReachable {
+	return [[self sharedInstance] hasInternetConnection];
+}
+
++ (void)startTrackingReachabilityUsingHostName:(NSString *)hostName {
+	MCC_PREFIXED_NAME(Utilities)	*utils = [self sharedInstance];
+	
+	//	Set up the Reachability stuff
+	// allocate a reachability object
+	Reachability	*reach = [Reachability reachabilityWithHostname:hostName];
+	// set the blocks
+	reach.reachableBlock = ^(Reachability	*theReach) {
+		utils.hasInternetConnection = YES;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(NetworkAvailableNotification) object:nil];
+		});
+	};
+	
+	reach.unreachableBlock = ^(Reachability	*theReach) {
+		if (utils.hasInternetConnection) {
+			utils.hasInternetConnection = NO;
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) object:nil];
+			});
+		}
+	};
+	// start the notifier which will cause the reachability object to retain itself!
+	[reach startNotifier];
+	utils.reachability = reach;
+}
+
++ (void)runDebugInfoScriptUsingView:(NSView *)targetView {
+	
+	NSAssert(targetView != nil, @"You must pass a view to runDebugInfoScriptUsingView:");
+	
+	MCC_PREFIXED_NAME(DebugReasonSheet)	*reasonSheet = [[MCC_PREFIXED_NAME(DebugReasonSheet) alloc] init];
+	[reasonSheet showSheetInWindow:[targetView window]];
+	
+	[[NSNotificationCenter defaultCenter] addObserverForName:MCC_PREFIXED_CONSTANT(DebugReasonGivenNotification) object:reasonSheet queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+		
+		NSString	*messageSubject = [NSString stringWithFormat:@"Debug information for %@", [[[[self sharedInstance] bundle] infoDictionary] valueForKey:(NSString *)kCFBundleNameKey]];
+		NSString	*messageProblem = [reasonSheet.problemText string];
+		
+		NSURL	*pathURL = [MCC_PREFIXED_NAME(Utilities) helperScriptURL];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:[pathURL path]]) {
+			NSArray	*scriptArguments = @[@"-debug", messageSubject, messageProblem];
+			
+			NSError			*scriptError = nil;
+			NSUserUnixTask	*scriptTask = [[NSUserUnixTask alloc] initWithURL:pathURL error:&scriptError];
+			[scriptTask executeWithArguments:scriptArguments completionHandler:^(NSError *executeError) {
+				if (executeError) {
+					[targetView presentError:executeError modalForWindow:[targetView window] delegate:nil didPresentSelector:nil contextInfo:NULL];
+					NSLog(@"Error executing uninstall script:%@", executeError);
+				}
+			}];
+			
+		}
+		
+		MCC_RELEASE(reasonSheet);
+	}];
+}
+
+#endif
+
 
 @end
 
