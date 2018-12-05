@@ -313,9 +313,10 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 	[accessRequest addValue:[NSString stringWithFormat:@"Basic %@", authValue] forHTTPHeaderField:@"Authorization"];
 	
 	__block	MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
-	[NSURLConnection sendAsynchronousRequest:accessRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-		[welf processResultsOfAuthResponse:response withData:data error:connectionError];
+	NSURLSessionDataTask * renewTokenTask = [NSURLSession.sharedSession dataTaskWithRequest:accessRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+		[welf processResultsOfAuthResponse:response withData:data error:error];
 	}];
+	[renewTokenTask resume];
 }
 
 - (void)retreiveAccessTokenUsingCode:(NSString *)aCode {
@@ -334,10 +335,10 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 	[accessRequest addValue:[NSString stringWithFormat:@"%@", @([postBodyString length])] forHTTPHeaderField:@"Content-Length"];
 	
 	__block	MCC_PREFIXED_NAME(SimpleOAuth2)	*welf = self;
-	[NSURLConnection sendAsynchronousRequest:accessRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-		[welf processResultsOfAuthResponse:response withData:data error:connectionError];
+	NSURLSessionDataTask * accessTokenTask = [NSURLSession.sharedSession dataTaskWithRequest:accessRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+		[welf processResultsOfAuthResponse:response withData:data error:error];
 	}];
-	
+	[accessTokenTask resume];
 }
 
 - (BOOL)resetRefreshTimerWithTimeIntervalSinceReferenceDate:(NSTimeInterval)expiresInterval {
