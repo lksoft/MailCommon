@@ -143,7 +143,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 	}
 	NSString	*scopeParameter = @"";
 	if (IS_NOT_EMPTY(self.scope)) {
-		NSString	*encodedScope = [self.scope stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSString	*encodedScope = [self.scope stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 		scopeParameter = [NSString stringWithFormat:@"&scope=%@", encodedScope];
 	}
 	NSString	*urlString = [NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&response_type=code%@", [self.endpointURL absoluteString], self.clientId, self.encodedRedirectURLString, scopeParameter];
@@ -455,7 +455,7 @@ NSString *const MCC_PREFIXED_CONSTANT(SimpleOAuth2AuthorizationFailedNotificatio
 		for (NSString *aQuery in queryValues) {
 			NSString	*key = [aQuery substringToIndex:[aQuery rangeOfString:@"="].location];
 			NSString	*value = [aQuery substringFromIndex:([aQuery rangeOfString:@"="].location + 1)];
-			queryResults[key] = [value stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+			queryResults[key] = [value stringByRemovingPercentEncoding];
 		}
 		
 		//	Test URL query values for error code
