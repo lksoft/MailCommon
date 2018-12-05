@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "MCCCommonHeader.h"
 
+#ifndef MCC_NO_EXTERNAL_OBJECTS
+#import "MCCReachability.h"
+#endif
+
 extern NSString *const MCC_PREFIXED_CONSTANT(NetworkAvailableNotification);
 extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
 
@@ -26,7 +30,6 @@ extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
 + (void)addPluginMenu:(NSArray <NSDictionary <NSString*, NSString*> *> *)menuInfo toMailMenuWithTitle:(NSString *)pluginName target:(id)target;
 
 #ifndef MCC_NO_EXTERNAL_OBJECTS
-#import "MCCReachability.h"
 
 @property (strong) Reachability *reachability;
 @property (atomic) BOOL		hasInternetConnection;
