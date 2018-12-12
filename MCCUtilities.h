@@ -60,8 +60,8 @@ static inline BOOL MCC_PREFIXED_NAME(IsEmpty)(id thing) { return thing == nil ||
 #define MCCLogPluginVersion(pluginInfoDict) \
 NSString	*MCCPluginVersionInformation = nil; \
 do { \
-	MCCPluginVersionInformation = [NSString stringWithFormat:@"\n\t\tLoaded ‘%@’ %@ (%@) by %@\n\t\tBuild [%@:%@]", \
-							  pluginInfoDict[@"CFBundleName"], pluginInfoDict[@"CFBundleShortVersionString"], pluginInfoDict[@"CFBundleVersion"], pluginInfoDict[@"MPCCompanyName"], pluginInfoDict[@"LKSBuildBranch"], pluginInfoDict[@"LKSBuildSHA"]]; \
+	MCCPluginVersionInformation = [NSString stringWithFormat:@"\n\t\tLoaded ‘%@’ %@ (%@) by SmallCubed\n\t\tBuild [%@:%@]", \
+							  pluginInfoDict[@"CFBundleName"], pluginInfoDict[@"CFBundleShortVersionString"], pluginInfoDict[@"CFBundleVersion"], pluginInfoDict[@"SCBuildBranch"], pluginInfoDict[@"SCBuildSHA"]]; \
 	NSLog (@"%@", MCCPluginVersionInformation); \
 } while (NO);
 
