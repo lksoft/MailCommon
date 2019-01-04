@@ -9,12 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "MCCCommonHeader.h"
 
-#ifndef MCC_NO_EXTERNAL_OBJECTS
-#import "MCCReachability.h"
-#endif
-
 extern NSString *const MCC_PREFIXED_CONSTANT(NetworkAvailableNotification);
 extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
+extern NSString *const MCC_PREFIXED_CONSTANT(NetworkInteractionRequiredNotification);
 
 @interface MCC_PREFIXED_NAME(Utilities) : NSObject
 
@@ -31,10 +28,10 @@ extern NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
 
 #ifndef MCC_NO_EXTERNAL_OBJECTS
 
-@property (strong) Reachability *reachability;
 @property (atomic) BOOL		hasInternetConnection;
 
 + (BOOL)networkReachable;
++ (BOOL)reachabilityForInternetConnection;
 + (void)startTrackingReachabilityUsingHostName:(NSString *)hostName;
 + (void)runDebugInfoScriptUsingView:(NSView *)targetView;
 #endif

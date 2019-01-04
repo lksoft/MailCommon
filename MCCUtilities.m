@@ -14,6 +14,19 @@
 
 NSString *const MCC_PREFIXED_CONSTANT(NetworkAvailableNotification) = MCC_NSSTRING(MCC_PLUGIN_PREFIX, _NETWORK_STATUS_AVAILABLE);
 NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSSTRING(MCC_PLUGIN_PREFIX, _NETWORK_STATUS_UNAVAILABLE);
+NSString *const MCC_PREFIXED_CONSTANT(NetworkInteractionRequiredNotification) = MCC_NSSTRING(MCC_PLUGIN_PREFIX, _NETWORK_STATUS_INTERACTION_REQUIRED);
+
+typedef NS_ENUM(NSUInteger, MCC_PREFIXED_CONSTANT(ConnectionState)) {
+	ConnectionStateUnknown,
+	ConnectionStateNone,
+	ConnectionStateInteractionRequired,
+	ConnectionStateValid
+};
+
+@interface MCC_PREFIXED_NAME(Utilities) ()
+@property (assign) MCC_PREFIXED_CONSTANT(ConnectionState) internetConnectionState;
+@end
+
 
 @implementation MCC_PREFIXED_NAME(Utilities)
 
@@ -22,7 +35,6 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 #if !__has_feature(objc_arc)
 	self.bundle = nil;
 	self.scriptPathComponent = nil;
-	self.reachability = nil;
 #endif
 	MCC_DEALLOC();
 }
@@ -202,31 +214,60 @@ NSString *const MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) = MCC_NSST
 	return [[self sharedInstance] hasInternetConnection];
 }
 
-+ (void)startTrackingReachabilityUsingHostName:(NSString *)hostName {
-	MCC_PREFIXED_NAME(Utilities)	*utils = [self sharedInstance];
++ (BOOL)reachabilityForInternetConnection {
+	SCNetworkReachabilityFlags flags;
+	SCNetworkReachabilityRef reachabilityRef = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, [@"google.com" UTF8String]);
+
+	BOOL isReachable = NO;
+	if (SCNetworkReachabilityGetFlags(reachabilityRef, &flags)) {
+		//	Just test for reachability
+		if (flags & kSCNetworkReachabilityFlagsReachable) {
+			isReachable = YES;
+		}
+	}
+	CFRelease(reachabilityRef);
+	return isReachable;
+}
+
++ (void)checkForNetworkConnection:(NSTimer *)connectionTimer {
+	MCC_PREFIXED_NAME(Utilities) * utils = [self sharedInstance];
+	NSString * hostName = connectionTimer.userInfo[@"host"];
+	SCNetworkReachabilityFlags flags;
+	SCNetworkReachabilityRef reachabilityRef = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, [hostName UTF8String]);
 	
-	//	Set up the Reachability stuff
-	// allocate a reachability object
-	Reachability	*reach = [Reachability reachabilityWithHostname:hostName];
-	// set the blocks
-	reach.reachableBlock = ^(Reachability	*theReach) {
-		utils.hasInternetConnection = YES;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(NetworkAvailableNotification) object:nil];
-		});
-	};
-	
-	reach.unreachableBlock = ^(Reachability	*theReach) {
-		if (utils.hasInternetConnection) {
-			utils.hasInternetConnection = NO;
+	if (SCNetworkReachabilityGetFlags(reachabilityRef, &flags)) {
+		MCC_PREFIXED_CONSTANT(ConnectionState) previousState = utils.internetConnectionState;
+
+		NSString * networkNotificationName = nil;
+		
+		//	Test to see if we need intervention
+		if ((flags & kSCNetworkReachabilityFlagsConnectionRequired) &&
+			(flags & kSCNetworkReachabilityFlagsInterventionRequired)) {
+			utils.internetConnectionState = ConnectionStateInteractionRequired;
+			networkNotificationName = MCC_PREFIXED_CONSTANT(NetworkInteractionRequiredNotification);
+		}
+		//	Otherwise test for reachability
+		else if (flags & kSCNetworkReachabilityFlagsReachable) {
+			utils.internetConnectionState = ConnectionStateValid;
+			networkNotificationName = MCC_PREFIXED_CONSTANT(NetworkAvailableNotification);
+		}
+		else {
+			utils.internetConnectionState = ConnectionStateNone;
+			networkNotificationName = MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification);
+		}
+
+		utils.hasInternetConnection = (utils.internetConnectionState == ConnectionStateValid);
+		if (previousState != utils.internetConnectionState) {
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[[NSNotificationCenter defaultCenter] postNotificationName:MCC_PREFIXED_CONSTANT(NetworkUnavailableNotification) object:nil];
+				[[NSNotificationCenter defaultCenter] postNotificationName:networkNotificationName object:nil];
 			});
 		}
-	};
-	// start the notifier which will cause the reachability object to retain itself!
-	[reach startNotifier];
-	utils.reachability = reach;
+	}
+	CFRelease(reachabilityRef);
+}
+
++ (void)startTrackingReachabilityUsingHostName:(NSString *)hostName {
+	[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkForNetworkConnection:) userInfo:@{@"host": hostName} repeats:YES];
 }
 
 + (void)runDebugInfoScriptUsingView:(NSView *)targetView {
