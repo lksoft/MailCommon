@@ -65,6 +65,9 @@
 		if (storedDefaults) {
 			[defaults addEntriesFromDictionary:storedDefaults];
 		}
+		else {
+			storedDefaults = @{};
+		}
 		
 		//	Allow a subclass to adjust defaults
 		if ([self.delegate respondsToSelector:@selector(finishPreparingDefaultsWithDictionary:)]) {
@@ -74,7 +77,7 @@
 		//	Set values and the read time
 		self.defaultDictionary = [NSDictionary dictionaryWithDictionary:defaults];
 		
-		if (![self.defaultDictionary isEqualToDictionary:storedDefaults]){
+		if (![self.defaultDictionary isEqualToDictionary:storedDefaults]) {
 			[self writeToFile];
 		}
 		MCC_RELEASE(defaults);
