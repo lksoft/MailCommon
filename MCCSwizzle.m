@@ -73,7 +73,7 @@ typedef struct objc_super * super_pointer;
 
 }
 
-+ (void)swizzle {
++ (void)swizzleOLD {
 	
 	NSRange		separatorRange = [[self className] rangeOfString:MCC_CLASSNAME_SUFFIX_SEPARATOR];
 	if (separatorRange.location == NSNotFound) {
@@ -92,6 +92,35 @@ typedef struct objc_super * super_pointer;
 	[self addAllMethodsToClass:targetClass usingPrefix:prefix];
 	
 	[self swizzlePropertiesToClass:targetClass];
+}
+
++ (void)swizzle {
+    NSRange separatorRange = [[self className] rangeOfString:MCC_CLASSNAME_SUFFIX_SEPARATOR];
+    if (separatorRange.location == NSNotFound) {
+        NSLog(@"Could not swizzle class %@ - it has no suffix", [self className]);
+        return;
+    }
+    NSString * targetClassName = [[self className] substringToIndex:separatorRange.location];
+    Class targetClass = MCC_PREFIXED_NAME(ClassFromString)(targetClassName);
+    if (!targetClass) {
+        NSLog(@"Class %@ was not found to swizzle", targetClassName);
+        return;
+    }
+    
+    [self swizzleToClass:targetClass];
+}
+
++ (void)swizzleToClass:(Class)targetClass {
+    NSRange        separatorRange = [[self className] rangeOfString:MCC_CLASSNAME_SUFFIX_SEPARATOR];
+    if (separatorRange.location == NSNotFound) {
+        NSLog(@"Could not swizzle class %@ - it has no suffix", [self className]);
+        return;
+    }
+    NSString    *prefix = [NSString stringWithFormat:@"%@%@", [[self className] substringFromIndex:separatorRange.location + [MCC_CLASSNAME_SUFFIX_SEPARATOR length]], MCC_CLASSNAME_PREFIX_APPENDOR];
+
+    [self addAllMethodsToClass:targetClass usingPrefix:prefix];
+    
+    [self swizzlePropertiesToClass:targetClass];
 }
 
 + (void)swizzleWithMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock {

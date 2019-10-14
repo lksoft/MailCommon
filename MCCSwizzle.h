@@ -23,6 +23,7 @@ typedef MCC_PREFIXED_NAME(SwizzleType)(^MCC_PREFIXED_NAME(SwizzleFilterBlock))(N
 @interface MCC_PREFIXED_NAME(Swizzle) : NSObject
 
 + (void)swizzle;
++ (void)swizzleToClass:(Class)targetClass;
 + (void)swizzleWithMethodsPassingTest:(MCC_PREFIXED_NAME(SwizzleFilterBlock))testBlock;
 + (Class)makeSubclassOf:(Class)baseClass;
 + (void)addAllMethodsToClass:(Class)targetClass usingPrefix:(NSString*)prefix;
